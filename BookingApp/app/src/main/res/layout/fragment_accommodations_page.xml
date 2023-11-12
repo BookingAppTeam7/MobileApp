@@ -1,37 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.HomeScreenActivity">
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/background_wallpaper"
-        android:scaleType="centerCrop"
-        android:alpha="0.2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+    tools:context=".fragments.accommodations.AccommodationsPageFragment">
+
     <LinearLayout
-        android:id="@+id/linear5"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".fragments.AccommodationPageFragment"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        tools:context=".fragments.products.ProductsPageFragment"
+        >
         <LinearLayout
             android:id="@+id/linear1"
             android:layout_width="match_parent"
@@ -39,8 +20,7 @@
             android:orientation="horizontal"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
+            android:layout_marginTop="10dp">
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/search_text"
@@ -49,9 +29,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/border_background"
                 />
-
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/linear2"
             android:layout_width="match_parent"
@@ -60,8 +38,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@id/linear1"
             >
+
             <Button
                 android:id="@+id/btnFilters"
                 android:layout_width="wrap_content"
@@ -69,14 +47,15 @@
                 android:layout_weight="0.7"
                 android:text="@string/filters"
                 tools:ignore="TextContrastCheck" />
-
             <!--            android:background="?android:attr/colorPrimary"-->
         </LinearLayout>
 
         <RelativeLayout
-            android:id="@+id/scroll_products_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            android:id="@+id/scroll_products_list"
+            />
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

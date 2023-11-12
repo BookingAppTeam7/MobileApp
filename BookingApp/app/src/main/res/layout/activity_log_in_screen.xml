@@ -50,6 +50,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
+        android:inputType="textEmailAddress"
         android:hint="@string/usernameHint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
