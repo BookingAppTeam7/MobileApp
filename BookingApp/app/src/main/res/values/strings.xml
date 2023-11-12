@@ -1,3 +1,17 @@
 <resources>
-    <string name="app_name">BookingApp</string>
+    <string name="app_name">Time For Travel</string>
+    <string name="usernameHint"> Username (E-mail) </string>
+    <string name="passwordHint"> Password </string>
+    <string name="logInButtonText">LogIn</string>
+    <string name="registerButtonText">Register</string>
+    <string name="createAccountButtonText">Create Account</string>
+    <string name="notRegisteredLabel">Not registered yet?</string>
+    <string name="errorText"> </string>
+    <string name="firstNameHint"> FirstName </string>
+    <string name="lastNameHint"> LastName </string>
+    <string name="phoneNumberHint"> Phone Number </string>
+    <string name="addressHint"> Address </string>
+    <string name="maleRadioButton"> Male </string>
+    <string name="femaleRadioButton"> Female </string>
+
 </resources>
