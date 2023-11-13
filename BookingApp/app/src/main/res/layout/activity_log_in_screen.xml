@@ -22,14 +22,53 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorAccent"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/colorAccent">
+
+        <ImageButton
+            android:id="@+id/toggleButton2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="Toggle Button"
+            android:scaleType="fitCenter"
+            android:src="@drawable/menu_black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="end"
+            android:weightSum="8">
+
+            <ImageButton
+                android:id="@+id/languageButton"
+                android:layout_width="51dp"
+                android:layout_height="37dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="Language Button"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_language" />
+
+            <!-- Log Out Button -->
+
+            <!-- Settings Button -->
+            <ImageButton
+                android:id="@+id/settingsButton"
+                android:layout_width="35dp"
+                android:layout_height="37dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="Settings Button"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_settings_black" />
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
 
 
     <ImageView
