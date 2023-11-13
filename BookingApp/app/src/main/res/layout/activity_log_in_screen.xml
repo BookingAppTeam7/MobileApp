@@ -51,6 +51,7 @@
         android:id="@+id/editTextUsername"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
         android:layout_marginTop="128dp"
         android:hint="@string/usernameHint"
         android:padding="12dp"
