@@ -42,14 +42,6 @@
             android:layout_marginTop="10dp"
             >
 
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/search_text"
-                app:queryHint="Search"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/border_background"
-                />
-
         </LinearLayout>
 
         <LinearLayout
@@ -71,5 +63,19 @@
                 tools:ignore="TextContrastCheck" />
         </LinearLayout>
     </LinearLayout>
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linear5"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="0dp"
+        tools:listitem="@layout/list_accommodation"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10.0sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

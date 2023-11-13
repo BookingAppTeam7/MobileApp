@@ -23,7 +23,7 @@ public class AccommodationListAdapter extends ArrayAdapter<Accommodation> {
     private ArrayList<Accommodation> aAccommodations;
 
     public AccommodationListAdapter(Context context, ArrayList<Accommodation> accommodations){
-        super(context, R.layout.accommodation_card, accommodations);
+        super(context, R.layout.list_accommodation, accommodations);
         aAccommodations = accommodations;
     }
 
@@ -48,26 +48,17 @@ public class AccommodationListAdapter extends ArrayAdapter<Accommodation> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Accommodation accommodation = getItem(position);
         if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.accommodation_card,
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_accommodation,
                     parent, false);
         }
-        LinearLayout accommodationCard = convertView.findViewById(R.id.accommodation_card_item);
-        ImageView imageView = convertView.findViewById(R.id.accommodation_image);
-        TextView accommodationName = convertView.findViewById(R.id.accommodation_name);
-        TextView accommodationDescription = convertView.findViewById(R.id.accommodation_description);
+        //LinearLayout accommodationCard = convertView.findViewById(R.id.accommodation_card_item);
+        ImageView imageView = convertView.findViewById(R.id.listImage);
+        TextView accommodationName = convertView.findViewById(R.id.listAccommodationName);
+        //TextView accommodationDescription = convertView.findViewById(R.id.listAccommodationDesc);
 
-        if(accommodation != null){
-            imageView.setImageResource(accommodation.getImage());
-            accommodationName.setText(accommodation.getName());
-            accommodationDescription.setText(accommodation.getDescription());
-            accommodationCard.setOnClickListener(v -> {
-                // Handle click on the item at 'position'
-                Log.i("BookingApp", "Clicked: " + accommodation.getName() + ", id: " +
-                        accommodation.getId().toString());
-                Toast.makeText(getContext(), "Clicked: " + accommodation.getName()  +
-                        ", id: " + accommodation.getId().toString(), Toast.LENGTH_SHORT).show();
-            });
-        }
+        imageView.setImageResource(accommodation.getImage());
+        accommodationName.setText(accommodation.getName());
+        //accommodationDescription.setText(accommodation.getDescription());
 
         return convertView;
     }
