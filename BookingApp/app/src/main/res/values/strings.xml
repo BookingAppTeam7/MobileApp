@@ -13,5 +13,9 @@
     <string name="addressHint"> Address </string>
     <string name="maleRadioButton"> Male </string>
     <string name="femaleRadioButton"> Female </string>
+    <string name="saveChanges"> Save changes </string>
+    <string name="deleteAccount"> Delete account </string>
+    <string name="wannadeleteAccount">Do you want to delete your account?</string>
+
 
 </resources>
