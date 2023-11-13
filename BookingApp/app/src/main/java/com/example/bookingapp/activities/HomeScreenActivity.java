@@ -12,6 +12,7 @@ import android.widget.ListAdapter;
 import com.example.bookingapp.R;
 import com.example.bookingapp.adapters.AccommodationListAdapter;
 import com.example.bookingapp.databinding.ActivityHomeScreenBinding;
+import com.example.bookingapp.fragments.accommodations.FilterBottomSheetDialogFragment;
 import com.example.bookingapp.model.Accommodation;
 
 import java.util.ArrayList;
@@ -51,6 +52,14 @@ public class HomeScreenActivity extends AppCompatActivity {
                 intent.putExtra("image",imageList[position]);
 
                 startActivity(intent);
+            }
+        });
+
+        binding.btnFilters.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FilterBottomSheetDialogFragment bottomSheetFragment = new FilterBottomSheetDialogFragment();
+                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
             }
         });
     }
