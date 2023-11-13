@@ -9,80 +9,56 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Toolbar -->
-
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:alpha="0.2"
+            android:alpha="0.35"
             android:scaleType="centerCrop"
             android:src="@drawable/background_wallpaper" />
 
-        <Button
-            android:id="@+id/applyChanges2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/editTextAddress"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/rounded_button_background_green"
-            android:text="@string/saveChanges" />
 
         <ImageView
             android:id="@+id/imageViewPen4"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
+            android:layout_width="28dp"
+            android:layout_height="24dp"
             android:layout_alignTop="@id/editTextUsername"
             android:layout_alignEnd="@id/editTextUsername"
             android:layout_marginLeft="-6dp"
             android:layout_marginTop="174dp"
-            android:layout_marginEnd="-42dp"
+            android:layout_marginEnd="-26dp"
             android:layout_toRightOf="@id/editTextUsername"
             app:srcCompat="@drawable/ic_pen" />
 
         <ImageView
             android:id="@+id/imageViewPen3"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
+            android:layout_width="36dp"
+            android:layout_height="23dp"
             android:layout_alignTop="@id/editTextUsername"
             android:layout_alignEnd="@id/editTextUsername"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="112dp"
-            android:layout_marginEnd="-48dp"
+            android:layout_marginLeft="-7dp"
+            android:layout_marginTop="114dp"
+            android:layout_marginEnd="-29dp"
             android:layout_toRightOf="@id/editTextUsername"
             app:srcCompat="@drawable/ic_pen" />
 
         <ImageView
             android:id="@+id/imageViewPen2"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
+            android:layout_width="24dp"
+            android:layout_height="22dp"
             android:layout_alignTop="@id/editTextUsername"
             android:layout_alignEnd="@id/editTextUsername"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="59dp"
-            android:layout_marginEnd="-46dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="62dp"
+            android:layout_marginEnd="-24dp"
             android:layout_toRightOf="@id/editTextUsername"
             app:srcCompat="@drawable/ic_pen" />
-
-        <Button
-            android:id="@+id/loginButton2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="28dp"
-            android:background="@drawable/rounded_button_background_green"
-            android:text="@string/logInButtonText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editTextPassword"
-            app:layout_constraintWidth_percent="0.40" />
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:background="?attr/colorPrimary">
+            android:background="@color/colorAccent">
 
             <!-- Linear Layout to hold buttons with weightSum of 3 -->
             <LinearLayout
@@ -103,16 +79,6 @@
                     android:src="@drawable/ic_language" />
 
                 <!-- Log Out Button -->
-                <ImageButton
-                    android:id="@+id/logoutButton"
-                    android:layout_width="24dp"
-                    android:layout_height="37dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:background="?attr/selectableItemBackground"
-                    android:contentDescription="Log Out Button"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_logout" />
 
                 <!-- Settings Button -->
                 <ImageButton
@@ -140,18 +106,17 @@
             android:src="@drawable/menu_black" />
 
 
-
         <ImageView
             android:id="@+id/imageView6"
-            android:layout_width="wrap_content"
+            android:layout_width="106dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            app:srcCompat="@drawable/ic_account_edit"
-            android:layout_marginTop="70dp" />
+            android:layout_marginTop="70dp"
+            app:srcCompat="@drawable/ic_account_edit" />
 
         <EditText
             android:id="@+id/editTextUsername"
-            android:layout_width="291dp"
+            android:layout_width="263dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/imageView6"
             android:layout_centerHorizontal="true"
@@ -161,7 +126,7 @@
 
         <EditText
             android:id="@+id/editTextPassword"
-            android:layout_width="291dp"
+            android:layout_width="263dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/editTextUsername"
             android:layout_centerHorizontal="true"
@@ -172,7 +137,7 @@
 
         <EditText
             android:id="@+id/editTextPhoneNumber"
-            android:layout_width="291dp"
+            android:layout_width="263dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/editTextPassword"
             android:layout_centerHorizontal="true"
@@ -183,7 +148,7 @@
 
         <EditText
             android:id="@+id/editTextAddress"
-            android:layout_width="290dp"
+            android:layout_width="258dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/editTextPhoneNumber"
             android:layout_centerHorizontal="true"
@@ -193,14 +158,13 @@
 
         <Button
             android:id="@+id/saveChanges"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_width="186dp"
+            android:layout_height="61dp"
             android:layout_below="@id/editTextAddress"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
-            android:background="@drawable/rounded_button_background_green"
-            android:text="@string/saveChanges"
-       />
+            android:backgroundTint="@color/colorAccent"
+            android:text="@string/saveChanges" />
 
         <TextView
             android:id="@+id/textViewRegisterLabel"
@@ -213,28 +177,28 @@
             android:layout_centerHorizontal="true"
             android:text="@string/wannadeleteAccount" />
 
+
         <ImageView
             android:id="@+id/imageViewPen"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="23dp"
             android:layout_alignTop="@id/editTextUsername"
             android:layout_alignEnd="@id/editTextUsername"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="-46dp"
+            android:layout_marginLeft="-10dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="-22dp"
             android:layout_toRightOf="@id/editTextUsername"
             app:srcCompat="@drawable/ic_pen" />
-
 
         <Button
             android:id="@+id/deleteAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_below="@id/saveChanges"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="100dp"
             android:backgroundTint="@color/colorRed"
 
-            android:text="@string/deleteAccount"/>
+            android:text="@string/deleteAccount" />
     </RelativeLayout>
 </RelativeLayout>
