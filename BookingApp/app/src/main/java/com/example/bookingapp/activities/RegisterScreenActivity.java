@@ -3,7 +3,9 @@ package com.example.bookingapp.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.bookingapp.R;
 import com.example.bookingapp.databinding.ActivityRegisterScreenBinding;
@@ -25,6 +27,14 @@ public class RegisterScreenActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Dodajte nazad dugme
         toolbar.setNavigationOnClickListener(v -> onBackPressed()); // Postavljanje akcije za nazad dugme
+
+        binding.buttonRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(RegisterScreenActivity.this, AccountScreenActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
     @Override
