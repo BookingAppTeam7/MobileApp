@@ -2,6 +2,7 @@
     <string name="app_name">Time For Travel</string>
     <string name="usernameHint"> Username (E-mail) </string>
     <string name="passwordHint"> Password </string>
+    <string name="passwordConfirmationHint"> Password confirmation</string>
     <string name="logInButtonText">LogIn</string>
     <string name="registerButtonText">Register</string>
     <string name="createAccountButtonText">Create Account</string>
@@ -27,4 +28,7 @@
     <string name="pool">Swimming pool</string>
     <string name="TV">Television</string>
     <string name="air_conditioner">Air conditioner</string>
+    <string name="ownerRadioButton"> Owner </string>
+    <string name="guestRadioButton"> Guest </string>
+    <string name="registerAsLabel"> Register as : </string>
 </resources>

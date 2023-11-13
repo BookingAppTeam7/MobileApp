@@ -16,6 +16,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
+    <EditText
+        android:id="@+id/editTextPasswordConfirmation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:hint="@string/passwordConfirmationHint"
+        android:inputType="textPassword"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextUsername"
+        app:layout_constraintWidth_percent="0.75" />
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -87,28 +100,26 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:inputType="textPassword"
         android:hint="@string/passwordHint"
-        app:layout_constraintTop_toBottomOf="@id/editTextUsername"
-        app:layout_constraintStart_toStartOf="parent"
+        android:inputType="textPassword"
+        android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.75"
-        app:layout_constraintHorizontal_bias="0.5"
-        android:padding="12dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextUsername"
+        app:layout_constraintWidth_percent="0.75" />
 
     <EditText
         android:id="@+id/editTextPhoneNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="68dp"
         android:hint="@string/phoneNumberHint"
         android:inputType="phone"
+        android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editTextPassword"
-        app:layout_constraintWidth_percent="0.75"
-        android:padding="12dp"/>
+        app:layout_constraintWidth_percent="0.75" />
 
     <EditText
         android:id="@+id/editTextAddress"
@@ -124,34 +135,34 @@
         android:padding="12dp"/>
 
     <RadioGroup
-        android:id="@+id/radioGroupGender"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/radioGroupRole"
+        android:layout_width="231dp"
+        android:layout_height="0dp"
         android:layout_marginTop="12dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.566"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editTextAddress"
         app:layout_constraintWidth_percent="0.5">
 
         <RadioButton
-            android:id="@+id/radioButtonMale"
-            android:layout_width="wrap_content"
+            android:id="@+id/radioButtonFemale"
+            android:layout_width="96dp"
             android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/maleRadioButton"
-            app:buttonTint="@color/colorAccent"
-
-            />
+            android:text="@string/guestRadioButton"
+            app:buttonTint="@color/colorAccent" />
 
         <RadioButton
-            android:id="@+id/radioButtonFemale"
-            android:layout_width="wrap_content"
+            android:id="@+id/radioButtonMale"
+            android:layout_width="98dp"
             android:layout_height="wrap_content"
-            android:text="@string/femaleRadioButton"
+            android:checked="true"
+            android:text="@string/ownerRadioButton"
             app:buttonTint="@color/colorAccent"
+
             />
+
     </RadioGroup>
 
     <Button
@@ -164,7 +175,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/radioGroupGender"
+        app:layout_constraintTop_toBottomOf="@id/radioGroupRole"
         app:layout_constraintWidth_percent="0.5" />
 
     <TextView
@@ -177,5 +188,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
