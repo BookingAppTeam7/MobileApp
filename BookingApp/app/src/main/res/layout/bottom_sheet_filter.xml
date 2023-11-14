@@ -15,11 +15,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
+            android:fontFamily="serif"
             android:text="@string/filters"
             android:textAlignment="viewStart"
             android:textSize="24sp"
-            android:textStyle="italic" />
+            android:textStyle="italic"
+            />
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -35,18 +36,21 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/category"/>
+            android:text="@string/category"
+            android:fontFamily="serif"/>
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/hotel"/>
+                android:text="@string/hotel"
+                android:fontFamily="serif"/>
             <RadioButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/apartment"/>
+                android:text="@string/apartment"
+                android:fontFamily="serif"/>
         </RadioGroup>
         <View
             android:layout_width="match_parent"
@@ -57,23 +61,28 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/assets"/>
+            android:text="@string/assets"
+            android:fontFamily="serif"/>
         <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/TV"/>
+            android:text="@string/TV"
+            android:fontFamily="serif"/>
         <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/pool"/>
+            android:text="@string/pool"
+            android:fontFamily="serif"/>
         <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/wifi"/>
+            android:text="@string/wifi"
+            android:fontFamily="serif"/>
         <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/air_conditioner"/>
+            android:text="@string/air_conditioner"
+            android:fontFamily="serif"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
