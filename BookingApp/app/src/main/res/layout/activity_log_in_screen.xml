@@ -12,7 +12,7 @@
         android:layout_height="0dp"
         android:alpha="0.35"
         android:scaleType="centerCrop"
-        android:src="@drawable/background_wallpaper"
+        android:src="@drawable/background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -20,56 +20,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@color/colorAccent">
-
-        <ImageButton
-            android:id="@+id/toggleButton2"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:background="?attr/selectableItemBackground"
-            android:contentDescription="Toggle Button"
-            android:scaleType="fitCenter"
-            android:src="@drawable/menu_black" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="end"
-            android:weightSum="8">
-
-            <ImageButton
-                android:id="@+id/languageButton"
-                android:layout_width="51dp"
-                android:layout_height="37dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:background="?attr/selectableItemBackground"
-                android:contentDescription="Language Button"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_language" />
-
-            <!-- Log Out Button -->
-
-            <!-- Settings Button -->
-            <ImageButton
-                android:id="@+id/settingsButton"
-                android:layout_width="35dp"
-                android:layout_height="37dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:background="?attr/selectableItemBackground"
-                android:contentDescription="Settings Button"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_settings_black" />
-        </LinearLayout>
-    </androidx.appcompat.widget.Toolbar>
-
+        android:layout_width="472dp"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="0dp"
+        android:background="@color/colorAccent1"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/userIcon"
@@ -118,12 +81,13 @@
         android:layout_height="54dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
-        android:background="@drawable/rounded_button_background_green"
+        android:backgroundTint="@color/colorButton"
         android:text="@string/logInButtonText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editTextPassword"
-        app:layout_constraintWidth_percent="0.40" />
+        app:layout_constraintWidth_percent="0.40"
+        android:fontFamily="serif"/>
 
     <TextView
         android:id="@+id/textViewRegisterLabel"
@@ -140,15 +104,17 @@
 
     <Button
         android:id="@+id/registerButton"
-        android:layout_width="163dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="124dp"
-        android:backgroundTint="@color/colorAccent"
+        android:layout_width="164dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="128dp"
+        android:backgroundTint="@color/black"
         android:text="@string/registerButtonText"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/loginButton"
-        app:layout_constraintWidth_percent="0.4" />
+        app:layout_constraintWidth_percent="0.4"
+        android:fontFamily="serif"/>
 
     <TextView
         android:id="@+id/textViewError"

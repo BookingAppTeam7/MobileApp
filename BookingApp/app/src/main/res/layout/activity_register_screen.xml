@@ -5,16 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.RegisterScreenActivity">
+
     <ImageView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/background_wallpaper"
-        android:scaleType="centerCrop"
         android:alpha="0.35"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/editTextPasswordConfirmation"
@@ -33,7 +36,7 @@
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorAccent"
+        android:background="@color/colorAccent1"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:layout_constraintTop_toTopOf="parent"
@@ -58,7 +61,7 @@
 
             <ImageButton
                 android:id="@+id/languageButton"
-                android:layout_width="51dp"
+                android:layout_width="30dp"
                 android:layout_height="37dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
@@ -66,6 +69,7 @@
                 android:contentDescription="Language Button"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_language" />
+
             <ImageButton
                 android:id="@+id/settingsButton"
                 android:layout_width="35dp"
@@ -81,10 +85,10 @@
 
     <ImageView
         android:id="@+id/registerIcon"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="78dp"
+        android:layout_height="49dp"
         android:layout_marginEnd="148dp"
-        android:src="@drawable/register_icon"
+        android:src="@drawable/profile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.1"
@@ -98,14 +102,14 @@
         android:id="@+id/editTextFirstName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="124dp"
+        android:layout_marginTop="92dp"
         android:hint="@string/firstNameHint"
+        android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintWidth_percent="0.75"
-        android:padding="12dp"/>
+        app:layout_constraintWidth_percent="0.75" />
 
     <EditText
         android:id="@+id/editTextLastName"
@@ -190,7 +194,8 @@
             android:layout_width="96dp"
             android:layout_height="wrap_content"
             android:text="@string/guestRadioButton"
-            app:buttonTint="@color/colorAccent" />
+            app:buttonTint="@color/colorButton"
+            android:fontFamily="serif"/>
 
         <RadioButton
             android:id="@+id/radioButtonMale"
@@ -198,7 +203,8 @@
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="@string/ownerRadioButton"
-            app:buttonTint="@color/colorAccent"
+            app:buttonTint="@color/colorButton"
+            android:fontFamily="serif"
 
             />
 
@@ -206,16 +212,17 @@
 
     <Button
         android:id="@+id/buttonRegister"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="205dp"
+        android:layout_height="57dp"
         android:layout_marginTop="20dp"
-        android:backgroundTint="@color/colorAccent"
+        android:backgroundTint="@color/colorButton"
         android:text="@string/createAccountButtonText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/radioGroupRole"
-        app:layout_constraintWidth_percent="0.5" />
+        app:layout_constraintWidth_percent="0.5"
+        android:fontFamily="serif"/>
 
     <TextView
         android:id="@+id/textViewError"
