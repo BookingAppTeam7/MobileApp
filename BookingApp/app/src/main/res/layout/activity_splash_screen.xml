@@ -9,10 +9,11 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/background_wallpaper"
+        android:alpha="0.9"
         android:scaleType="centerCrop"
-        android:alpha="0.9">
-    </ImageView>
+        android:src="@drawable/background"
+        tools:layout_editor_absoluteX="-98dp"
+        tools:layout_editor_absoluteY="117dp"></ImageView>
 
     <ImageView
         android:id="@+id/userIcon"
@@ -28,15 +29,16 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="213dp"
-        android:layout_height="62dp"
+        android:layout_width="246dp"
+        android:layout_height="46dp"
+        android:fontFamily="serif"
         android:text="@string/app_name"
-        android:textColor="@color/white"
+        android:textColor="@color/colorLabels"
         android:textSize="27sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintHorizontal_bias="0.634"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.131" />

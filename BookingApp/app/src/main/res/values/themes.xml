@@ -8,9 +8,9 @@
     <style name="Theme.BookingApp" parent="Base.Theme.BookingApp" />
 
     <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimary1</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark1</item>
+        <item name="colorAccent">@color/colorAccent1</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

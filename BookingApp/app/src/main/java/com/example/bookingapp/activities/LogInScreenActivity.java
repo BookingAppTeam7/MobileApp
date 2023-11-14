@@ -22,10 +22,10 @@ public class LogInScreenActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle("Log In Screen");
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Dodajte nazad dugme
-        toolbar.setNavigationOnClickListener(v -> onBackPressed()); // Postavljanje akcije za nazad dugme
+//        getSupportActionBar().setTitle("Log In Screen");
+//
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Dodajte nazad dugme
+//        toolbar.setNavigationOnClickListener(v -> onBackPressed()); // Postavljanje akcije za nazad dugme
 
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override

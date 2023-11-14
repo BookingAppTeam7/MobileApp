@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:alpha="0.35"
             android:scaleType="centerCrop"
-            android:src="@drawable/background_wallpaper" />
+            android:src="@drawable/background" />
 
 
         <ImageView
@@ -59,7 +59,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:background="@color/colorAccent">
+            android:background="@color/colorAccent1">
 
             <ImageButton
                 android:id="@+id/toggleButton2"
@@ -107,11 +107,15 @@
 
         <ImageView
             android:id="@+id/imageView6"
-            android:layout_width="106dp"
-            android:layout_height="wrap_content"
+            android:layout_width="72dp"
+            android:layout_height="66dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="70dp"
-            app:srcCompat="@drawable/ic_account_edit" />
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="80dp"
+
+            android:layout_marginEnd="70dp"
+            android:layout_marginBottom="20dp"
+            app:srcCompat="@drawable/user" />
 
         <EditText
             android:id="@+id/editTextUsername"
@@ -162,8 +166,10 @@
             android:layout_below="@id/editTextAddress"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
-            android:backgroundTint="@color/colorAccent"
-            android:text="@string/saveChanges" />
+            android:backgroundTint="@color/colorButton"
+            android:text="@string/saveChanges"
+            android:fontFamily="serif"/>
+
 
         <TextView
             android:id="@+id/textViewRegisterLabel"
@@ -171,11 +177,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/saveChanges"
             android:layout_alignTop="@id/deleteAccount"
-            android:layout_marginTop="-40dp"
-
             android:layout_centerHorizontal="true"
-            android:text="@string/wannadeleteAccount" />
 
+            android:layout_marginTop="-30dp"
+            android:fontFamily="serif"
+            android:text="@string/wannadeleteAccount" />
 
         <ImageView
             android:id="@+id/imageViewPen"
@@ -192,12 +198,13 @@
         <Button
             android:id="@+id/deleteAccount"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="62dp"
             android:layout_below="@id/saveChanges"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="100dp"
             android:backgroundTint="@color/colorRed"
 
-            android:text="@string/deleteAccount" />
+            android:text="@string/deleteAccount"
+            android:fontFamily="serif"/>
     </RelativeLayout>
 </RelativeLayout>
