@@ -100,7 +100,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.7"
                 android:text="@string/filters"
-                tools:ignore="TextContrastCheck" />
+                tools:ignore="TextContrastCheck"
+                android:backgroundTint="@color/colorButton"/>
         </LinearLayout>
     </LinearLayout>
 
