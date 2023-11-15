@@ -31,7 +31,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    Intent intent = new Intent(SplashScreenActivity.this, LogInScreenActivity.class);
+                    Intent intent = new Intent(SplashScreenActivity.this, HomeScreenActivity.class);
                     startActivity(intent);
                     finish();   // Nema povratka, ovo poziva onDestroy() metodu
                 }
