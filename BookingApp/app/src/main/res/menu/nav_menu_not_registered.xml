@@ -1,0 +1,17 @@
+<!-- res/menu/nav_menu.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_login"
+        android:title="Log in"
+        android:icon="@drawable/ic_login"/>
+    <item
+        android:id="@+id/menu_registration"
+        android:title="Register"
+        android:icon="@drawable/ic_register"/>
+    <item
+        android:id="@+id/menu_about_us"
+        android:title="About us"
+        android:icon="@drawable/ic_about_us"/>
+</menu>

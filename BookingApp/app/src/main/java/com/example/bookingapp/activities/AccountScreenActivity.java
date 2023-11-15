@@ -34,8 +34,8 @@ public class AccountScreenActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
-        NavigationView navigationView = findViewById(R.id.navigationView);
+        DrawerLayout drawerLayout =binding.drawerLayout;
+        NavigationView navigationView = binding.navigationView;
         slideInAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in);
         slideOutAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_out);
 
