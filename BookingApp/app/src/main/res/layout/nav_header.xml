@@ -1,0 +1,21 @@
+<!-- res/layout/nav_header.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="100dp"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingTop="16dp"
+    android:paddingRight="16dp"
+    android:background="@color/colorPrimary1">
+
+    <ImageView
+        android:id="@+id/headerImageView"
+        android:layout_width="75dp"
+        android:layout_height="72dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/application_icon"
+
+        />
+
+</LinearLayout>
