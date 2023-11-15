@@ -43,16 +43,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <ImageButton
-            android:id="@+id/toggleButton2"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:background="?attr/selectableItemBackground"
-            android:contentDescription="Toggle Button"
-            android:scaleType="fitCenter"
-            android:src="@drawable/menu_black" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -61,25 +51,25 @@
 
             <ImageButton
                 android:id="@+id/languageButton"
-                android:layout_width="30dp"
-                android:layout_height="37dp"
-                android:layout_marginTop="10dp"
+                android:layout_width="6dp"
+                android:layout_height="26dp"
+                android:layout_marginTop="18dp"
                 android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
                 android:contentDescription="Language Button"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_language" />
+                android:src="@drawable/language_icon" />
 
             <ImageButton
                 android:id="@+id/settingsButton"
-                android:layout_width="35dp"
-                android:layout_height="37dp"
-                android:layout_marginTop="10dp"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginTop="18dp"
                 android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
                 android:contentDescription="Settings Button"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_settings_black" />
+                android:src="@drawable/settings_icon" />
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 

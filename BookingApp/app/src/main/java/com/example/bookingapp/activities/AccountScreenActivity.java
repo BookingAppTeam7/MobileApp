@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -25,7 +27,7 @@ public class AccountScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-        ActivityAccountScreenBinding binding=ActivityAccountScreenBinding.inflate(getLayoutInflater());
+        ActivityAccountScreenBinding binding = ActivityAccountScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
 
@@ -34,7 +36,7 @@ public class AccountScreenActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        DrawerLayout drawerLayout =binding.drawerLayout;
+        DrawerLayout drawerLayout = binding.drawerLayout;
         NavigationView navigationView = binding.navigationView;
         slideInAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in);
         slideOutAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_out);
@@ -69,14 +71,60 @@ public class AccountScreenActivity extends AppCompatActivity {
             }
         });
 
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                MenuItem homeMenuItem = binding.navigationView.getMenu().findItem(R.id.home);
+                MenuItem notificationsMenuItem = binding.navigationView.getMenu().findItem(R.id.notifications);
+                MenuItem myReservationsMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_reservations);
+                MenuItem myAccountMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_account);
+                MenuItem logOutMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_logout);
 
+                if (item.getItemId() == homeMenuItem.getItemId()) {
+                    performHomeAction();
+                    return true;
+                } else if (item.getItemId() == notificationsMenuItem.getItemId()) {
+                    performNotificationsAction();
+                    return true;
+                } else if (item.getItemId() == myReservationsMenuItem.getItemId()) {
+                    performMyReservationsAction();
+                    return true;
+                } else if (item.getItemId() == myAccountMenuItem.getItemId()) {
+                    performMyAccountAction();
+                    return true;
+                } else if (item.getItemId() == logOutMenuItem.getItemId()) {
+                    performLogOutAction();
+                    return true;
+                }
 
+                // Zatvori navigacijski izbornik
+                binding.drawerLayout.closeDrawer(binding.navigationView);
 
-        //getSupportActionBar().setTitle("My Account");
-
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Dodajte nazad dugme
-//        toolbar.setNavigationOnClickListener(v -> onBackPressed()); // Postavljanje akcije za nazad dugme
+                return true;
+            }
+        });
     }
+
+        public void performHomeAction(){
+            Intent intent=new Intent(AccountScreenActivity.this,HomeScreenActivity.class);
+            startActivity(intent);
+        }
+
+        public void performNotificationsAction(){
+
+        }
+        public void performMyReservationsAction(){
+
+        }
+
+        public void performMyAccountAction(){
+
+        }
+        public void performLogOutAction(){
+            Intent intent=new Intent(AccountScreenActivity.this,HomeScreenActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
 
 }
