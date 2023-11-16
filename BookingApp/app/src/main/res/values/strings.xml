@@ -47,5 +47,8 @@
     <string name="amenities"> Amenities </string>
     <string name="freeParking">Free Parking </string>
     <string name="kitchen">Kitchen</string>
+    <string name="perAccommodationUnitRadioButton"> Per unit</string>
+    <string name="perGuestRadioButton"> Per guest</string>
+    <string name="price">Price </string>
 
 </resources>
