@@ -23,10 +23,10 @@ public class RegisterScreenActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-//        getSupportActionBar().setTitle("Create Account Screen");
-//
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Dodajte nazad dugme
-//        toolbar.setNavigationOnClickListener(v -> onBackPressed()); // Postavljanje akcije za nazad dugme
+        getSupportActionBar().setTitle("Create Account Screen");
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Dodajte nazad dugme
+        toolbar.setNavigationOnClickListener(v -> onBackPressed()); // Postavljanje akcije za nazad dugme
 
         binding.buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override

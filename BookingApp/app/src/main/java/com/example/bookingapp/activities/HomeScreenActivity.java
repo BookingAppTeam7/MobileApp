@@ -6,6 +6,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -20,7 +21,7 @@ import com.example.bookingapp.model.Accommodation;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
-
+import android.view.MenuItem;
 
 public class HomeScreenActivity extends AppCompatActivity {
     private Animation slideInAnimation;
@@ -30,23 +31,28 @@ public class HomeScreenActivity extends AppCompatActivity {
     AccommodationListAdapter listAdapter;
     ArrayList<Accommodation> accommodationArrayList = new ArrayList<Accommodation>();
     Accommodation accommodation;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityHomeScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        int[] imageList={R.drawable.accommodation1,R.drawable.accommodation2,R.drawable.accommodation1,R.drawable.accommodation2};
-        Long[] idList={1L,2L,3L,4L};
-        String[] nameList={"Accommodation 1","Accommodation 2", "Accommodation 3", "Accommodation 4"};
-        String[] descriptionList={"Description 1","Description 2","Description 3","Description 4"};
+        DrawerLayout drawerLayout = binding.drawerLayout;
+        NavigationView navigationView = binding.navigationView;
 
-        for(int i=0;i<imageList.length;i++){
-            accommodation=new Accommodation(idList[i],nameList[i],descriptionList[i],imageList[i]);
+        int[] imageList = {R.drawable.accommodation1, R.drawable.accommodation2, R.drawable.accommodation1, R.drawable.accommodation2};
+        Long[] idList = {1L, 2L, 3L, 4L};
+        String[] nameList = {"Accommodation 1", "Accommodation 2", "Accommodation 3", "Accommodation 4"};
+        String[] descriptionList = {"Description 1", "Description 2", "Description 3", "Description 4"};
+
+        for (int i = 0; i < imageList.length; i++) {
+            accommodation = new Accommodation(idList[i], nameList[i], descriptionList[i], imageList[i]);
             accommodationArrayList.add(accommodation);
         }
 
-        listAdapter=new AccommodationListAdapter(HomeScreenActivity.this,accommodationArrayList);
+        listAdapter = new AccommodationListAdapter(HomeScreenActivity.this, accommodationArrayList);
         binding.listview.setAdapter(listAdapter);
         binding.listview.setClickable(true);
 
@@ -54,9 +60,9 @@ public class HomeScreenActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(HomeScreenActivity.this, DetailedActivity.class);
-                intent.putExtra("name",nameList[position]);
-                intent.putExtra("description",descriptionList[position]);
-                intent.putExtra("image",imageList[position]);
+                intent.putExtra("name", nameList[position]);
+                intent.putExtra("description", descriptionList[position]);
+                intent.putExtra("image", imageList[position]);
 
                 startActivity(intent);
             }
@@ -70,8 +76,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             }
         });
 
-        DrawerLayout drawerLayout =binding.drawerLayout;
-        NavigationView navigationView = binding.navigationView;
+
         slideInAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in);
         slideOutAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_out);
 
@@ -105,6 +110,53 @@ public class HomeScreenActivity extends AppCompatActivity {
             }
         });
 
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                MenuItem logInMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_login);
+                MenuItem registerMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_registration);
+                MenuItem aboutUsMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_about_us);
+
+                if (item.getItemId() == logInMenuItem.getItemId()) {
+                    performLoginAction();
+                    return true;
+                } else if (item.getItemId() == registerMenuItem.getItemId()) {
+                    performRegistrationAction();
+                    return true;
+                } else if (item.getItemId() == aboutUsMenuItem.getItemId()) {
+                    performAboutUsAction();
+                    return true;
+                }
+                // Zatvori navigacijski izbornik
+                binding.drawerLayout.closeDrawer(binding.navigationView);
+
+                return true;
+            }
+        });
 
     }
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu) {
+            getMenuInflater().inflate(R.menu.nav_menu, menu);
+            return true;
+        }
+
+
+
+
+
+
+    public void performLoginAction(){
+            Intent intent = new Intent(HomeScreenActivity.this, LogInScreenActivity.class);
+            startActivity(intent);
+        }
+        public void performRegistrationAction(){
+            Intent intent = new Intent(HomeScreenActivity.this, RegisterScreenActivity.class);
+            startActivity(intent);
+        }
+        public void performAboutUsAction(){
+
+        }
+
+
 }
