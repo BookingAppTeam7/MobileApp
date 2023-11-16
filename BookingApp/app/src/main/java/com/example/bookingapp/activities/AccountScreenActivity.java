@@ -79,6 +79,7 @@ public class AccountScreenActivity extends AppCompatActivity {
                 MenuItem myReservationsMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_reservations);
                 MenuItem myAccountMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_account);
                 MenuItem logOutMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_logout);
+                MenuItem createAccommodationMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_create_accommodation);
 
                 if (item.getItemId() == homeMenuItem.getItemId()) {
                     performHomeAction();
@@ -94,6 +95,9 @@ public class AccountScreenActivity extends AppCompatActivity {
                     return true;
                 } else if (item.getItemId() == logOutMenuItem.getItemId()) {
                     performLogOutAction();
+                    return true;
+                }else if(item.getItemId()==createAccommodationMenuItem.getItemId()){
+                    performCreateAccommodationAction();
                     return true;
                 }
 
@@ -128,6 +132,12 @@ public class AccountScreenActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+
+        public void performCreateAccommodationAction(){
+        Intent intent=new Intent(AccountScreenActivity.this,CreateAccommodationActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
 
 }
