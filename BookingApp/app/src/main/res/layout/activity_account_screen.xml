@@ -293,6 +293,6 @@
         app:layout_constraintStart_toStartOf="parent"
 
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/nav_menu" />
+        app:menu="@menu/nav_menu_owner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

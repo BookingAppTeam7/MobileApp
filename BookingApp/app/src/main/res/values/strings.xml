@@ -36,4 +36,19 @@
     <string name="registerAsLabel"> Register as : </string>
     <string name="arrivalDate">Arrival date</string>
     <string name="checkoutDate">Check-out date</string>
+    <string name="accommodationNameHint"> Accommodation name </string>
+    <string name="locationHint"> Location </string>
+    <string name="descriptionHint"> Description </string>
+    <string name="minNumOfGuests"> Min guests  </string>
+    <string name="maxNumOfGuests"> Max guests  </string>
+    <string name="apartmentRadioButton"> Apartment</string>
+    <string name="roomRadioButton"> Room</string>
+    <string name="createAccommodationButtonText"> Create </string>
+    <string name="amenities"> Amenities </string>
+    <string name="freeParking">Free Parking </string>
+    <string name="kitchen">Kitchen</string>
+    <string name="perAccommodationUnitRadioButton"> Per unit</string>
+    <string name="perGuestRadioButton"> Per guest</string>
+    <string name="price">Price </string>
+
 </resources>

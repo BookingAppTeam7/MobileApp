@@ -1,7 +1,6 @@
 package com.example.bookingapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
@@ -12,32 +11,27 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+
 import com.example.bookingapp.R;
-import com.example.bookingapp.databinding.ActivityAccountScreenBinding;
-import com.example.bookingapp.databinding.ActivityRegisterScreenBinding;
+import com.example.bookingapp.databinding.ActivityCreateAccommodationBinding;
 import com.google.android.material.navigation.NavigationView;
 
-public class AccountScreenActivity extends AppCompatActivity {
+public class CreateAccommodationActivity extends AppCompatActivity {
 
     private Animation slideInAnimation;
     private Animation slideOutAnimation;
+
     private boolean isDrawerOpen = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        ActivityAccountScreenBinding binding = ActivityAccountScreenBinding.inflate(getLayoutInflater());
+       ActivityCreateAccommodationBinding binding=ActivityCreateAccommodationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-
-        Toolbar toolbar = binding.toolbar;
-
-        setSupportActionBar(toolbar);
-
 
         DrawerLayout drawerLayout = binding.drawerLayout;
         NavigationView navigationView = binding.navigationView;
+
         slideInAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in);
         slideOutAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_out);
 
@@ -56,8 +50,6 @@ public class AccountScreenActivity extends AppCompatActivity {
             }
         });
 
-        // Postavljanje animacija na NavigationView pri zatvaranju
-        // Postavljanje animacija na NavigationView pri zatvaranju
         binding.drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerStateChanged(int newState) {
@@ -75,32 +67,19 @@ public class AccountScreenActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 MenuItem homeMenuItem = binding.navigationView.getMenu().findItem(R.id.home);
-                MenuItem notificationsMenuItem = binding.navigationView.getMenu().findItem(R.id.notifications);
-                MenuItem myReservationsMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_reservations);
-                MenuItem myAccountMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_account);
-                MenuItem logOutMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_logout);
-                MenuItem createAccommodationMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_create_accommodation);
+                MenuItem createAccommodationItem = binding.navigationView.getMenu().findItem(R.id.menu_create_accommodation);
+                MenuItem logOutItem = binding.navigationView.getMenu().findItem(R.id.menu_logout);
 
                 if (item.getItemId() == homeMenuItem.getItemId()) {
                     performHomeAction();
                     return true;
-                } else if (item.getItemId() == notificationsMenuItem.getItemId()) {
-                    performNotificationsAction();
-                    return true;
-                } else if (item.getItemId() == myReservationsMenuItem.getItemId()) {
-                    performMyReservationsAction();
-                    return true;
-                } else if (item.getItemId() == myAccountMenuItem.getItemId()) {
-                    performMyAccountAction();
-                    return true;
-                } else if (item.getItemId() == logOutMenuItem.getItemId()) {
-                    performLogOutAction();
-                    return true;
-                }else if(item.getItemId()==createAccommodationMenuItem.getItemId()){
-                    performCreateAccommodationAction();
-                    return true;
                 }
-
+                else if(item.getItemId()==createAccommodationItem.getItemId()){
+                    performCreateAccommodationAction();
+                }
+                else if(item.getItemId()==logOutItem.getItemId()){
+                    performLogOutAction();
+                }
                 // Zatvori navigacijski izbornik
                 binding.drawerLayout.closeDrawer(binding.navigationView);
 
@@ -108,36 +87,25 @@ public class AccountScreenActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.nav_menu, menu);
+        return true;
+    }
 
-        public void performHomeAction(){
-            Intent intent=new Intent(AccountScreenActivity.this,HomeScreenActivity.class);
-            startActivity(intent);
-        }
-
-        public void performNotificationsAction(){
-
-        }
-        public void performMyReservationsAction(){
-
-        }
-
-        public void performMyAccountAction(){
-            Intent intent=new Intent(AccountScreenActivity.this,AccountScreenActivity.class);
-            startActivity(intent);
-            finish();
-
-        }
-        public void performLogOutAction(){
-            Intent intent=new Intent(AccountScreenActivity.this,HomeScreenActivity.class);
-            startActivity(intent);
-            finish();
-        }
-
-        public void performCreateAccommodationAction(){
-        Intent intent=new Intent(AccountScreenActivity.this,CreateAccommodationActivity.class);
+    public void performLogOutAction(){
+        Intent intent = new Intent(CreateAccommodationActivity.this, HomeScreenActivity.class);
         startActivity(intent);
+    }
+    public void performHomeAction(){
+        Intent intent = new Intent(CreateAccommodationActivity.this, HomeScreenActivity.class);
+        startActivity(intent);
+    }
+    public void performCreateAccommodationAction(){
+        Intent intent=new Intent(CreateAccommodationActivity.this,CreateAccommodationActivity.class);
         finish();
     }
+
 
 
 }

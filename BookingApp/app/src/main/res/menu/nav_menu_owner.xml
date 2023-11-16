@@ -1,0 +1,30 @@
+<!-- res/menu/nav_menu.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/home"
+        android:title="Home"
+        android:icon="@drawable/ic_home"/>
+    <item
+        android:id="@+id/notifications"
+        android:title="Notifications"
+        android:icon="@drawable/ic_notifications"/>
+
+
+    <item
+        android:id="@+id/menu_reservations"
+        android:title="My Reservations"
+        android:icon="@drawable/ic_reservations"/>
+    <item
+        android:id="@+id/menu_account"
+        android:title="My Account"
+        android:icon="@drawable/ic_user"/>
+    <item
+        android:id="@+id/menu_create_accommodation"
+        android:title="Add accommodation"
+        android:icon="@drawable/new_accommodation_icon"/>
+    <item
+        android:id="@+id/menu_logout"
+        android:title="Logout"
+        android:icon="@drawable/ic_logoutt"/>
+</menu>
