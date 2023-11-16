@@ -34,4 +34,6 @@
     <string name="ownerRadioButton"> Owner </string>
     <string name="guestRadioButton"> Guest </string>
     <string name="registerAsLabel"> Register as : </string>
+    <string name="arrivalDate">Arrival date</string>
+    <string name="checkoutDate">Check-out date</string>
 </resources>
