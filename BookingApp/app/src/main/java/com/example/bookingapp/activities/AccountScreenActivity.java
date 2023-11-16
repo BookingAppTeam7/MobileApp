@@ -118,6 +118,9 @@ public class AccountScreenActivity extends AppCompatActivity {
         }
 
         public void performMyAccountAction(){
+            Intent intent=new Intent(AccountScreenActivity.this,AccountScreenActivity.class);
+            startActivity(intent);
+            finish();
 
         }
         public void performLogOutAction(){
