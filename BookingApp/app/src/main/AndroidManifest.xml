@@ -15,6 +15,12 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
+            android:name=".activities.DatePickerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.EditAccommodationsDataActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.CreateAccommodationActivity"
             android:exported="false" />
         <activity

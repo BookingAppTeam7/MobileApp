@@ -49,6 +49,13 @@
     <string name="kitchen">Kitchen</string>
     <string name="perAccommodationUnitRadioButton"> Per unit</string>
     <string name="perGuestRadioButton"> Per guest</string>
-    <string name="price">Price </string>
+    <string name="price">Price : </string>
+    <string name="startDateHint">Start date </string>
+    <string name="endDateHint">End date </string>
+    <string name="reservationConfirmation">Reservation confirmation : </string>
+    <string name="radioButtonAutomatic">Automatic</string>
+    <string name="radioButtonManual">Manual</string>
+
+
 
 </resources>
