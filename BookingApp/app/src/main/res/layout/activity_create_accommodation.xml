@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.CreateAccommodationActivity">
-
+    tools:context=".activities.EditAccommodationsDataActivity">
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawerLayout"
@@ -33,16 +32,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <ImageButton
-            android:id="@+id/toggleButton2"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:background="?attr/selectableItemBackground"
-            android:contentDescription="Toggle Button"
-            android:scaleType="fitCenter"
-            android:src="@drawable/hamburger" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,26 +63,11 @@
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <ImageView
-        android:id="@+id/accommodationIcon"
-        android:layout_width="78dp"
-        android:layout_height="49dp"
-        android:layout_marginEnd="148dp"
-        android:src="@drawable/new_accommodation_icon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintHorizontal_bias="0.989"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.111"
-        app:layout_constraintWidth_percent="0.2" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/nameInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
@@ -111,46 +85,29 @@
         android:id="@+id/locationInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/nameInput"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.75"
-        app:layout_constraintHorizontal_bias="0.5">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nameInput"
+        app:layout_constraintWidth_percent="0.75">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/locationHint"
-            android:padding="12dp"/>
+            android:padding="12dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/descriptionInput"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/locationInput"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.75"
-        app:layout_constraintHorizontal_bias="0.5">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/descriptionHint"
-            android:padding="12dp"/>
-    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:id="@+id/guestsLayout"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/descriptionInput"
+        app:layout_constraintTop_toBottomOf="@id/locationInput"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintWidth_percent="0.9"
@@ -161,11 +118,12 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="0.5"
+            android:layout_margin="5dp"
             >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextMinNumOfGusets"
-                android:layout_width="150dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/minNumOfGuests"
                 android:padding="12dp" />
@@ -176,23 +134,60 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="0.5"
+            android:layout_margin="5dp"
             >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextMaxNumOfGusets"
-                android:layout_width="150dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/maxNumOfGuests"
                 android:padding="12dp" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/cancellationDeadlineInput"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.5"
+            android:layout_margin="5dp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextCancellationDeadLine"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/cancellationDeadLine"
+                android:padding="12dp" />
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/descriptionInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintTop_toBottomOf="@id/guestsLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.75">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/descriptionHint"
+            android:padding="12dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:id="@+id/priceLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/guestsLayout"
+        app:layout_constraintTop_toBottomOf="@id/descriptionInput"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintWidth_percent="0.9"
@@ -203,7 +198,8 @@
             android:id="@+id/priceInput"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_weight="0.5">
+            android:layout_weight="0.5"
+            android:layout_margin="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextPrice"
@@ -218,7 +214,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_margin="10dp">
 
             <RadioButton
                 android:id="@+id/radioButtonPerGuest"
@@ -238,53 +235,71 @@
                 app:buttonTint="@color/colorButton" />
         </RadioGroup>
     </LinearLayout>
-
-    <RadioGroup
-        android:id="@+id/radioGroupAccommodationType"
-        android:layout_width="231dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+    <LinearLayout
+        android:id="@+id/accommodationTypeLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.283"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/priceLayout"
-        app:layout_constraintWidth_percent="0.5">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintHorizontal_bias="0.5"
+        >
 
-        <RadioButton
-            android:id="@+id/radioButtonRoom"
-            android:layout_width="96dp"
+        <TextView
+            android:id="@+id/textViewPrice2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="serif"
-            android:text="@string/roomRadioButton"
-            app:buttonTint="@color/colorButton" />
-
-        <RadioButton
-            android:id="@+id/radioButtonApartment"
-            android:layout_width="120dp"
+            android:layout_weight="0.5"
+            android:hint="@string/accommodationType"
+            android:padding="12dp" />
+        <RadioGroup
+            android:id="@+id/radioGroupAccommodationType"
+            android:layout_width="231dp"
             android:layout_height="wrap_content"
-            android:checked="true"
-            android:fontFamily="serif"
-            android:text="@string/apartmentRadioButton"
-            app:buttonTint="@color/colorButton"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.283"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/priceLayout"
+            app:layout_constraintWidth_percent="0.5">
 
-            />
+            <RadioButton
+                android:id="@+id/radioButtonRoom"
+                android:layout_width="105dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="serif"
+                android:text="@string/roomRadioButton"
+                app:buttonTint="@color/colorButton" />
 
-    </RadioGroup>
+            <RadioButton
+                android:id="@+id/radioButtonApartment"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:fontFamily="serif"
+                android:text="@string/apartmentRadioButton"
+                app:buttonTint="@color/colorButton"
 
+                />
+
+        </RadioGroup>
+    </LinearLayout>
     <Button
         android:id="@+id/buttonCreate"
         android:layout_width="205dp"
         android:layout_height="57dp"
-        android:layout_marginTop="10dp"
         android:backgroundTint="@color/colorButton"
         android:fontFamily="serif"
         android:text="@string/createAccommodationButtonText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/amenitiesCheckList"
-        app:layout_constraintWidth_percent="0.5" />
+        app:layout_constraintTop_toBottomOf="@id/buttonsLayout"
+        app:layout_constraintWidth_percent="0.5"
+        android:layout_marginTop="8dp"/>
 
     <TextView
         android:id="@+id/textViewError"
@@ -297,38 +312,67 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"/>
 
-    <ImageButton
-        android:id="@+id/myButton"
-        android:layout_width="69dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="16dp"
-        android:layout_weight="1"
-        android:background="?attr/selectableItemBackground"
-        android:contentDescription="Add images"
-        android:onClick="onButtonClick"
-        android:src="@drawable/add_image_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.897"
+    <LinearLayout
+        android:id="@+id/reservationConfirmationLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/accommodationTypeLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/priceLayout" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintHorizontal_bias="0.5"
+        >
+
+        <TextView
+            android:id="@+id/textViewPrice1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:hint="@string/reservationConfirmation"
+            android:padding="12dp" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupReservationConfirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <RadioButton
+                android:id="@+id/radioButtonManual"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="serif"
+                android:text="@string/radioButtonManual"
+                app:buttonTint="@color/colorButton" />
+
+            <RadioButton
+                android:id="@+id/radioButtonAutomatic"
+                android:layout_width="115dp"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:fontFamily="serif"
+                android:text="@string/radioButtonAutomatic"
+                app:buttonTint="@color/colorButton" />
+        </RadioGroup>
+    </LinearLayout>
 
 
     <LinearLayout
         android:id="@+id/amenitiesCheckList"
         android:layout_width="wrap_content"
         android:layout_height="92dp"
-        android:layout_marginTop="8dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.579"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/radioGroupAccommodationType">
+        app:layout_constraintTop_toBottomOf="@id/reservationConfirmationLayout">
 
         <LinearLayout
             android:id="@+id/amenitiesCheckListLeft"
             android:layout_width="162dp"
             android:layout_height="92dp"
-            android:layout_marginTop="12dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.204"
@@ -357,7 +401,6 @@
             android:id="@+id/amenitiesCheckListRight"
             android:layout_width="162dp"
             android:layout_height="92dp"
-            android:layout_marginTop="12dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toStartOf="@+id/amenitiesCheckListRight"
             app:layout_constraintHorizontal_bias="0.204"
@@ -382,18 +425,56 @@
 
         </LinearLayout>
     </LinearLayout>
-
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigationView"
-        android:layout_width="300dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:layout_marginTop="64dp"
-        android:visibility="invisible"
-        app:headerLayout="@layout/nav_header_not_registered"
+    <LinearLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/amenitiesCheckList"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginTop="8dp"
 
-        app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/nav_menu_owner"/>
+        >
+        <Button
+            android:id="@+id/buttonAddImages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent1"
+            android:fontFamily="serif"
+            android:text="@string/addImage"
+            android:layout_marginRight="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/amenitiesCheckList"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <Button
+            android:id="@+id/buttonAddPrice"
+            android:layout_width="177dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent2"
+            android:fontFamily="serif"
+            android:text="@string/addPriceCard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/amenitiesCheckList"
+            app:layout_constraintWidth_percent="0.5" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonsLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

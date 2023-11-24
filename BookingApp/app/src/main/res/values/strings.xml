@@ -52,10 +52,16 @@
     <string name="price">Price : </string>
     <string name="startDateHint">Start date </string>
     <string name="endDateHint">End date </string>
-    <string name="reservationConfirmation">Reservation confirmation : </string>
+    <string name="reservationConfirmation">Reservation confirmation</string>
     <string name="radioButtonAutomatic">Automatic</string>
     <string name="radioButtonManual">Manual</string>
-
+    <string name="accommodationType">Type of accommodation</string>
+    <string name="addImage">+Add image</string>
+    <string name="addPriceCard">+Add price card</string>
+    <string name="saveButton">Save</string>
+    <string name="cancelButton">X</string>
+    <string name="cancellationDeadLine">Deadline</string>
+    <string name="accommodationAvailability">+Add availability</string>
 
 
 </resources>
