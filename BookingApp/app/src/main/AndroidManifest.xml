@@ -15,6 +15,9 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
+            android:name=".activities.CreatePriceCardActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.DatePickerActivity"
             android:exported="false" />
         <activity

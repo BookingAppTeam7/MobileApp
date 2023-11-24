@@ -23,30 +23,8 @@ public class EditAccommodationsDataActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         ActivityEditAccommodationsDataBinding binding = ActivityEditAccommodationsDataBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-
-        editTextStartDate=binding.editTextStartDate;
-        editTextEndDate=binding.editTextEndDate;
-
-        editTextStartDate.setFocusable(false);
-        editTextStartDate.setClickable(true);
-
-        editTextStartDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog();
-            }
-        });
-
-        editTextEndDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog();
-            }
-        });
     }
 
     private void showDatePickerDialog() {
