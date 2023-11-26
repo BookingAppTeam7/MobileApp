@@ -17,11 +17,6 @@
         <activity
 
             android:name=".activities.AccomodationApprovalActivity"
-
-            android:name=".activities.CreatePriceCardActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.DatePickerActivity"
             android:exported="false" />
         <activity
             android:name=".activities.EditAccommodationsDataActivity"
