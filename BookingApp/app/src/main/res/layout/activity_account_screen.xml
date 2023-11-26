@@ -58,7 +58,7 @@
             android:background="?attr/selectableItemBackground"
             android:contentDescription="Toggle Button"
             android:scaleType="fitCenter"
-            android:src="@drawable/menu_black" />
+            android:src="@drawable/hamburger" />
 
         <LinearLayout
             android:layout_width="match_parent"
