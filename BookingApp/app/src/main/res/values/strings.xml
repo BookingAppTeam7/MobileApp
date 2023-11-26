@@ -51,5 +51,6 @@
     <string name="perGuestRadioButton"> Per guest</string>
     <string name="price">Price </string>
     <string name="all_accomodations">All accomodations</string>
+    <string name="approve_accommodations">Approve accommodations</string>
 
 </resources>

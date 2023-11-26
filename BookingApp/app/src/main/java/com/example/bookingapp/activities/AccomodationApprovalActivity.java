@@ -12,6 +12,7 @@ import android.widget.ListView;
 import com.example.bookingapp.R;
 import com.example.bookingapp.adapters.AccommodationListAdapter;
 import com.example.bookingapp.adapters.AccomodationApprovalListAdapter;
+import com.example.bookingapp.databinding.ActivityAccomodationApprovalBinding;
 import com.example.bookingapp.databinding.ActivityHomeScreenBinding;
 import com.example.bookingapp.model.Accommodation;
 
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 public class AccomodationApprovalActivity extends AppCompatActivity {
 
 
-    ActivityHomeScreenBinding binding;
+    ActivityAccomodationApprovalBinding binding;
     AccomodationApprovalListAdapter listAdapter;
     ArrayList<Accommodation> accommodationArrayList = new ArrayList<Accommodation>();
     Accommodation accommodation;
@@ -29,7 +30,7 @@ public class AccomodationApprovalActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityHomeScreenBinding.inflate(getLayoutInflater());
+        binding = ActivityAccomodationApprovalBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         int[] imageList = {R.drawable.accommodation1, R.drawable.accommodation2, R.drawable.accommodation1, R.drawable.accommodation2};
         Long[] idList = {1L, 2L, 3L, 4L};
