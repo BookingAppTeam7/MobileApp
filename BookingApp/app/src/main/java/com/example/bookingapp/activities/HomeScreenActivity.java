@@ -115,6 +115,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem item) {
                 MenuItem logInMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_login);
                 MenuItem registerMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_registration);
+                MenuItem accomodationMenuItem=binding.navigationView.getMenu().findItem(R.id.menu_accommodation_approval);
                 MenuItem aboutUsMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_about_us);
 
                 if (item.getItemId() == logInMenuItem.getItemId()) {
@@ -125,6 +126,9 @@ public class HomeScreenActivity extends AppCompatActivity {
                     return true;
                 } else if (item.getItemId() == aboutUsMenuItem.getItemId()) {
                     performAboutUsAction();
+                    return true;
+                }else if(item.getItemId()==accomodationMenuItem.getItemId()){
+                    performAccomodationAction();
                     return true;
                 }
                 // Zatvori navigacijski izbornik
@@ -156,6 +160,11 @@ public class HomeScreenActivity extends AppCompatActivity {
         }
         public void performAboutUsAction(){
 
+        }
+
+        public void performAccomodationAction(){
+            Intent intent=new Intent(HomeScreenActivity.this,AccomodationApprovalActivity.class);
+            startActivity(intent);
         }
 
 
