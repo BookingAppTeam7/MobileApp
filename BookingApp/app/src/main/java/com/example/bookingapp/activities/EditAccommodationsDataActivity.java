@@ -9,10 +9,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.example.bookingapp.databinding.ActivityEditAccommodationsDataBinding;
+import com.example.bookingapp.fragments.accommodations.AvailabilityFragment;
+import com.example.bookingapp.fragments.accommodations.PriceCardFragment;
 
 import java.util.Calendar;
 
@@ -25,26 +28,30 @@ public class EditAccommodationsDataActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityEditAccommodationsDataBinding binding = ActivityEditAccommodationsDataBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        Button buttonAddPrice = binding.buttonAddPrice;
+        Button buttonAddAvailability=binding.buttonAccommodationAvailability;
+        buttonAddPrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddPriceDialog();
+            }
+        });
+        buttonAddAvailability.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                showAddAvailabilityDialog();
+            }
+        });
     }
-
-    private void showDatePickerDialog() {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                this,
-                (view, year1, month1, dayOfMonth) -> {
-                    String selectedDate = String.format("%d-%02d-%02d", year1, month1 + 1, dayOfMonth);
-                    editTextStartDate.setText(selectedDate);
-                },
-                year, month, day);
-
-        // Ograničavanje da se odabere samo datum iz budućnosti
-        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-
-        datePickerDialog.show();
+    private void showAddPriceDialog() {
+        PriceCardFragment priceCardFragment = new PriceCardFragment();
+        priceCardFragment.show(getFragmentManager(), priceCardFragment.getTag());
+    }
+    private void showAddAvailabilityDialog(){
+        AvailabilityFragment availabilityFragment=new AvailabilityFragment();
+        availabilityFragment.show(getFragmentManager(), availabilityFragment.getTag());
 
     }
 
