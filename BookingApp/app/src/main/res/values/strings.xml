@@ -62,6 +62,7 @@
     <string name="cancelButton">X</string>
     <string name="cancellationDeadLine">Deadline</string>
     <string name="accommodationAvailability">+Add availability</string>
+    <string name="title_activity_maps">MapsActivity</string>
 
 
 </resources>
