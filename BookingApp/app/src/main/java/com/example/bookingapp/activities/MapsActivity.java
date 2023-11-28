@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -29,14 +30,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int Request_CODE=101;
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-
+    private String location;
+    private double locationX;
+    private double locationY;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        Intent intent=this.getIntent();
+        if(intent!=null){
+            location=intent.getStringExtra("location");
+            locationX=intent.getDoubleExtra("locationX",0.0);
+            locationY=intent.getDoubleExtra("locationY",0.0);
+        }
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -57,9 +65,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng coordinates = new LatLng(locationX, locationY);
+        mMap.addMarker(new MarkerOptions().position(coordinates).title(location));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(coordinates));
     }
 
     private BitmapDescriptor bitmapDescriptor(Context context, int vectorResId){

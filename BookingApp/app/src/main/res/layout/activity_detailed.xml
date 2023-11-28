@@ -57,9 +57,10 @@
     <Button
         android:id="@+id/googleMap"
         android:layout_width="250px"
-        android:layout_height="100px"
+        android:layout_height="120px"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
         android:backgroundTint="@color/black"
         android:text="MAP"/>
 </LinearLayout>

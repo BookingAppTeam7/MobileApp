@@ -44,11 +44,15 @@ public class HomeScreenActivity extends AppCompatActivity {
 
         int[] imageList = {R.drawable.accommodation1, R.drawable.accommodation2, R.drawable.accommodation1, R.drawable.accommodation2};
         Long[] idList = {1L, 2L, 3L, 4L};
-        String[] nameList = {"Accommodation 1", "Accommodation 2", "Accommodation 3", "Accommodation 4"};
-        String[] descriptionList = {"Description 1", "Description 2", "Description 3", "Description 4"};
-
+        String[] nameList = {"Accommodation in Novi Sad", "Belgrade accommodation", "Prague accommodation", "Paris accommodation"};
+        String[] descriptionList = {"Beautiful accommodation settled in Novi Sad", "Beautiful accommodation settled in Belgrade",
+                "Beautiful accommodation settled in Prague", "Beautiful accommodation settled in Paris"};
+        double [] locationXList={45.26799224033295,44.78318632559004,50.102423832053915,48.870974300967234};
+        double [] locationYList={19.830824522193232, 20.49925984639849, 14.480125374774326, 2.478835370652442};
+        String [] locationStrList={"Some location in Novi Sad","Some location in Belgrade","Some location in Prague",
+                "Some location in Paris"};
         for (int i = 0; i < imageList.length; i++) {
-            accommodation = new Accommodation(idList[i], nameList[i], descriptionList[i], imageList[i]);
+            accommodation = new Accommodation(idList[i], nameList[i], descriptionList[i], imageList[i],locationStrList[i],locationXList[i],locationYList[i]);
             accommodationArrayList.add(accommodation);
         }
 
@@ -63,7 +67,9 @@ public class HomeScreenActivity extends AppCompatActivity {
                 intent.putExtra("name", nameList[position]);
                 intent.putExtra("description", descriptionList[position]);
                 intent.putExtra("image", imageList[position]);
-
+                intent.putExtra("location",locationStrList[position]);
+                intent.putExtra("locationX",locationXList[position]);
+                intent.putExtra("locationY",locationYList[position]);
                 startActivity(intent);
             }
         });
