@@ -18,9 +18,13 @@ import com.example.bookingapp.adapters.AccommodationListAdapter;
 import com.example.bookingapp.databinding.ActivityHomeScreenBinding;
 import com.example.bookingapp.fragments.accommodations.FilterBottomSheetDialogFragment;
 import com.example.bookingapp.model.Accommodation;
+import com.example.bookingapp.model.Review;
+import com.example.bookingapp.model.ReviewType;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import android.view.MenuItem;
 
 public class HomeScreenActivity extends AppCompatActivity {
@@ -51,8 +55,17 @@ public class HomeScreenActivity extends AppCompatActivity {
         double [] locationYList={19.830824522193232, 20.49925984639849, 14.480125374774326, 2.478835370652442};
         String [] locationStrList={"Some location in Novi Sad","Some location in Belgrade","Some location in Prague",
                 "Some location in Paris"};
+        double [] priceList={150.0,215.0,100.0,199.99};
+        List<Review> reviewsList = new ArrayList<>();
+
+
+        reviewsList.add(new Review(R.drawable.ic_user,"User1", ReviewType.OWNER, "Great experience!", 5));
+        reviewsList.add(new Review(R.drawable.ic_user,"User2", ReviewType.ACCOMMODATION, "Nice place to stay.", 4));
+        reviewsList.add(new Review(R.drawable.ic_user,"User3", ReviewType.OWNER, "Very helpful owner.", 5));
+        reviewsList.add(new Review(R.drawable.ic_user,"User4", ReviewType.ACCOMMODATION, "Clean and comfortable.", 4));
+
         for (int i = 0; i < imageList.length; i++) {
-            accommodation = new Accommodation(idList[i], nameList[i], descriptionList[i], imageList[i],locationStrList[i],locationXList[i],locationYList[i]);
+            accommodation = new Accommodation(idList[i], nameList[i], descriptionList[i], imageList[i],locationStrList[i],locationXList[i],locationYList[i],priceList[i],reviewsList);
             accommodationArrayList.add(accommodation);
         }
 
@@ -70,6 +83,8 @@ public class HomeScreenActivity extends AppCompatActivity {
                 intent.putExtra("location",locationStrList[position]);
                 intent.putExtra("locationX",locationXList[position]);
                 intent.putExtra("locationY",locationYList[position]);
+                intent.putExtra("price",priceList[position]);
+                intent.putExtra("reviewsList",new ArrayList<>(reviewsList));
                 startActivity(intent);
             }
         });

@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.util.List;
+
 public class Accommodation implements Parcelable {
     private Long id;
     private String Name;
@@ -13,8 +15,10 @@ public class Accommodation implements Parcelable {
     private String Location;
     private double locationX;
     private double locationY;
+    private double price;
+    private List<Review> reviews;
 
-    public Accommodation(Long id, String Name, String Description, int image,String Location, double locationX, double locationY){
+    public Accommodation(Long id, String Name, String Description, int image,String Location, double locationX, double locationY, double price, List<Review> reviews){
         this.id=id;
         this.Name=Name;
         this.Description=Description;
@@ -22,9 +26,27 @@ public class Accommodation implements Parcelable {
         this.Location=Location;
         this.locationX=locationX;
         this.locationY=locationY;
+        this.price=price;
+        this.reviews=reviews;
     }
     public Accommodation(){
 
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     protected Accommodation(Parcel in) {
