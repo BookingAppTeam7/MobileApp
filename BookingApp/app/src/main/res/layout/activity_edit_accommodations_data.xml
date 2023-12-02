@@ -91,25 +91,129 @@
             android:padding="12dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/locationInput"
+    <LinearLayout
+        android:id="@+id/locationLayout1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/nameInput"
-        app:layout_constraintWidth_percent="0.75">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextLocation"
-            android:layout_width="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintHorizontal_bias="0.5">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addressInput"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:hint="@string/locationHint"
-            android:padding="12dp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nameInput"
+            app:layout_constraintWidth_percent="0.75"
+            >
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/addressHint"
+                android:padding="12dp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/xInput"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nameInput"
+            app:layout_constraintWidth_percent="0.75"
+            android:layout_marginLeft="20dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextX"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/xCoordinate"
+                android:padding="12dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/yInput"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nameInput"
+            app:layout_constraintWidth_percent="0.75"
+            android:layout_marginLeft="10dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextY"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/yCoordinate"
+                android:padding="12dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/locationLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/locationLayout1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintHorizontal_bias="0.5">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/cityInput"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nameInput"
+            app:layout_constraintWidth_percent="0.75"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/cityHint"
+                android:padding="12dp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/countryInput"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nameInput"
+            app:layout_constraintWidth_percent="0.75"
+            android:layout_marginLeft="20dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextCountry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/countryHint"
+                android:padding="12dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
 
 
     <LinearLayout
@@ -117,7 +221,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/locationInput"
+        app:layout_constraintTop_toBottomOf="@id/locationLayout2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintWidth_percent="0.9"
@@ -208,7 +312,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/priceLayout" /> -->
 
-    <LinearLayout
+    <!--<LinearLayout
         android:id="@+id/priceLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -260,13 +364,13 @@
                 android:text="@string/perAccommodationUnitRadioButton"
                 app:buttonTint="@color/colorButton" />
         </RadioGroup>
-    </LinearLayout>
+    </LinearLayout>-->
     <LinearLayout
         android:id="@+id/accommodationTypeLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/priceLayout"
+        app:layout_constraintTop_toBottomOf="@id/descriptionInput"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintWidth_percent="0.9"
@@ -289,7 +393,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.283"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/priceLayout"
+        app:layout_constraintTop_toBottomOf="@id/descriptionInput"
         app:layout_constraintWidth_percent="0.5">
 
         <RadioButton
@@ -323,7 +427,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        android:layout_marginTop="8dp"
         >
 
         <ImageButton
@@ -377,8 +480,7 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/buttonsLayout"
-        app:layout_constraintWidth_percent="0.5"
-        android:layout_marginTop="10dp"/>
+        app:layout_constraintWidth_percent="0.5" />
 
     <TextView
         android:id="@+id/textViewError"
@@ -451,7 +553,7 @@
         <LinearLayout
             android:id="@+id/amenitiesCheckListLeft"
             android:layout_width="162dp"
-            android:layout_height="92dp"
+            android:layout_height="80dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.204"
@@ -479,7 +581,7 @@
         <LinearLayout
             android:id="@+id/amenitiesCheckListRight"
             android:layout_width="162dp"
-            android:layout_height="92dp"
+            android:layout_height="80dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toStartOf="@+id/amenitiesCheckListRight"
             app:layout_constraintHorizontal_bias="0.204"

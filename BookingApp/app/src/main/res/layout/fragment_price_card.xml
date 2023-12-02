@@ -1,96 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@color/colorAccent1">
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:orientation="vertical"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:padding="16dp"
+        android:background="@color/colorAccent1">
 
-        <CalendarView
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="@color/white" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
 
-        <CalendarView
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="@color/white" />
+            <CalendarView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@color/white" />
 
-    </LinearLayout>
+            <CalendarView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@color/white" />
 
-    <!--<com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutStartDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Start Date">
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/editTextStartDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="false"
-            android:inputType="text"
-           />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutEndDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="End Date">
-
-        <EditText
-            android:id="@+id/editTextEndDate"
+        <RadioGroup
+            android:id="@+id/radioGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
-            android:inputType="text"
-           />
-    </com.google.android.material.textfield.TextInputLayout> -->
+            android:orientation="horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/radioButtonPerUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Per Unit" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutPrice"
-            android:layout_width="0dp"
+            <RadioButton
+                android:id="@+id/radioButtonPerGuest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Per Guest"
+                android:layout_marginLeft="20dp"/>
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Price">
+            android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextPrice"
-                android:layout_width="110dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutPrice"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:inputType="numberDecimal" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:hint="Price">
 
-        <Button
-            android:id="@+id/confirmButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.7"
-            android:text="@string/saveButton"
-            android:textColor="@color/colorAccent1" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextPrice"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/cancelButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.7"
-            android:text="@string/cancelButton"
-            android:textColor="@color/colorRed"
-            android:layout_marginLeft="10dp"/>
+            <Button
+                android:id="@+id/confirmButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:text="@string/saveButton"
+                android:textColor="@color/colorAccent1" />
 
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:text="@string/cancelButton"
+                android:textColor="@color/colorRed"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

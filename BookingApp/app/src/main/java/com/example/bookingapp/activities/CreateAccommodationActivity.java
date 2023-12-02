@@ -22,6 +22,7 @@ import android.widget.EditText;
 
 import com.example.bookingapp.R;
 import com.example.bookingapp.databinding.ActivityCreateAccommodationBinding;
+import com.example.bookingapp.fragments.accommodations.AvailabilityFragment;
 import com.example.bookingapp.fragments.accommodations.FilterBottomSheetDialogFragment;
 import com.example.bookingapp.fragments.accommodations.PriceCardFragment;
 import com.google.android.material.navigation.NavigationView;
@@ -46,10 +47,13 @@ public class CreateAccommodationActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Create Accommodation");
 
+
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Dodajte nazad dugme
         toolbar.setNavigationOnClickListener(v -> onBackPressed()); // Postavljanje akcije za nazad dugme
 
         Button buttonAddPrice = binding.buttonAddPrice;
+        Button buttonAddAvailability=binding.buttonAccommodationAvailability;
 
 
         buttonAddPrice.setOnClickListener(new View.OnClickListener() {
@@ -58,11 +62,26 @@ public class CreateAccommodationActivity extends AppCompatActivity {
                 showAddPriceDialog();
             }
         });
+
+        buttonAddAvailability.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                showAddAvailabilityDialog();
+            }
+        });
+
     }
 
     private void showAddPriceDialog() {
         PriceCardFragment priceCardFragment = new PriceCardFragment();
         priceCardFragment.show(getFragmentManager(), priceCardFragment.getTag());
+    }
+
+    private void showAddAvailabilityDialog(){
+        AvailabilityFragment availabilityFragment=new AvailabilityFragment();
+        availabilityFragment.show(getFragmentManager(), availabilityFragment.getTag());
+
     }
 
 
