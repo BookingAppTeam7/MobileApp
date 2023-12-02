@@ -20,8 +20,10 @@ import com.example.bookingapp.fragments.accommodations.FilterBottomSheetDialogFr
 import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.Review;
 import com.example.bookingapp.model.ReviewType;
+import com.example.bookingapp.model.TimeSlot;
 import com.google.android.material.navigation.NavigationView;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,8 +66,19 @@ public class HomeScreenActivity extends AppCompatActivity {
         reviewsList.add(new Review(R.drawable.ic_user,"User3", ReviewType.OWNER, "Very helpful owner.", 5));
         reviewsList.add(new Review(R.drawable.ic_user,"User4", ReviewType.ACCOMMODATION, "Clean and comfortable.", 4));
 
+        ArrayList<String> assets=new ArrayList<>();
+        assets.add("TV");
+        assets.add("WI-FI");
+        assets.add("Free parking");
+        assets.add("Air conditioner");
+
+        ArrayList<TimeSlot> availability=new ArrayList<>();
+        availability.add(new TimeSlot(1L, LocalDate.of(2023,12,3),LocalDate.of(2023,12,6)));
+        availability.add(new TimeSlot(1L, LocalDate.of(2023,12,9),LocalDate.of(2023,12,15)));
+
         for (int i = 0; i < imageList.length; i++) {
-            accommodation = new Accommodation(idList[i], nameList[i], descriptionList[i], imageList[i],locationStrList[i],locationXList[i],locationYList[i],priceList[i],reviewsList);
+            accommodation = new Accommodation(idList[i], nameList[i], descriptionList[i], imageList[i],
+                    locationStrList[i],locationXList[i],locationYList[i],priceList[i],reviewsList,assets,availability);
             accommodationArrayList.add(accommodation);
         }
 
@@ -85,6 +98,8 @@ public class HomeScreenActivity extends AppCompatActivity {
                 intent.putExtra("locationY",locationYList[position]);
                 intent.putExtra("price",priceList[position]);
                 intent.putExtra("reviewsList",new ArrayList<>(reviewsList));
+                intent.putExtra("assets",new ArrayList<>(assets));
+                intent.putExtra("availability",new ArrayList<>(availability));
                 startActivity(intent);
             }
         });

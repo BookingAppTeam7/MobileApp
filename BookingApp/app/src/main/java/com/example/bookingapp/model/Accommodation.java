@@ -17,8 +17,9 @@ public class Accommodation implements Parcelable {
     private double locationY;
     private double price;
     private List<Review> reviews;
-
-    public Accommodation(Long id, String Name, String Description, int image,String Location, double locationX, double locationY, double price, List<Review> reviews){
+    private List<String> assets;
+    private List<TimeSlot> availability;
+    public Accommodation(Long id, String Name, String Description, int image,String Location, double locationX, double locationY, double price, List<Review> reviews,List<String> assets,List<TimeSlot> availability){
         this.id=id;
         this.Name=Name;
         this.Description=Description;
@@ -28,9 +29,27 @@ public class Accommodation implements Parcelable {
         this.locationY=locationY;
         this.price=price;
         this.reviews=reviews;
+        this.assets=assets;
+        this.availability=availability;
     }
     public Accommodation(){
 
+    }
+
+    public List<TimeSlot> getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(List<TimeSlot> availability) {
+        this.availability = availability;
+    }
+
+    public List<String> getAssets() {
+        return assets;
+    }
+
+    public void setAssets(List<String> assets) {
+        this.assets = assets;
     }
 
     public List<Review> getReviews() {
