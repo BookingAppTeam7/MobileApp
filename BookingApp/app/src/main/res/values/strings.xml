@@ -49,6 +49,10 @@
     <string name="kitchen">Kitchen</string>
     <string name="perAccommodationUnitRadioButton"> Per unit</string>
     <string name="perGuestRadioButton"> Per guest</string>
+
+    <string name="all_accomodations">All accomodations</string>
+    <string name="approve_accommodations">Approve accommodations</string>
+
     <string name="price">Price : </string>
     <string name="startDateHint">Start date </string>
     <string name="endDateHint">End date </string>
@@ -63,6 +67,8 @@
     <string name="cancellationDeadLine">Deadline</string>
     <string name="accommodationAvailability">+Add availability</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

@@ -39,10 +39,7 @@
             android:exported="false"
             android:label="@string/title_activity_maps" />
         <activity
-            android:name=".activities.CreatePriceCardActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.DatePickerActivity"
+            android:name=".activities.AccomodationApprovalActivity"
             android:exported="false" />
         <activity
             android:name=".activities.EditAccommodationsDataActivity"
