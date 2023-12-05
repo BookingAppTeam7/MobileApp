@@ -42,7 +42,8 @@ public class AccomodationApprovalActivity extends AppCompatActivity {
         String[] nameList = {"Accommodation in Novi Sad", "Belgrade accommodation", "Prague accommodation", "Paris accommodation"};
         String[] descriptionList = {"Beautiful accommodation settled in Novi Sad", "Beautiful accommodation settled in Belgrade",
                 "Beautiful accommodation settled in Prague", "Beautiful accommodation settled in Paris"};
-
+        int[] minGuestsList={1,3,4,2};
+        int[] maxGuestsList={5,8,8,5};
         double [] locationXList={45.26799224033295,44.78318632559004,50.102423832053915,48.870974300967234};
         double [] locationYList={19.830824522193232, 20.49925984639849, 14.480125374774326, 2.478835370652442};
         String [] locationStrList={"Some location in Novi Sad","Some location in Belgrade","Some location in Prague",
@@ -67,7 +68,7 @@ public class AccomodationApprovalActivity extends AppCompatActivity {
         availability.add(new TimeSlot(1L, LocalDate.of(2023,12,9),LocalDate.of(2023,12,15)));
 
         for (int i = 0; i < imageList.length; i++) {
-            accommodation = new Accommodation(idList[i], nameList[i], descriptionList[i], imageList[i],
+            accommodation = new Accommodation(idList[i], nameList[i], descriptionList[i],minGuestsList[i],maxGuestsList[i] ,imageList[i],
                     locationStrList[i],locationXList[i],locationYList[i],priceList[i],reviewsList,assets,availability);
             accommodationArrayList.add(accommodation);
         }

@@ -17,6 +17,8 @@ import com.example.bookingapp.R;
 import com.example.bookingapp.adapters.AccommodationListAdapter;
 import com.example.bookingapp.databinding.ActivityHomeScreenBinding;
 import com.example.bookingapp.fragments.accommodations.FilterBottomSheetDialogFragment;
+import com.example.bookingapp.fragments.accommodations.SearchBottomSheetFragment;
+import com.example.bookingapp.interfaces.BottomSheetListener;
 import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.Review;
 import com.example.bookingapp.model.ReviewType;
@@ -24,18 +26,21 @@ import com.example.bookingapp.model.TimeSlot;
 import com.google.android.material.navigation.NavigationView;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.view.MenuItem;
 
-public class HomeScreenActivity extends AppCompatActivity {
+public class HomeScreenActivity extends AppCompatActivity implements BottomSheetListener {
     private Animation slideInAnimation;
     private Animation slideOutAnimation;
     private boolean isDrawerOpen = false;
     ActivityHomeScreenBinding binding;
     AccommodationListAdapter listAdapter;
-    ArrayList<Accommodation> accommodationArrayList = new ArrayList<Accommodation>();
+    ArrayList<Accommodation> accommodationArrayList = new ArrayList<Accommodation>();//initial
+    ArrayList<Accommodation> accommodationsToShow=new ArrayList<>();
+    ArrayList<Accommodation> searchedAccommodationArrayList = new ArrayList<Accommodation>();
     Accommodation accommodation;
 
 
@@ -53,10 +58,12 @@ public class HomeScreenActivity extends AppCompatActivity {
         String[] nameList = {"Accommodation in Novi Sad", "Belgrade accommodation", "Prague accommodation", "Paris accommodation"};
         String[] descriptionList = {"Beautiful accommodation settled in Novi Sad", "Beautiful accommodation settled in Belgrade",
                 "Beautiful accommodation settled in Prague", "Beautiful accommodation settled in Paris"};
+        int[] minGuestsList={1,3,4,2};
+        int[] maxGuestsList={5,8,8,5};
         double [] locationXList={45.26799224033295,44.78318632559004,50.102423832053915,48.870974300967234};
         double [] locationYList={19.830824522193232, 20.49925984639849, 14.480125374774326, 2.478835370652442};
-        String [] locationStrList={"Some location in Novi Sad","Some location in Belgrade","Some location in Prague",
-                "Some location in Paris"};
+        String [] locationStrList={"Novi Sad","Belgrade","Prague",
+                "Paris"};
         double [] priceList={150.0,215.0,100.0,199.99};
         List<Review> reviewsList = new ArrayList<>();
 
@@ -77,12 +84,15 @@ public class HomeScreenActivity extends AppCompatActivity {
         availability.add(new TimeSlot(1L, LocalDate.of(2023,12,9),LocalDate.of(2023,12,15)));
 
         for (int i = 0; i < imageList.length; i++) {
-            accommodation = new Accommodation(idList[i], nameList[i], descriptionList[i], imageList[i],
+            accommodation = new Accommodation(idList[i], nameList[i], descriptionList[i],minGuestsList[i],maxGuestsList[i] ,imageList[i],
                     locationStrList[i],locationXList[i],locationYList[i],priceList[i],reviewsList,assets,availability);
             accommodationArrayList.add(accommodation);
         }
+        for(Accommodation a:accommodationArrayList){
+            accommodationsToShow.add(a);
+        }
 
-        listAdapter = new AccommodationListAdapter(HomeScreenActivity.this, accommodationArrayList);
+        listAdapter = new AccommodationListAdapter(HomeScreenActivity.this, accommodationsToShow);
         binding.listview.setAdapter(listAdapter);
         binding.listview.setClickable(true);
 
@@ -90,28 +100,35 @@ public class HomeScreenActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(HomeScreenActivity.this, DetailedActivity.class);
-                intent.putExtra("name", nameList[position]);
-                intent.putExtra("description", descriptionList[position]);
-                intent.putExtra("image", imageList[position]);
-                intent.putExtra("location",locationStrList[position]);
-                intent.putExtra("locationX",locationXList[position]);
-                intent.putExtra("locationY",locationYList[position]);
-                intent.putExtra("price",priceList[position]);
-                intent.putExtra("reviewsList",new ArrayList<>(reviewsList));
-                intent.putExtra("assets",new ArrayList<>(assets));
-                intent.putExtra("availability",new ArrayList<>(availability));
+                intent.putExtra("name", accommodationsToShow.get(position).getName());
+                intent.putExtra("description", accommodationsToShow.get(position).getDescription());
+                intent.putExtra("image", accommodationsToShow.get(position).getImage());
+                intent.putExtra("location",accommodationsToShow.get(position).getLocation());
+                intent.putExtra("locationX",accommodationsToShow.get(position).getLocationX());
+                intent.putExtra("locationY",accommodationsToShow.get(position).getLocationY());
+                intent.putExtra("price",accommodationsToShow.get(position).getPrice());
+                intent.putExtra("reviewsList",new ArrayList<>(accommodationsToShow.get(position).getReviews()));
+                intent.putExtra("assets",new ArrayList<>(accommodationsToShow.get(position).getAssets()));
+                intent.putExtra("availability",new ArrayList<>(accommodationsToShow.get(position).getAvailability()));
                 startActivity(intent);
             }
         });
 
         binding.btnFilters.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 FilterBottomSheetDialogFragment bottomSheetFragment = new FilterBottomSheetDialogFragment();
                 bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
             }
         });
-
+        binding.btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SearchBottomSheetFragment bottomSheetFragment = new SearchBottomSheetFragment();
+                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+            }
+        });
 
         slideInAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in);
         slideOutAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_out);
@@ -183,10 +200,43 @@ public class HomeScreenActivity extends AppCompatActivity {
 
 
 
+    @Override
+    public void onSearchButtonClicked(String place, int guests, String arrivalDate, String checkoutDate) {
+        searchedAccommodationArrayList = searchAccommodations(accommodationArrayList, place, guests, arrivalDate, checkoutDate);
+        listAdapter.updateData(searchedAccommodationArrayList);
+    }
 
+    public ArrayList<Accommodation> searchAccommodations(ArrayList<Accommodation> sourceList, String place, int guests, String arrivalDate, String checkoutDate) {
+        ArrayList<Accommodation> retAccommodation = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
+        LocalDate arrival = LocalDate.parse(arrivalDate, formatter);
+        LocalDate checkout = LocalDate.parse(checkoutDate, formatter);
+        for (Accommodation a : sourceList) {
+            if (a.getLocation().equalsIgnoreCase(place) && guests >= a.getMinGuests() && guests <= a.getMaxGuests()) {
+                if (hasAvailableTimeSlot(a, arrival, checkout)) {
+                    retAccommodation.add(a);
+                }
+            }
+        }
+        return retAccommodation;
+    }
 
-    public void performLoginAction(){
+    private boolean hasAvailableTimeSlot(Accommodation accommodation, LocalDate arrival, LocalDate checkout) {
+        for (TimeSlot timeSlot : accommodation.getAvailability()) {
+            if (isWithinTimeSlot(arrival, checkout, timeSlot)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean isWithinTimeSlot(LocalDate arrival, LocalDate checkout, TimeSlot timeSlot) {
+        LocalDate timeSlotStart = timeSlot.getStartDate();
+        LocalDate timeSlotEnd = timeSlot.getEndDate();
+        return !(arrival.isBefore(timeSlotStart) || checkout.isAfter(timeSlotEnd));
+    }
+
+        public void performLoginAction(){
             Intent intent = new Intent(HomeScreenActivity.this, LogInScreenActivity.class);
             startActivity(intent);
         }

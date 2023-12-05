@@ -18,6 +18,7 @@ import com.example.bookingapp.R;
 import com.example.bookingapp.model.Accommodation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AccommodationListAdapter extends ArrayAdapter<Accommodation> {
     private ArrayList<Accommodation> aAccommodations;
@@ -61,5 +62,11 @@ public class AccommodationListAdapter extends ArrayAdapter<Accommodation> {
         //accommodationDescription.setText(accommodation.getDescription());
 
         return convertView;
+    }
+
+    public void updateData(List<Accommodation> newData) {
+        aAccommodations.clear();
+        aAccommodations.addAll(newData);
+        notifyDataSetChanged();
     }
 }

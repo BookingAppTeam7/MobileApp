@@ -21,8 +21,9 @@
     <string name="accommodation1Description">Beautiful accommodation with great look</string>
     <string name="accommodation2">Accommodation 2</string>
     <string name="accommodation2Description">Even more beautiful accommodation with greater look</string>
-    <string name="filters">FILTERS</string>
+    <string name="filters">Filter</string>
     <string name="sort">sort</string>
+    <string name="search">Search</string>
     <string name="category">Category</string>
     <string name="hotel">Hotel</string>
     <string name="apartment">Apartment</string>
