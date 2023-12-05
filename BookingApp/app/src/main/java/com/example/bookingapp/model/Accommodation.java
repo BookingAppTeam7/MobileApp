@@ -11,6 +11,8 @@ public class Accommodation implements Parcelable {
     private Long id;
     private String Name;
     private String Description;
+    private int minGuests;
+    private int maxGuests;
     private int image;
     private String Location;
     private double locationX;
@@ -19,10 +21,14 @@ public class Accommodation implements Parcelable {
     private List<Review> reviews;
     private List<String> assets;
     private List<TimeSlot> availability;
-    public Accommodation(Long id, String Name, String Description, int image,String Location, double locationX, double locationY, double price, List<Review> reviews,List<String> assets,List<TimeSlot> availability){
+    public Accommodation(Long id, String Name, String Description, int minGuests,int maxGuests,
+                         int image,String Location, double locationX, double locationY, double price,
+                         List<Review> reviews,List<String> assets,List<TimeSlot> availability){
         this.id=id;
         this.Name=Name;
         this.Description=Description;
+        this.minGuests=minGuests;
+        this.maxGuests=maxGuests;
         this.image=image;
         this.Location=Location;
         this.locationX=locationX;
@@ -34,6 +40,22 @@ public class Accommodation implements Parcelable {
     }
     public Accommodation(){
 
+    }
+
+    public int getMinGuests() {
+        return minGuests;
+    }
+
+    public void setMinGuests(int minGuests) {
+        this.minGuests = minGuests;
+    }
+
+    public int getMaxGuests() {
+        return maxGuests;
+    }
+
+    public void setMaxGuests(int maxGuests) {
+        this.maxGuests = maxGuests;
     }
 
     public List<TimeSlot> getAvailability() {
