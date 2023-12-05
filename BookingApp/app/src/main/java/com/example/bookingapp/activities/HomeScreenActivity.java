@@ -26,6 +26,7 @@ import com.example.bookingapp.model.TimeSlot;
 import com.google.android.material.navigation.NavigationView;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -201,24 +202,41 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
 
     @Override
     public void onSearchButtonClicked(String place, int guests, String arrivalDate, String checkoutDate) {
-        // TODO: Implement a function that checks which accommodations match the parameters.
-        // Refresh all items on the main screen so it shows only ones that match the search
-        Log.d("NUMBER OF ACCOMMODATIONS",String.valueOf(accommodationArrayList.size()));
-        searchedAccommodationArrayList = searchAccommodations(accommodationArrayList, place, guests);
+        searchedAccommodationArrayList = searchAccommodations(accommodationArrayList, place, guests, arrivalDate, checkoutDate);
         listAdapter.updateData(searchedAccommodationArrayList);
     }
 
-    public ArrayList<Accommodation> searchAccommodations(ArrayList<Accommodation> sourceList, String place, int guests) {
+    public ArrayList<Accommodation> searchAccommodations(ArrayList<Accommodation> sourceList, String place, int guests, String arrivalDate, String checkoutDate) {
         ArrayList<Accommodation> retAccommodation = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        LocalDate arrival = LocalDate.parse(arrivalDate, formatter);
+        LocalDate checkout = LocalDate.parse(checkoutDate, formatter);
         for (Accommodation a : sourceList) {
-            if (a.getLocation().equalsIgnoreCase(place) && guests>=a.getMinGuests() && guests<=a.getMaxGuests()) {
-                retAccommodation.add(a);
+            if (a.getLocation().equalsIgnoreCase(place) && guests >= a.getMinGuests() && guests <= a.getMaxGuests()) {
+                if (hasAvailableTimeSlot(a, arrival, checkout)) {
+                    retAccommodation.add(a);
+                }
             }
         }
         return retAccommodation;
     }
 
-    public void performLoginAction(){
+    private boolean hasAvailableTimeSlot(Accommodation accommodation, LocalDate arrival, LocalDate checkout) {
+        for (TimeSlot timeSlot : accommodation.getAvailability()) {
+            if (isWithinTimeSlot(arrival, checkout, timeSlot)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean isWithinTimeSlot(LocalDate arrival, LocalDate checkout, TimeSlot timeSlot) {
+        LocalDate timeSlotStart = timeSlot.getStartDate();
+        LocalDate timeSlotEnd = timeSlot.getEndDate();
+        return !(arrival.isBefore(timeSlotStart) || checkout.isAfter(timeSlotEnd));
+    }
+
+        public void performLoginAction(){
             Intent intent = new Intent(HomeScreenActivity.this, LogInScreenActivity.class);
             startActivity(intent);
         }
