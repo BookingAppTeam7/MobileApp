@@ -58,7 +58,7 @@ public class AccomodationApprovalListAdapter extends ArrayAdapter<Accommodation>
         TextView accommodationName = convertView.findViewById(R.id.listAccommodationName);
         //TextView accommodationDescription = convertView.findViewById(R.id.listAccommodationDesc);
 
-        imageView.setImageResource(accommodation.getImage());
+        //imageView.setImageResource(accommodation.getImage());
         accommodationName.setText(accommodation.getName());
         imageButtonApprove.setImageResource(R.drawable.ic_check_blue);
         imageButtonReject.setImageResource(R.drawable.ic_reject_blue);

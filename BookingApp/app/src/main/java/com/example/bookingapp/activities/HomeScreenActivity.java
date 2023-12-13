@@ -84,9 +84,9 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         availability.add(new TimeSlot(1L, LocalDate.of(2023,12,9),LocalDate.of(2023,12,15)));
 
         for (int i = 0; i < imageList.length; i++) {
-            accommodation = new Accommodation(idList[i], nameList[i], descriptionList[i],minGuestsList[i],maxGuestsList[i] ,imageList[i],
-                    locationStrList[i],locationXList[i],locationYList[i],priceList[i],reviewsList,assets,availability);
-            accommodationArrayList.add(accommodation);
+//            accommodation = new Accommodation(idList[i], nameList[i], descriptionList[i],minGuestsList[i],maxGuestsList[i] ,imageList[i],
+//                    locationStrList[i],locationXList[i],locationYList[i],priceList[i],reviewsList,assets,availability);
+//            accommodationArrayList.add(accommodation);
         }
         for(Accommodation a:accommodationArrayList){
             accommodationsToShow.add(a);
@@ -100,16 +100,16 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(HomeScreenActivity.this, DetailedActivity.class);
-                intent.putExtra("name", accommodationsToShow.get(position).getName());
-                intent.putExtra("description", accommodationsToShow.get(position).getDescription());
-                intent.putExtra("image", accommodationsToShow.get(position).getImage());
-                intent.putExtra("location",accommodationsToShow.get(position).getLocation());
-                intent.putExtra("locationX",accommodationsToShow.get(position).getLocationX());
-                intent.putExtra("locationY",accommodationsToShow.get(position).getLocationY());
-                intent.putExtra("price",accommodationsToShow.get(position).getPrice());
-                intent.putExtra("reviewsList",new ArrayList<>(accommodationsToShow.get(position).getReviews()));
-                intent.putExtra("assets",new ArrayList<>(accommodationsToShow.get(position).getAssets()));
-                intent.putExtra("availability",new ArrayList<>(accommodationsToShow.get(position).getAvailability()));
+//                intent.putExtra("name", accommodationsToShow.get(position).getName());
+//                intent.putExtra("description", accommodationsToShow.get(position).getDescription());
+//                intent.putExtra("image", accommodationsToShow.get(position).getImage());
+//                intent.putExtra("location",accommodationsToShow.get(position).getLocation());
+//                intent.putExtra("locationX",accommodationsToShow.get(position).getLocationX());
+//                intent.putExtra("locationY",accommodationsToShow.get(position).getLocationY());
+//                intent.putExtra("price",accommodationsToShow.get(position).getPrice());
+//                intent.putExtra("reviewsList",new ArrayList<>(accommodationsToShow.get(position).getReviews()));
+//                intent.putExtra("assets",new ArrayList<>(accommodationsToShow.get(position).getAssets()));
+//                intent.putExtra("availability",new ArrayList<>(accommodationsToShow.get(position).getAvailability()));
                 startActivity(intent);
             }
         });
@@ -213,21 +213,21 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         LocalDate arrival = LocalDate.parse(arrivalDate, formatter);
         LocalDate checkout = LocalDate.parse(checkoutDate, formatter);
         for (Accommodation a : sourceList) {
-            if (a.getLocation().equalsIgnoreCase(place) && guests >= a.getMinGuests() && guests <= a.getMaxGuests()) {
-                if (hasAvailableTimeSlot(a, arrival, checkout)) {
-                    retAccommodation.add(a);
-                }
-            }
+//            if (a.getLocation().equalsIgnoreCase(place) && guests >= a.getMinGuests() && guests <= a.getMaxGuests()) {
+//                if (hasAvailableTimeSlot(a, arrival, checkout)) {
+//                    retAccommodation.add(a);
+//                }
+//            }
         }
         return retAccommodation;
     }
 
     private boolean hasAvailableTimeSlot(Accommodation accommodation, LocalDate arrival, LocalDate checkout) {
-        for (TimeSlot timeSlot : accommodation.getAvailability()) {
-            if (isWithinTimeSlot(arrival, checkout, timeSlot)) {
-                return true;
-            }
-        }
+//        for (TimeSlot timeSlot : accommodation.getAvailability()) {
+//            if (isWithinTimeSlot(arrival, checkout, timeSlot)) {
+//                return true;
+//            }
+//        }
         return false;
     }
     private boolean isWithinTimeSlot(LocalDate arrival, LocalDate checkout, TimeSlot timeSlot) {

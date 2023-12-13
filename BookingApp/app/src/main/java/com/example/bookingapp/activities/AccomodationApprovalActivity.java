@@ -68,9 +68,9 @@ public class AccomodationApprovalActivity extends AppCompatActivity {
         availability.add(new TimeSlot(1L, LocalDate.of(2023,12,9),LocalDate.of(2023,12,15)));
 
         for (int i = 0; i < imageList.length; i++) {
-            accommodation = new Accommodation(idList[i], nameList[i], descriptionList[i],minGuestsList[i],maxGuestsList[i] ,imageList[i],
-                    locationStrList[i],locationXList[i],locationYList[i],priceList[i],reviewsList,assets,availability);
-            accommodationArrayList.add(accommodation);
+//            accommodation = new Accommodation(idList[i], nameList[i], descriptionList[i],minGuestsList[i],maxGuestsList[i] ,imageList[i],
+//                    locationStrList[i],locationXList[i],locationYList[i],priceList[i],reviewsList,assets,availability);
+//            accommodationArrayList.add(accommodation);
         }
 
         listAdapter = new AccomodationApprovalListAdapter(AccomodationApprovalActivity.this, accommodationArrayList);

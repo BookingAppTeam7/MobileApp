@@ -57,7 +57,7 @@ public class AccommodationListAdapter extends ArrayAdapter<Accommodation> {
         TextView accommodationName = convertView.findViewById(R.id.listAccommodationName);
         //TextView accommodationDescription = convertView.findViewById(R.id.listAccommodationDesc);
 
-        imageView.setImageResource(accommodation.getImage());
+        //imageView.setImageResource(accommodation.getImage());
         accommodationName.setText(accommodation.getName());
         //accommodationDescription.setText(accommodation.getDescription());
 
