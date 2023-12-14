@@ -28,6 +28,7 @@ import com.google.android.material.navigation.NavigationView;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.view.MenuItem;
@@ -80,8 +81,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         assets.add("Air conditioner");
 
         ArrayList<TimeSlot> availability=new ArrayList<>();
-        availability.add(new TimeSlot(1L, LocalDate.of(2023,12,3),LocalDate.of(2023,12,6)));
-        availability.add(new TimeSlot(1L, LocalDate.of(2023,12,9),LocalDate.of(2023,12,15)));
+//        availability.add(new TimeSlot(1L, LocalDate.of(2023,12,3),LocalDate.of(2023,12,6)));
+//        availability.add(new TimeSlot(1L, LocalDate.of(2023,12,9),LocalDate.of(2023,12,15)));
 
         for (int i = 0; i < imageList.length; i++) {
 //            accommodation = new Accommodation(idList[i], nameList[i], descriptionList[i],minGuestsList[i],maxGuestsList[i] ,imageList[i],
@@ -231,9 +232,10 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         return false;
     }
     private boolean isWithinTimeSlot(LocalDate arrival, LocalDate checkout, TimeSlot timeSlot) {
-        LocalDate timeSlotStart = timeSlot.getStartDate();
-        LocalDate timeSlotEnd = timeSlot.getEndDate();
-        return !(arrival.isBefore(timeSlotStart) || checkout.isAfter(timeSlotEnd));
+        Date timeSlotStart = timeSlot.getStartDate();
+        Date timeSlotEnd = timeSlot.getEndDate();
+////        return !(arrival.isBefore(timeSlotStart) || checkout.isAfter(timeSlotEnd));
+        return false;
     }
 
         public void performLoginAction(){

@@ -64,8 +64,8 @@ public class AccomodationApprovalActivity extends AppCompatActivity {
         assets.add("Air conditioner");
 
         ArrayList<TimeSlot> availability=new ArrayList<>();
-        availability.add(new TimeSlot(1L, LocalDate.of(2023,12,3),LocalDate.of(2023,12,6)));
-        availability.add(new TimeSlot(1L, LocalDate.of(2023,12,9),LocalDate.of(2023,12,15)));
+//        availability.add(new TimeSlot(1L, LocalDate.of(2023,12,3),LocalDate.of(2023,12,6)));
+//        availability.add(new TimeSlot(1L, LocalDate.of(2023,12,9),LocalDate.of(2023,12,15)));
 
         for (int i = 0; i < imageList.length; i++) {
 //            accommodation = new Accommodation(idList[i], nameList[i], descriptionList[i],minGuestsList[i],maxGuestsList[i] ,imageList[i],

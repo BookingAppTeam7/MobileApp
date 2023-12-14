@@ -34,16 +34,23 @@ import com.example.bookingapp.fragments.accommodations.PriceCardFragment;
 import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.DTOs.AccommodationPostDTO;
 import com.example.bookingapp.model.DTOs.LocationPostDTO;
+import com.example.bookingapp.model.DTOs.PriceCardPostDTO;
+import com.example.bookingapp.model.DTOs.TimeSlotPostDTO;
+import com.example.bookingapp.model.PriceCard;
+import com.example.bookingapp.model.TimeSlot;
+import com.example.bookingapp.model.enums.PriceTypeEnum;
 import com.example.bookingapp.model.enums.ReservationConfirmationEnum;
 import com.example.bookingapp.model.enums.TypeEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.AccommodationService;
+import com.example.bookingapp.services.PriceCardService;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
@@ -53,8 +60,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class CreateAccommodationActivity extends AppCompatActivity {
+public class CreateAccommodationActivity extends AppCompatActivity implements PriceCardFragment.PriceCardListener {
 
+    public List<PriceCardPostDTO>prices=new ArrayList<>();
+    public Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+    public AccommodationService accommodationService = retrofit.create(AccommodationService.class);
+    public PriceCardService priceCardService=retrofit.create(PriceCardService.class);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +100,14 @@ public class CreateAccommodationActivity extends AppCompatActivity {
                 getDataAndCreate();
             }
         });
+    }
 
+    @Override
+    public void onPriceCardSaved(Date startDate, Date endDate, PriceTypeEnum priceType,double price) {
+        TimeSlotPostDTO newTimeSlot=new TimeSlotPostDTO(startDate,endDate);
+        PriceCardPostDTO newPriceCard=new PriceCardPostDTO(newTimeSlot,price,priceType);
+        this.prices.add(newPriceCard);
+        //treba setovati accommodation_id
     }
 
     private void getDataAndCreate() {
@@ -164,33 +182,53 @@ public class CreateAccommodationActivity extends AppCompatActivity {
         newAccommodation.images=new ArrayList<>();
         newAccommodation.assets=assets;
 
-        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
-        AccommodationService accommodationService = retrofit.create(AccommodationService.class);
-        Call<Accommodation> call = accommodationService.create(newAccommodation);
+        Call<Accommodation> call = this.accommodationService.create(newAccommodation);
         call.enqueue(new Callback<Accommodation>() {
             @Override
             public void onResponse(Call<Accommodation> call, Response<Accommodation> response) {
                 if (response.isSuccessful()) {
                     Accommodation createdAccommodation = response.body();
-                    Toast.makeText(CreateAccommodationActivity.this, "Success!", Toast.LENGTH_SHORT).show();
-                    // Ovde rukujte sa uspešnim odgovorom
+                    for(PriceCardPostDTO p: prices){
+                        p.setAccommodationId(createdAccommodation.id);
+                        createPriceCard(p);
+                    }
+                    Toast.makeText(CreateAccommodationActivity.this, "Successfully created accommodation!", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Ovde rukujte sa neuspešnim odgovorom
                     Toast.makeText(CreateAccommodationActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
             public void onFailure(Call<Accommodation> call, Throwable t) {
-                // Ovde rukujte sa greškom
                 Log.e("Retrofit", "Error:", t);
-                Toast.makeText(CreateAccommodationActivity.this, "Greskaaa!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreateAccommodationActivity.this, "Connection error!", Toast.LENGTH_SHORT).show();
             }
         });
 
-
-
-
     }
+
+    public void createPriceCard(PriceCardPostDTO newPriceCard){
+
+        Call<PriceCard> call = this.priceCardService.create(newPriceCard);
+        Long accommodationId=newPriceCard.accommodationId;
+        call.enqueue(new Callback<PriceCard>() {
+            @Override
+            public void onResponse(Call<PriceCard> call, Response<PriceCard> response) {
+                if (response.isSuccessful()) {
+                    PriceCard createdPriceCard = response.body();
+                    Toast.makeText(CreateAccommodationActivity.this, "Successfully created Price Card!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(CreateAccommodationActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PriceCard> call, Throwable t) {
+                Log.e("Retrofit", "Error:", t);
+                Toast.makeText(CreateAccommodationActivity.this, "Connection error!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        }
 
     private void showAddPriceDialog() {
         PriceCardFragment priceCardFragment = new PriceCardFragment();

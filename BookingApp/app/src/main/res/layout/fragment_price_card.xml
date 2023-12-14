@@ -18,11 +18,13 @@
             android:layout_width="match_parent">
 
             <CalendarView
+                android:id="@+id/calendarViewStart"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:background="@color/white" />
 
             <CalendarView
+                android:id="@+id/calendarViewEnd"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:background="@color/white" />
@@ -30,7 +32,7 @@
         </LinearLayout>
 
         <RadioGroup
-            android:id="@+id/radioGroup"
+            android:id="@+id/radioGroupPriceType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -62,7 +64,7 @@
                 android:hint="Price">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextPrice"
+                    android:id="@+id/priceInput"
                     android:layout_width="110dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
