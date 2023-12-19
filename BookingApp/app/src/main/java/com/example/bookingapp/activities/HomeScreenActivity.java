@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -23,6 +24,7 @@ import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.Review;
 import com.example.bookingapp.model.ReviewType;
 import com.example.bookingapp.model.TimeSlot;
+import com.example.bookingapp.model.enums.RoleEnum;
 import com.google.android.material.navigation.NavigationView;
 
 import java.time.LocalDate;
@@ -31,7 +33,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.Jwt;
+
+
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class HomeScreenActivity extends AppCompatActivity implements BottomSheetListener {
     private Animation slideInAnimation;
@@ -44,12 +53,19 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
     ArrayList<Accommodation> searchedAccommodationArrayList = new ArrayList<Accommodation>();
     Accommodation accommodation;
 
+    RoleEnum role=RoleEnum.UNAUTHENTICATED;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityHomeScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
+        String roleString = getRoleFromToken();
+        Toast.makeText(HomeScreenActivity.this, "Role:  "+roleString, Toast.LENGTH_SHORT).show();
+
 
         DrawerLayout drawerLayout = binding.drawerLayout;
         NavigationView navigationView = binding.navigationView;
@@ -169,8 +185,29 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             public boolean onNavigationItemSelected(MenuItem item) {
                 MenuItem logInMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_login);
                 MenuItem registerMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_registration);
-                MenuItem accomodationMenuItem=binding.navigationView.getMenu().findItem(R.id.menu_accommodation_approval);
+                MenuItem accomodationMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_accommodation_approval);
                 MenuItem aboutUsMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_about_us);
+
+//                if (roleString.equals("OWNER")) {
+//                    // Prikazi navigaciju za vlasnika
+//                    logInMenuItem.setVisible(false);
+//                    registerMenuItem.setVisible(false);
+//                    accomodationMenuItem.setVisible(true); // Prikazi opciju za vlasnika
+//                    aboutUsMenuItem.setVisible(true);
+//                } else
+//                if(roleString.equals("GUEST")){
+//                    // Prikazi navigaciju za gosta
+//                    logInMenuItem.setVisible(false);
+//                    registerMenuItem.setVisible(false);
+//                    accomodationMenuItem.setVisible(false); // Sakrij opciju za vlasnika
+//                    aboutUsMenuItem.setVisible(true);
+//                }
+//                else{
+//                    logInMenuItem.setVisible(true);
+//                    registerMenuItem.setVisible(true);
+//                    accomodationMenuItem.setVisible(false); // Sakrij opciju za vlasnika
+//                    aboutUsMenuItem.setVisible(true);
+//                }
 
                 if (item.getItemId() == logInMenuItem.getItemId()) {
                     performLoginAction();
@@ -181,10 +218,11 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 } else if (item.getItemId() == aboutUsMenuItem.getItemId()) {
                     performAboutUsAction();
                     return true;
-                }else if(item.getItemId()==accomodationMenuItem.getItemId()){
+                } else if (item.getItemId() == accomodationMenuItem.getItemId()) {
                     performAccomodationAction();
                     return true;
                 }
+
                 // Zatvori navigacijski izbornik
                 binding.drawerLayout.closeDrawer(binding.navigationView);
 
@@ -254,6 +292,13 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             Intent intent=new Intent(HomeScreenActivity.this,AccomodationApprovalActivity.class);
             startActivity(intent);
         }
+
+    // Kod za dohvaćanje JWT tokena
+    private String getRoleFromToken() {
+        SharedPreferences preferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        return preferences.getString("role", "");
+    }
+
 
 
 }

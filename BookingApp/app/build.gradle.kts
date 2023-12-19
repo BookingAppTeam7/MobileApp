@@ -76,5 +76,9 @@ dependencies {
     implementation ("com.squareup.okhttp3:logging-interceptor:3.12.1")
     implementation("com.google.code.gson:gson:2.8.7")
 
+    implementation ("io.jsonwebtoken:jjwt-api:0.11.2")
+    implementation ("io.jsonwebtoken:jjwt-impl:0.11.2")
+    implementation ("io.jsonwebtoken:jjwt-jackson:0.11.2")
+
 
 }

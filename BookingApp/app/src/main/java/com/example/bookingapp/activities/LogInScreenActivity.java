@@ -4,11 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
-import com.example.bookingapp.R;
 import com.example.bookingapp.databinding.ActivityLogInScreenBinding;
+import com.example.bookingapp.model.JwtAuthenticationRequest;
+import com.example.bookingapp.model.User;
+import com.example.bookingapp.network.RetrofitClientInstance;
+import com.example.bookingapp.services.UserService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LogInScreenActivity extends AppCompatActivity {
 
@@ -30,8 +39,34 @@ public class LogInScreenActivity extends AppCompatActivity {
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(LogInScreenActivity.this, HomeScreenActivity.class);
-                startActivity(intent);
+                String username = binding.editTextUsername.getText().toString();
+                String password = binding.editTextPassword.getText().toString();
+
+                JwtAuthenticationRequest user = new JwtAuthenticationRequest(username, password);
+
+                UserService userService = RetrofitClientInstance.getRetrofitInstance().create(UserService.class);
+                Call<User> call = userService.loginUser(user);
+
+                call.enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        if (response.isSuccessful()) {
+                            // Uspešna prijava
+                            Toast.makeText(LogInScreenActivity.this, "Successfully logged in  "+response.body().getUsername(), Toast.LENGTH_SHORT).show();
+                            saveJwtToken(response.body());
+                            Intent intent = new Intent(LogInScreenActivity.this, HomeScreenActivity.class);
+                            startActivity(intent);
+                        } else {
+                            binding.textViewError.setText("Wrong username or password!");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        // Greška u komunikaciji s poslužiteljem
+                        binding.textViewError.setText("Error...");
+                    }
+                });
             }
         });
 
@@ -44,6 +79,16 @@ public class LogInScreenActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    private void saveJwtToken(User user) {
+        SharedPreferences preferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("userId", user.username);
+        editor.putString("role",user.role.toString());
+        editor.apply();
+    }
+
 
 
     @Override
