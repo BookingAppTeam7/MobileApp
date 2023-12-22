@@ -89,7 +89,7 @@ public class AccountScreenActivity extends AppCompatActivity {
             }
         });
 
-        binding.saveChanges.setOnClickListener(new View.OnClickListener() {
+        binding.deleteAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 UserService userService = RetrofitClientInstance.getRetrofitInstance().create(UserService.class);
