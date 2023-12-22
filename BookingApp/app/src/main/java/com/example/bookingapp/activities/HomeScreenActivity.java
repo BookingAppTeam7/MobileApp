@@ -187,6 +187,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 MenuItem registerMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_registration);
                 MenuItem accomodationMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_accommodation_approval);
                 MenuItem aboutUsMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_about_us);
+                MenuItem myAccountItem = binding.navigationView.getMenu().findItem(R.id.menu_account);
 
 //                if (roleString.equals("OWNER")) {
 //                    // Prikazi navigaciju za vlasnika
@@ -220,6 +221,10 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                     return true;
                 } else if (item.getItemId() == accomodationMenuItem.getItemId()) {
                     performAccomodationAction();
+                    return true;
+                }
+                else if(item.getItemId()==myAccountItem.getItemId()){
+                    performMyAccountAction();
                     return true;
                 }
 
@@ -289,9 +294,17 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         }
 
         public void performAccomodationAction(){
-            Intent intent=new Intent(HomeScreenActivity.this,AccomodationApprovalActivity.class);
+            Intent intent=new Intent(HomeScreenActivity.this, CreateAccommodationActivity.class);
             startActivity(intent);
         }
+
+        public void performMyAccountAction(){
+            Intent intent=new Intent(HomeScreenActivity.this,AccountScreenActivity.class);
+            startActivity(intent);
+        }
+
+
+
 
     // Kod za dohvaćanje JWT tokena
     private String getRoleFromToken() {

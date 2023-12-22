@@ -12,6 +12,11 @@
         android:icon="@drawable/ic_register"/>
 
     <item
+        android:id="@+id/menu_account"
+        android:title="My Account"
+        android:icon="@drawable/ic_user"/>
+
+    <item
         android:id="@+id/menu_accommodation_approval"
         android:title="@string/approve_accommodations"
         android:icon="@drawable/ic_accommodation"/>

@@ -57,7 +57,6 @@ public class PriceCardFragment extends DialogFragment {
         CalendarView calendarViewStart = view.findViewById(R.id.calendarViewStart);
         CalendarView calendarViewEnd = view.findViewById(R.id.calendarViewEnd);
 
-        // Set up OnDateChangeListener for the start date CalendarView
         calendarViewStart.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
             myCalendar.set(Calendar.YEAR, year);
             myCalendar.set(Calendar.MONTH, month);
@@ -65,11 +64,8 @@ public class PriceCardFragment extends DialogFragment {
             selectedStartDateMillis = myCalendar.getTimeInMillis();
 
             startDate=myCalendar.getTime();
-
-            
         });
 
-        // Set up OnDateChangeListener for the end date CalendarView
         calendarViewEnd.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
             myCalendar.set(Calendar.YEAR, year);
             myCalendar.set(Calendar.MONTH, month);

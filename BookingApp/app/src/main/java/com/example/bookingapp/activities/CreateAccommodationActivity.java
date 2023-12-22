@@ -1,7 +1,9 @@
 package com.example.bookingapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.WindowDecorActionBar;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.util.Pair;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.DialogFragment;
 
@@ -23,6 +25,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -44,6 +47,7 @@ import com.example.bookingapp.model.enums.TypeEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.AccommodationService;
 import com.example.bookingapp.services.PriceCardService;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -66,6 +70,8 @@ public class CreateAccommodationActivity extends AppCompatActivity implements Pr
     public Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
     public AccommodationService accommodationService = retrofit.create(AccommodationService.class);
     public PriceCardService priceCardService=retrofit.create(PriceCardService.class);
+
+    private Pair<Long, Long> selectedDateRange;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,13 +89,16 @@ public class CreateAccommodationActivity extends AppCompatActivity implements Pr
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Dodajte nazad dugme
         toolbar.setNavigationOnClickListener(v -> onBackPressed()); // Postavljanje akcije za nazad dugme
 
-        Button buttonAddPrice = binding.buttonAddPrice;
+        Button buttonAddTimeSlot = binding.buttonAddTimeSlot;
         Button buttonCreate = binding.buttonCreate;
 
-        buttonAddPrice.setOnClickListener(new View.OnClickListener() {
+        TextView selectedDate=binding.selectedDate;
+
+
+        buttonAddTimeSlot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showAddPriceDialog();
+                showAddPriceDialog(selectedDate);
             }
         });
 
@@ -111,6 +120,7 @@ public class CreateAccommodationActivity extends AppCompatActivity implements Pr
     }
 
     private void getDataAndCreate() {
+
         String name = ((EditText) findViewById(R.id.editTextName)).getText().toString();
         String address = ((EditText) findViewById(R.id.editTextLocation)).getText().toString();
         String city = ((EditText) findViewById(R.id.editTextCity)).getText().toString();
@@ -230,11 +240,43 @@ public class CreateAccommodationActivity extends AppCompatActivity implements Pr
 
         }
 
-    private void showAddPriceDialog() {
-        PriceCardFragment priceCardFragment = new PriceCardFragment();
-        priceCardFragment.show(getFragmentManager(), priceCardFragment.getTag());
+//    private void showAddPriceDialog() {
+////        PriceCardFragment priceCardFragment = new PriceCardFragment();
+////        priceCardFragment.show(getFragmentManager(), priceCardFragment.getTag());
+//
+//
+//    }
+
+    private void showAddPriceDialog(TextView selectedDate) {
+
+  //       Creating a MaterialDatePicker builder for selecting a date range
+        MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
+        builder.setTitleText("Select a date range");
+        //builder.setTheme(R.style.DatePickerTheme);
+
+
+        // Building the date picker dialog
+        MaterialDatePicker<Pair<Long, Long>> datePicker = builder.build();
+
+        datePicker.addOnPositiveButtonClickListener(selection -> {
+
+            // Retrieving the selected start and end dates
+            Long startDate = selection.first;
+            Long endDate = selection.second;
+
+            // Formating the selected dates as strings
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            String startDateString = sdf.format(new Date(startDate));
+            String endDateString = sdf.format(new Date(endDate));
+
+            // Creating the date range string
+            String selectedDateRange = startDateString + " - " + endDateString;
+
+            // Displaying the selected date range in the TextView
+            selectedDate.setText(selectedDateRange);
+        });
+
+        // Showing the date picker dialog
+        datePicker.show(getSupportFragmentManager(), "DATE_PICKER");
     }
-
-
-
 }

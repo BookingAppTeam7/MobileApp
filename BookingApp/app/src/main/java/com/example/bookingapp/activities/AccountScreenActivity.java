@@ -5,23 +5,37 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.bookingapp.R;
 import com.example.bookingapp.databinding.ActivityAccountScreenBinding;
 import com.example.bookingapp.databinding.ActivityRegisterScreenBinding;
+import com.example.bookingapp.model.DTOs.UserGetDTO;
+import com.example.bookingapp.model.User;
+import com.example.bookingapp.network.RetrofitClientInstance;
+import com.example.bookingapp.services.UserService;
 import com.google.android.material.navigation.NavigationView;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AccountScreenActivity extends AppCompatActivity {
 
     private Animation slideInAnimation;
     private Animation slideOutAnimation;
     private boolean isDrawerOpen = false;
+
+    private String username;
+    private UserGetDTO user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +44,7 @@ public class AccountScreenActivity extends AppCompatActivity {
         ActivityAccountScreenBinding binding = ActivityAccountScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        this.username=getUserIdFromToken();
 
         Toolbar toolbar = binding.toolbar;
 
@@ -40,6 +55,35 @@ public class AccountScreenActivity extends AppCompatActivity {
         NavigationView navigationView = binding.navigationView;
         slideInAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in);
         slideOutAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_out);
+
+
+        UserService userService = RetrofitClientInstance.getRetrofitInstance().create(UserService.class);
+        Call<UserGetDTO> call = userService.findById(username);
+
+        call.enqueue(new Callback<UserGetDTO>() {
+            @Override
+            public void onResponse(Call<UserGetDTO> call, Response<UserGetDTO> response) {
+                if (response.isSuccessful()) {
+                    // Uspešna prijava
+                    user=response.body();
+                }
+            }
+            @Override
+            public void onFailure(Call<UserGetDTO> call, Throwable t) {
+            }
+        });
+
+        EditText editTextFirstName = findViewById(R.id.editTextFirstName);
+        editTextFirstName.setText(user.firstName);
+        EditText editTextLastName = findViewById(R.id.editTextLastName);
+        editTextLastName.setText(user.lastName);
+        EditText editTextUsername = findViewById(R.id.editTextUsername);
+        editTextUsername.setText(user.username);
+//        editTextPassword = findViewById(R.id.editTextPassword);
+        EditText editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
+        editTextPhoneNumber.setText(user.phoneNumber);
+        EditText editTextAddress = findViewById(R.id.editTextAddress);
+        editTextAddress.setText(user.address);
 
         binding.toggleButton2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +181,16 @@ public class AccountScreenActivity extends AppCompatActivity {
         Intent intent=new Intent(AccountScreenActivity.this,CreateAccommodationActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private String getRoleFromToken() {
+        SharedPreferences preferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        return preferences.getString("role", "");
+    }
+
+    private String getUserIdFromToken() {
+        SharedPreferences preferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        return preferences.getString("userId", "");
     }
 
 
