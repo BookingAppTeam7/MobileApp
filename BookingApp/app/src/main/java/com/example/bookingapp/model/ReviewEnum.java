@@ -1,5 +1,5 @@
 package com.example.bookingapp.model;
 
-public enum ReviewType {
+public enum ReviewEnum {
     OWNER, ACCOMMODATION
 }

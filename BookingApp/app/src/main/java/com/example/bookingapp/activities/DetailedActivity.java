@@ -15,6 +15,7 @@ import com.example.bookingapp.databinding.ActivityDetailedBinding;
 import com.example.bookingapp.fragments.accommodations.AvailabilityBottomSheetDialogFragment;
 import com.example.bookingapp.fragments.accommodations.FilterBottomSheetDialogFragment;
 import com.example.bookingapp.model.Accommodation;
+import com.example.bookingapp.model.PriceCard;
 import com.example.bookingapp.model.Review;
 import com.example.bookingapp.model.TimeSlot;
 
@@ -31,7 +32,7 @@ public class DetailedActivity extends AppCompatActivity {
     private double locationX;
     private double locationY;
     private double price;
-    private ArrayList<TimeSlot> availabilityList;
+    private List<PriceCard> priceList;
     ReviewListAdapter listAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +52,8 @@ public class DetailedActivity extends AppCompatActivity {
             binding.detailName.setText(name);
             binding.detailDescription.setText(description);
             binding.detailImage.setImageResource(image);
-            binding.price.setText(binding.price.getText()+String.valueOf(price)+"$");
-            ArrayList<Review> reviewsList = (ArrayList<Review>) getIntent().getSerializableExtra("reviewsList");
-            ArrayList<String> assetsList=(ArrayList<String>) getIntent().getSerializableExtra("assets");
+            List<Review> reviewsList = (ArrayList<Review>) getIntent().getSerializableExtra("reviewsList");
+            List<String> assetsList=(ArrayList<String>) getIntent().getSerializableExtra("assets");
             String allAssets=" ";
             for(String s:assetsList){
                 allAssets+=s;
@@ -62,7 +62,7 @@ public class DetailedActivity extends AppCompatActivity {
             allAssets=allAssets.substring(0,allAssets.length()-1);
             binding.assets.setText("Assets:"+allAssets);
 
-            availabilityList = (ArrayList<TimeSlot>) getIntent().getSerializableExtra("availability");
+            priceList = (List<PriceCard>) getIntent().getSerializableExtra("priceList");
 
             listAdapter = new ReviewListAdapter(DetailedActivity.this, reviewsList);
             binding.listReviewView.setAdapter(listAdapter);
@@ -84,25 +84,28 @@ public class DetailedActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AvailabilityBottomSheetDialogFragment bottomSheetFragment =
-                        AvailabilityBottomSheetDialogFragment.newInstance(DatesToListOfStrings(availabilityList));
+                        AvailabilityBottomSheetDialogFragment.newInstance(DatesToListOfStrings(priceList));
                 bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
             }
         });
     }
-    public String DatesToListOfStrings(List<TimeSlot> timeSlots){
+    public String DatesToListOfStrings(List<PriceCard> priceList){
         StringBuilder result = new StringBuilder();
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy.", Locale.getDefault());
 
-        for (TimeSlot timeSlot : timeSlots) {  //koristi se Date kao i na backendu
-//            String formattedStartDate = dateFormat.format(Date.from(timeSlot.getStartDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        for (PriceCard p:priceList) {  //koristi se Date kao i na backendu
+            String formattedStartDate = dateFormat.format(Date.from(p.getTimeSlot().getStartDate().toInstant()));
 //
-//            String formattedEndDate =  dateFormat.format(Date.from(timeSlot.getEndDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            String formattedEndDate =  dateFormat.format(Date.from(p.getTimeSlot().getEndDate().toInstant()));
 //
-//            result.append(formattedStartDate)
-//                    .append(" - ")
-//                    .append(formattedEndDate)
-//                    .append("\n");
+            result.append(formattedStartDate)
+                    .append(" - ")
+                    .append(formattedEndDate)
+                    .append("\n")
+                    .append("Price:")
+                    .append(p.price+"$ ")
+                    .append(p.type);
         }
 
         return result.toString();

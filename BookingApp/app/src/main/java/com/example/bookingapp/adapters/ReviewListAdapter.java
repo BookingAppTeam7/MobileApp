@@ -16,11 +16,12 @@ import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.Review;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ReviewListAdapter extends ArrayAdapter<Review> {
-    private ArrayList<Review> aReviews;
+    private List<Review> aReviews;
 
-    public ReviewListAdapter(Context context, ArrayList<Review> reviews){
+    public ReviewListAdapter(Context context, List<Review> reviews){
         super(context, R.layout.list_review,reviews);
         aReviews=reviews;
     }
@@ -43,6 +44,7 @@ public class ReviewListAdapter extends ArrayAdapter<Review> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Review review = getItem(position);
+        System.out.println(review.getType());
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_review,
                     parent, false);
@@ -56,9 +58,9 @@ public class ReviewListAdapter extends ArrayAdapter<Review> {
         //TextView accommodationDescription = convertView.findViewById(R.id.listAccommodationDesc);
 
         //imageView.setImageResource(accommodation.getImage());
-        imageView.setImageResource(review.getImage());
-        reviewUsername.setText(review.getUsername());
-        reviewType.setText("Review type: " + String.valueOf(review.getReviewType()));
+        //imageView.setImageResource(review.getImage());
+        reviewUsername.setText("Username: "+review.getUserId());
+        reviewType.setText("Type: " + review.getType().toString());
         reviewGrade.setText("Grade: " + String.valueOf(review.getGrade()));
         reviewComment.setText(review.getContent());
 

@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccommodationListAdapter extends ArrayAdapter<Accommodation> {
-    private ArrayList<Accommodation> aAccommodations;
+    private List<Accommodation> aAccommodations;
 
-    public AccommodationListAdapter(Context context, ArrayList<Accommodation> accommodations){
+    public AccommodationListAdapter(Context context, List<Accommodation> accommodations){
         super(context, R.layout.list_accommodation, accommodations);
         aAccommodations = accommodations;
     }
