@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -51,6 +52,7 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -64,7 +66,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class CreateAccommodationActivity extends AppCompatActivity implements PriceCardFragment.PriceCardListener {
+public class CreateAccommodationActivity extends AppCompatActivity {
 
     public List<PriceCardPostDTO>prices=new ArrayList<>();
     public Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
@@ -72,6 +74,9 @@ public class CreateAccommodationActivity extends AppCompatActivity implements Pr
     public PriceCardService priceCardService=retrofit.create(PriceCardService.class);
 
     private Pair<Long, Long> selectedDateRange;
+
+    Date startDateObject;
+    Date endDateObject;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,16 +96,28 @@ public class CreateAccommodationActivity extends AppCompatActivity implements Pr
 
         Button buttonAddTimeSlot = binding.buttonAddTimeSlot;
         Button buttonCreate = binding.buttonCreate;
+        Button buttonAddPriceCard=binding.buttonAddPriceCard;
+        ImageButton buttonShowPrices=binding.showPricesButton;
 
         TextView selectedDate=binding.selectedDate;
+
+        EditText newPrice=binding.editTextPrice;
 
 
         buttonAddTimeSlot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showAddPriceDialog(selectedDate);
+                showAddTimeSlotDialog(selectedDate);
             }
         });
+
+        buttonAddPriceCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                savePriceCard();
+            }
+        });
+
 
         buttonCreate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,11 +126,40 @@ public class CreateAccommodationActivity extends AppCompatActivity implements Pr
                 getDataAndCreate();
             }
         });
+
+        buttonShowPrices.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PriceCardFragment priceCardFragment = new PriceCardFragment(CreateAccommodationActivity.this.prices);
+
+                getSupportFragmentManager().beginTransaction()
+                        .replace(android.R.id.content, priceCardFragment)
+                        .addToBackStack(null)
+                        .commit();
+
+            }
+        });
     }
 
-    @Override
-    public void onPriceCardSaved(Date startDate, Date endDate, PriceTypeEnum priceType,double price) {
-        TimeSlotPostDTO newTimeSlot=new TimeSlotPostDTO(startDate,endDate);
+
+    public void savePriceCard() {
+
+        int price=Integer.parseInt(((EditText) findViewById(R.id.editTextPrice)).getText().toString());
+        PriceTypeEnum priceType=PriceTypeEnum.PERUNIT;
+
+        RadioGroup radioGroupPriceType = findViewById(R.id.radioGroupPriceType);
+        int selectedRadioButtonId = radioGroupPriceType.getCheckedRadioButtonId();
+
+        if (selectedRadioButtonId != -1) {
+            RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
+            String selectedPriceType = selectedRadioButton.getText().toString();
+            if(selectedPriceType.equals("GUEST")){
+                priceType=PriceTypeEnum.PERGUEST;
+            }
+
+        }
+
+        TimeSlotPostDTO newTimeSlot=new TimeSlotPostDTO(startDateObject,endDateObject);
         PriceCardPostDTO newPriceCard=new PriceCardPostDTO(newTimeSlot,price,priceType);
         this.prices.add(newPriceCard);
         //treba setovati accommodation_id
@@ -230,7 +276,6 @@ public class CreateAccommodationActivity extends AppCompatActivity implements Pr
                     Toast.makeText(CreateAccommodationActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<PriceCard> call, Throwable t) {
                 Log.e("Retrofit", "Error:", t);
@@ -240,22 +285,11 @@ public class CreateAccommodationActivity extends AppCompatActivity implements Pr
 
         }
 
-//    private void showAddPriceDialog() {
-////        PriceCardFragment priceCardFragment = new PriceCardFragment();
-////        priceCardFragment.show(getFragmentManager(), priceCardFragment.getTag());
-//
-//
-//    }
+    private void showAddTimeSlotDialog(TextView selectedDate) {
 
-    private void showAddPriceDialog(TextView selectedDate) {
-
-  //       Creating a MaterialDatePicker builder for selecting a date range
         MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
         builder.setTitleText("Select a date range");
-        //builder.setTheme(R.style.DatePickerTheme);
 
-
-        // Building the date picker dialog
         MaterialDatePicker<Pair<Long, Long>> datePicker = builder.build();
 
         datePicker.addOnPositiveButtonClickListener(selection -> {
@@ -272,6 +306,12 @@ public class CreateAccommodationActivity extends AppCompatActivity implements Pr
             // Creating the date range string
             String selectedDateRange = startDateString + " - " + endDateString;
 
+            try {
+                startDateObject = sdf.parse(startDateString);
+                endDateObject = sdf.parse(endDateString);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
             // Displaying the selected date range in the TextView
             selectedDate.setText(selectedDateRange);
         });

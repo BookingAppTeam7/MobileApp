@@ -83,16 +83,7 @@
             android:padding="12dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-<!--    <LinearLayout-->
-<!--        android:id="@+id/locationLayout1"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/nameInput"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintWidth_percent="0.9"-->
-<!--        app:layout_constraintHorizontal_bias="0.5">-->
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/locationInput"
         android:layout_width="match_parent"
@@ -112,46 +103,6 @@
             android:hint="@string/addressHint"
             android:padding="12dp" />
     </com.google.android.material.textfield.TextInputLayout>
-
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/xInput"-->
-<!--            android:layout_width="80dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:layout_marginBottom="10dp"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/nameInput"-->
-<!--            app:layout_constraintWidth_percent="0.75"-->
-<!--            android:layout_marginLeft="20dp">-->
-
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                android:id="@+id/editTextX"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:hint="@string/xCoordinate"-->
-<!--                android:padding="12dp" />-->
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/yInput"-->
-<!--            android:layout_width="80dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:layout_marginBottom="10dp"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/nameInput"-->
-<!--            app:layout_constraintWidth_percent="0.75"-->
-<!--            android:layout_marginLeft="10dp">-->
-
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                android:id="@+id/editTextY"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:hint="@string/yCoordinate"-->
-<!--                android:padding="12dp" />-->
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
-<!--    </LinearLayout>-->
 
     <LinearLayout
         android:id="@+id/locationLayout2"
@@ -205,8 +156,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
-
-
 
     <LinearLayout
         android:id="@+id/guestsLayout"
@@ -288,59 +237,6 @@
             android:padding="12dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!--<LinearLayout
-        android:id="@+id/priceLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/descriptionInput"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.9"
-        app:layout_constraintHorizontal_bias="0.5"
-        >
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/priceInput"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="0.5"
-            android:layout_margin="10dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextPrice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/price"
-                android:padding="12dp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <RadioGroup
-            android:id="@+id/radioGroupPriceType"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:layout_margin="10dp">
-
-            <RadioButton
-                android:id="@+id/radioButtonPerGuest"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="serif"
-                android:text="@string/perGuestRadioButton"
-                app:buttonTint="@color/colorButton" />
-
-            <RadioButton
-                android:id="@+id/radioButtonAccommodationUnit"
-                android:layout_width="115dp"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:fontFamily="serif"
-                android:text="@string/perAccommodationUnitRadioButton"
-                app:buttonTint="@color/colorButton" />
-        </RadioGroup>
-    </LinearLayout>-->
     <LinearLayout
         android:id="@+id/accommodationTypeLayout"
         android:layout_width="0dp"
@@ -393,33 +289,22 @@
 
         </RadioGroup>
     </LinearLayout>-->
-<!--    <Button-->
-<!--        android:id="@+id/buttonCreate"-->
-<!--        android:layout_width="205dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:backgroundTint="@color/colorButton"-->
-<!--        android:fontFamily="serif"-->
-<!--        android:text="@string/createAccommodationButtonText"-->
-<!--        android:layout_marginTop="100px"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.502"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/buttonsLayout"-->
-<!--        app:layout_constraintWidth_percent="0.5" />-->
 
     <Button
         android:id="@+id/buttonCreate"
-        android:layout_width="205dp"
-        android:layout_height="57dp"
+        android:layout_width="195dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="70dp"
         android:backgroundTint="@color/colorButton"
         android:fontFamily="serif"
         android:text="@string/createAccommodationButtonText"
-        android:layout_marginTop="100px"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/buttonsLayout"
         app:layout_constraintWidth_percent="0.5" />
+
+
 
     <TextView
         android:id="@+id/textViewError"
@@ -608,7 +493,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextPrice"
-                android:layout_width="110dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/price"
                 android:padding="12dp" />
@@ -616,9 +501,10 @@
 
         <RadioGroup
             android:id="@+id/radioGroupPriceType"
-            android:layout_width="231dp"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginRight="10dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.283"
@@ -649,16 +535,18 @@
 
         <Button
             android:id="@+id/buttonAddTimeSlot"
-            android:layout_width="50dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorAccent2"
+            android:layout_marginRight="10dp"
             android:fontFamily="serif"
-            android:text="+"
+            android:text=" + Add range"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/amenitiesCheckList"
             />
+
         <!--        <ImageButton-->
 <!--            android:id="@+id/buttonAddImages"-->
 <!--            android:layout_width="50dp"-->
@@ -672,23 +560,6 @@
 <!--            app:layout_constraintTop_toBottomOf="@id/amenitiesCheckList"-->
 <!--            app:layout_constraintWidth_percent="1" />-->
 
-
-
-
-<!--        <Button-->
-<!--            android:id="@+id/buttonAccommodationAvailability"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:backgroundTint="@color/colorButton"-->
-<!--            android:fontFamily="serif"-->
-<!--            android:text="@string/accommodationAvailability"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintHorizontal_bias="0.502"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/amenitiesCheckList"-->
-<!--            app:layout_constraintWidth_percent="1"-->
-<!--            android:layout_marginLeft="5dp"-->
-<!--            />-->
     </LinearLayout>
 
     <LinearLayout
@@ -702,22 +573,38 @@
         app:layout_constraintHorizontal_bias="0.5"
         >
 
+        <ImageButton
+            android:id="@+id/showPricesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/price_cards"
+            android:background="?android:attr/selectableItemBackground"
+            app:layout_constraintTop_toBottomOf="@id/buttonsLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            android:layout_marginTop="16dp"
+            />
+
         <TextView
             android:id="@+id/selectedDate"
-            android:layout_width="184dp"
-            android:layout_height="50dp"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="10dp"
             android:text=""
             android:textAlignment="center"
             android:textColor="@color/black"
             android:fontFamily="serif"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="20dp"
             app:layout_constraintTop_toBottomOf="@id/buttonsLayout" />
 
         <Button
             android:id="@+id/buttonAddPriceCard"
-            android:layout_width="180dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAccent2"
+            android:layout_marginRight="20dp"
+            android:backgroundTint="@color/colorAccent1"
             android:fontFamily="serif"
             android:text="@string/addPriceCard"
             app:layout_constraintEnd_toEndOf="parent"
