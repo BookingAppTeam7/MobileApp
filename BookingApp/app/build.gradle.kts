@@ -1,7 +1,20 @@
+import java.util.Properties
+fun getIpAddress(): Any? {
+    val properties = Properties()
+    try {
+        properties.load(project.rootProject.file("local.properties").inputStream())
+        return properties.getProperty("ip_addr")
+    } catch (e: java.io.IOException) {
+        e.printStackTrace()
+        return null
+    }
+}
+
 plugins {
     id("com.android.application")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
+
 
 android {
     namespace = "com.example.bookingapp"
@@ -13,8 +26,13 @@ android {
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
-
+        buildConfigField("String", "IP_ADDR", "\"${getIpAddress()}\"")
+        //buildConfigField("String","IP_ADDR","\""+getIpAddress()+"\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        buildConfig= true
     }
 
     buildTypes {
@@ -49,5 +67,18 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("androidx.fragment:fragment:1.4.0")
+
+
+    implementation("com.squareup.picasso:picasso:2.5.2")
+    implementation("com.squareup.retrofit2:retrofit:2.3.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.3.0")
+    implementation("com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:3.12.1")
+    implementation("com.google.code.gson:gson:2.8.7")
+
+    implementation ("io.jsonwebtoken:jjwt-api:0.11.2")
+    implementation ("io.jsonwebtoken:jjwt-impl:0.11.2")
+    implementation ("io.jsonwebtoken:jjwt-jackson:0.11.2")
+
 
 }

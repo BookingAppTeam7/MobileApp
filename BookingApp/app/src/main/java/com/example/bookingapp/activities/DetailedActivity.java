@@ -94,15 +94,15 @@ public class DetailedActivity extends AppCompatActivity {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy.", Locale.getDefault());
 
-        for (TimeSlot timeSlot : timeSlots) {
-            String formattedStartDate = dateFormat.format(Date.from(timeSlot.getStartDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-
-            String formattedEndDate =  dateFormat.format(Date.from(timeSlot.getEndDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-
-            result.append(formattedStartDate)
-                    .append(" - ")
-                    .append(formattedEndDate)
-                    .append("\n");
+        for (TimeSlot timeSlot : timeSlots) {  //koristi se Date kao i na backendu
+//            String formattedStartDate = dateFormat.format(Date.from(timeSlot.getStartDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+//
+//            String formattedEndDate =  dateFormat.format(Date.from(timeSlot.getEndDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+//
+//            result.append(formattedStartDate)
+//                    .append(" - ")
+//                    .append(formattedEndDate)
+//                    .append("\n");
         }
 
         return result.toString();

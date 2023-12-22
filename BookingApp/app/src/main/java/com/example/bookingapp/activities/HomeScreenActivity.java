@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -23,14 +24,23 @@ import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.Review;
 import com.example.bookingapp.model.ReviewType;
 import com.example.bookingapp.model.TimeSlot;
+import com.example.bookingapp.model.enums.RoleEnum;
 import com.google.android.material.navigation.NavigationView;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.Jwt;
+
+
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class HomeScreenActivity extends AppCompatActivity implements BottomSheetListener {
     private Animation slideInAnimation;
@@ -43,12 +53,19 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
     ArrayList<Accommodation> searchedAccommodationArrayList = new ArrayList<Accommodation>();
     Accommodation accommodation;
 
+    RoleEnum role=RoleEnum.UNAUTHENTICATED;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityHomeScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
+        String roleString = getRoleFromToken();
+        Toast.makeText(HomeScreenActivity.this, "Role:  "+roleString, Toast.LENGTH_SHORT).show();
+
 
         DrawerLayout drawerLayout = binding.drawerLayout;
         NavigationView navigationView = binding.navigationView;
@@ -80,13 +97,13 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         assets.add("Air conditioner");
 
         ArrayList<TimeSlot> availability=new ArrayList<>();
-        availability.add(new TimeSlot(1L, LocalDate.of(2023,12,3),LocalDate.of(2023,12,6)));
-        availability.add(new TimeSlot(1L, LocalDate.of(2023,12,9),LocalDate.of(2023,12,15)));
+//        availability.add(new TimeSlot(1L, LocalDate.of(2023,12,3),LocalDate.of(2023,12,6)));
+//        availability.add(new TimeSlot(1L, LocalDate.of(2023,12,9),LocalDate.of(2023,12,15)));
 
         for (int i = 0; i < imageList.length; i++) {
-            accommodation = new Accommodation(idList[i], nameList[i], descriptionList[i],minGuestsList[i],maxGuestsList[i] ,imageList[i],
-                    locationStrList[i],locationXList[i],locationYList[i],priceList[i],reviewsList,assets,availability);
-            accommodationArrayList.add(accommodation);
+//            accommodation = new Accommodation(idList[i], nameList[i], descriptionList[i],minGuestsList[i],maxGuestsList[i] ,imageList[i],
+//                    locationStrList[i],locationXList[i],locationYList[i],priceList[i],reviewsList,assets,availability);
+//            accommodationArrayList.add(accommodation);
         }
         for(Accommodation a:accommodationArrayList){
             accommodationsToShow.add(a);
@@ -100,16 +117,16 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(HomeScreenActivity.this, DetailedActivity.class);
-                intent.putExtra("name", accommodationsToShow.get(position).getName());
-                intent.putExtra("description", accommodationsToShow.get(position).getDescription());
-                intent.putExtra("image", accommodationsToShow.get(position).getImage());
-                intent.putExtra("location",accommodationsToShow.get(position).getLocation());
-                intent.putExtra("locationX",accommodationsToShow.get(position).getLocationX());
-                intent.putExtra("locationY",accommodationsToShow.get(position).getLocationY());
-                intent.putExtra("price",accommodationsToShow.get(position).getPrice());
-                intent.putExtra("reviewsList",new ArrayList<>(accommodationsToShow.get(position).getReviews()));
-                intent.putExtra("assets",new ArrayList<>(accommodationsToShow.get(position).getAssets()));
-                intent.putExtra("availability",new ArrayList<>(accommodationsToShow.get(position).getAvailability()));
+//                intent.putExtra("name", accommodationsToShow.get(position).getName());
+//                intent.putExtra("description", accommodationsToShow.get(position).getDescription());
+//                intent.putExtra("image", accommodationsToShow.get(position).getImage());
+//                intent.putExtra("location",accommodationsToShow.get(position).getLocation());
+//                intent.putExtra("locationX",accommodationsToShow.get(position).getLocationX());
+//                intent.putExtra("locationY",accommodationsToShow.get(position).getLocationY());
+//                intent.putExtra("price",accommodationsToShow.get(position).getPrice());
+//                intent.putExtra("reviewsList",new ArrayList<>(accommodationsToShow.get(position).getReviews()));
+//                intent.putExtra("assets",new ArrayList<>(accommodationsToShow.get(position).getAssets()));
+//                intent.putExtra("availability",new ArrayList<>(accommodationsToShow.get(position).getAvailability()));
                 startActivity(intent);
             }
         });
@@ -168,8 +185,30 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             public boolean onNavigationItemSelected(MenuItem item) {
                 MenuItem logInMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_login);
                 MenuItem registerMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_registration);
-                MenuItem accomodationMenuItem=binding.navigationView.getMenu().findItem(R.id.menu_accommodation_approval);
+                MenuItem accomodationMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_accommodation_approval);
                 MenuItem aboutUsMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_about_us);
+                MenuItem myAccountItem = binding.navigationView.getMenu().findItem(R.id.menu_account);
+
+//                if (roleString.equals("OWNER")) {
+//                    // Prikazi navigaciju za vlasnika
+//                    logInMenuItem.setVisible(false);
+//                    registerMenuItem.setVisible(false);
+//                    accomodationMenuItem.setVisible(true); // Prikazi opciju za vlasnika
+//                    aboutUsMenuItem.setVisible(true);
+//                } else
+//                if(roleString.equals("GUEST")){
+//                    // Prikazi navigaciju za gosta
+//                    logInMenuItem.setVisible(false);
+//                    registerMenuItem.setVisible(false);
+//                    accomodationMenuItem.setVisible(false); // Sakrij opciju za vlasnika
+//                    aboutUsMenuItem.setVisible(true);
+//                }
+//                else{
+//                    logInMenuItem.setVisible(true);
+//                    registerMenuItem.setVisible(true);
+//                    accomodationMenuItem.setVisible(false); // Sakrij opciju za vlasnika
+//                    aboutUsMenuItem.setVisible(true);
+//                }
 
                 if (item.getItemId() == logInMenuItem.getItemId()) {
                     performLoginAction();
@@ -180,10 +219,15 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 } else if (item.getItemId() == aboutUsMenuItem.getItemId()) {
                     performAboutUsAction();
                     return true;
-                }else if(item.getItemId()==accomodationMenuItem.getItemId()){
+                } else if (item.getItemId() == accomodationMenuItem.getItemId()) {
                     performAccomodationAction();
                     return true;
                 }
+                else if(item.getItemId()==myAccountItem.getItemId()){
+                    performMyAccountAction();
+                    return true;
+                }
+
                 // Zatvori navigacijski izbornik
                 binding.drawerLayout.closeDrawer(binding.navigationView);
 
@@ -213,27 +257,28 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         LocalDate arrival = LocalDate.parse(arrivalDate, formatter);
         LocalDate checkout = LocalDate.parse(checkoutDate, formatter);
         for (Accommodation a : sourceList) {
-            if (a.getLocation().equalsIgnoreCase(place) && guests >= a.getMinGuests() && guests <= a.getMaxGuests()) {
-                if (hasAvailableTimeSlot(a, arrival, checkout)) {
-                    retAccommodation.add(a);
-                }
-            }
+//            if (a.getLocation().equalsIgnoreCase(place) && guests >= a.getMinGuests() && guests <= a.getMaxGuests()) {
+//                if (hasAvailableTimeSlot(a, arrival, checkout)) {
+//                    retAccommodation.add(a);
+//                }
+//            }
         }
         return retAccommodation;
     }
 
     private boolean hasAvailableTimeSlot(Accommodation accommodation, LocalDate arrival, LocalDate checkout) {
-        for (TimeSlot timeSlot : accommodation.getAvailability()) {
-            if (isWithinTimeSlot(arrival, checkout, timeSlot)) {
-                return true;
-            }
-        }
+//        for (TimeSlot timeSlot : accommodation.getAvailability()) {
+//            if (isWithinTimeSlot(arrival, checkout, timeSlot)) {
+//                return true;
+//            }
+//        }
         return false;
     }
     private boolean isWithinTimeSlot(LocalDate arrival, LocalDate checkout, TimeSlot timeSlot) {
-        LocalDate timeSlotStart = timeSlot.getStartDate();
-        LocalDate timeSlotEnd = timeSlot.getEndDate();
-        return !(arrival.isBefore(timeSlotStart) || checkout.isAfter(timeSlotEnd));
+        Date timeSlotStart = timeSlot.getStartDate();
+        Date timeSlotEnd = timeSlot.getEndDate();
+////        return !(arrival.isBefore(timeSlotStart) || checkout.isAfter(timeSlotEnd));
+        return false;
     }
 
         public void performLoginAction(){
@@ -249,9 +294,24 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         }
 
         public void performAccomodationAction(){
-            Intent intent=new Intent(HomeScreenActivity.this,AccomodationApprovalActivity.class);
+            Intent intent=new Intent(HomeScreenActivity.this, CreateAccommodationActivity.class);
             startActivity(intent);
         }
+
+        public void performMyAccountAction(){
+            Intent intent=new Intent(HomeScreenActivity.this,AccountScreenActivity.class);
+            startActivity(intent);
+        }
+
+
+
+
+    // Kod za dohvaćanje JWT tokena
+    private String getRoleFromToken() {
+        SharedPreferences preferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+        return preferences.getString("role", "");
+    }
+
 
 
 }
