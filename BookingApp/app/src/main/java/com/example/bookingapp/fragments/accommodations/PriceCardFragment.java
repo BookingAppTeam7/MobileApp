@@ -14,14 +14,21 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.bookingapp.R;
 import com.example.bookingapp.activities.CreateAccommodationActivity;
+import com.example.bookingapp.model.DTOs.PriceCardPostDTO;
 import com.example.bookingapp.model.enums.PriceTypeEnum;
 import com.example.bookingapp.model.enums.TypeEnum;
 import com.google.android.material.textfield.TextInputEditText;
@@ -29,114 +36,73 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
-public class PriceCardFragment extends DialogFragment {
+public class PriceCardFragment extends Fragment {
 
-    private Calendar myCalendar = Calendar.getInstance();
-    private PriceCardListener priceCardListener;
+    private List<PriceCardPostDTO> prices;
 
-    private long selectedStartDateMillis;
-    private long selectedEndDateMillis;
-    Date startDate;
-    Date endDate;
-
-    public PriceCardFragment() {
-
+    public PriceCardFragment(List<PriceCardPostDTO> prices) {
+        this.prices = prices;
     }
 
-    public interface PriceCardListener {
-        void onPriceCardSaved(Date startDate,Date endDate, PriceTypeEnum priceType, double price);
-    }
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_price_card, container, false);
 
-        CalendarView calendarViewStart = view.findViewById(R.id.calendarViewStart);
-        CalendarView calendarViewEnd = view.findViewById(R.id.calendarViewEnd);
+        TableLayout tableLayout = view.findViewById(R.id.tableLayout);
 
-        calendarViewStart.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, month);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            selectedStartDateMillis = myCalendar.getTimeInMillis();
+//        ImageButton closeButton=view.findViewById(R.id.closeButton);
 
-            startDate=myCalendar.getTime();
-        });
+        for (PriceCardPostDTO priceCard : prices) {
+            TableRow row = new TableRow(requireContext());
 
-        calendarViewEnd.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
-            myCalendar.set(Calendar.YEAR, year);
-            myCalendar.set(Calendar.MONTH, month);
-            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            selectedEndDateMillis = myCalendar.getTimeInMillis();
+            TextView startDateTextView = new TextView(requireContext());
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            String startDateText = sdf.format(priceCard.getTimeSlot().getStartDate());
+            startDateTextView.setText(startDateText);
+            row.addView(startDateTextView);
 
-            endDate=myCalendar.getTime();
-        });
+            TextView endDateTextView = new TextView(requireContext());
+            String endDateText = sdf.format(priceCard.getTimeSlot().getEndDate());
+            endDateTextView.setText(endDateText);
+            row.addView(endDateTextView);
 
+            TextView priceTextView = new TextView(requireContext());
+            priceTextView.setText(String.valueOf(priceCard.getPrice()));
+            row.addView(priceTextView);
 
-        Button confirmButton = view.findViewById(R.id.confirmButton);
-        Button cancelButton = view.findViewById(R.id.cancelButton);
+            TextView typeTextView = new TextView(requireContext());
+            typeTextView.setText(priceCard.getType().toString());
+            row.addView(typeTextView);
 
-        confirmButton.setOnClickListener(v -> {
-            savePriceCard(view);
-        });
+            // Prvo uklonite row iz njegovog postojećeg roditelja, ako ga ima
+            if (row.getParent() != null) {
+                ((ViewGroup) row.getParent()).removeView(row);
+            }
 
-        cancelButton.setOnClickListener(v -> dismiss());
+            // Dodajte row u tableLayout
+            tableLayout.addView(row);
+        }
+
+//        closeButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Dohvati menadžera fragmenata
+//                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+//
+//                // Proveri da li postoji fragment na steku
+//                Fragment fragment = fragmentManager.findFragmentByTag("PriceCardFragment");
+//
+//                // Ako fragment postoji, izvrši transakciju za njegovo uklanjanje
+//                if (fragment != null) {
+//                    fragmentManager.beginTransaction().remove(fragment).commit();
+//                }
+//            }
+//        });
 
         return view;
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        try {
-            priceCardListener = (PriceCardListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement PriceCardListener");
-        }
-    }
-
-
-    public void savePriceCard(View view){
-
-        PriceTypeEnum priceType=PriceTypeEnum.PERUNIT ;
-        RadioGroup radioGroupPriceType = view.findViewById(R.id.radioGroupPriceType);
-        int selectedRadioButtonId = radioGroupPriceType.getCheckedRadioButtonId();
-        if (selectedRadioButtonId != -1) {
-            RadioButton selectedRadioButton = view.findViewById(selectedRadioButtonId);
-            String selectedPriceType = selectedRadioButton.getText().toString();
-            if(selectedPriceType.equals("PERGUEST")){
-                priceType= PriceTypeEnum.PERGUEST;
-            }
-        } else {
-            System.out.println("Nijedan tip cene nije odabran");
-        }
-
-        TextInputEditText priceInput = view.findViewById(R.id.priceInput);
-        String priceStr = priceInput.getText().toString();
-
-        if (!priceStr.isEmpty()) {
-            try {
-                int price = Integer.parseInt(priceStr);
-
-                // Invoke the listener with the saved data
-                if (priceCardListener != null) {
-                    priceCardListener.onPriceCardSaved(startDate, endDate, priceType, price);
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Error parsing price: " + e.getMessage());
-                // Handle the case where the input cannot be parsed to an integer
-            }
-        } else {
-            System.out.println("Price input is empty");
-        }
-
-        // Invoke the listener with the saved data
-//        if (priceCardListener != null) {
-//            priceCardListener.onPriceCardSaved(startDate, endDate, priceType, price);
-//        }
-
     }
 }
