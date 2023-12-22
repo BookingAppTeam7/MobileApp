@@ -24,6 +24,7 @@ import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.Review;
 import com.example.bookingapp.model.ReviewType;
 import com.example.bookingapp.model.TimeSlot;
+import com.example.bookingapp.model.TokenManager;
 import com.example.bookingapp.model.enums.RoleEnum;
 import com.google.android.material.navigation.NavigationView;
 
@@ -37,6 +38,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.Jwt;
+import retrofit2.http.Header;
 
 
 import android.view.MenuItem;
@@ -224,7 +226,11 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                     return true;
                 }
                 else if(item.getItemId()==myAccountItem.getItemId()){
-                    performMyAccountAction();
+                    TokenManager tokenManager = new TokenManager();
+                   // String jwtToken = tokenManager.getLoggedInUser().getJwt();
+                    String jwtToken = TokenManager.getJwtToken();
+
+                    performMyAccountAction("Bearer "+jwtToken);
                     return true;
                 }
 
@@ -298,7 +304,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             startActivity(intent);
         }
 
-        public void performMyAccountAction(){
+        public void performMyAccountAction(@Header("Authorization") String authorizationHeader){
             Intent intent=new Intent(HomeScreenActivity.this,AccountScreenActivity.class);
             startActivity(intent);
         }

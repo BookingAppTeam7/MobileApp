@@ -9,7 +9,9 @@ import com.example.bookingapp.model.User;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -18,6 +20,7 @@ public interface UserService {
     @Headers({
             "User-Agent: Mobile-Android",
             "Content-Type:application/json"
+
     })
     @POST("users")
     Call<User> create(@Body UserPostDTO newUser);
@@ -25,6 +28,9 @@ public interface UserService {
     @POST("login")
     Call<User> loginUser(@Body JwtAuthenticationRequest user);
 
-    @GET("username/{username}")
+    @GET("users/username/{username}")
     Call<UserGetDTO> findById(@Path("username") String username);
+
+    @DELETE("users/{username}")
+    Call<Void>delete(@Path("username") String username);
 }

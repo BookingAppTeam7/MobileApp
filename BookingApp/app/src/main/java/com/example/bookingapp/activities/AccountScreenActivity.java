@@ -7,6 +7,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.example.bookingapp.R;
 import com.example.bookingapp.databinding.ActivityAccountScreenBinding;
 import com.example.bookingapp.databinding.ActivityRegisterScreenBinding;
 import com.example.bookingapp.model.DTOs.UserGetDTO;
+import com.example.bookingapp.model.TokenManager;
 import com.example.bookingapp.model.User;
 import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.UserService;
@@ -35,7 +38,7 @@ public class AccountScreenActivity extends AppCompatActivity {
     private boolean isDrawerOpen = false;
 
     private String username;
-    private UserGetDTO user;
+    private static  UserGetDTO user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +47,7 @@ public class AccountScreenActivity extends AppCompatActivity {
         ActivityAccountScreenBinding binding = ActivityAccountScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        this.username=getUserIdFromToken();
+        this.username= TokenManager.getLoggedInUser().username;
 
         Toolbar toolbar = binding.toolbar;
 
@@ -58,7 +61,7 @@ public class AccountScreenActivity extends AppCompatActivity {
 
 
         UserService userService = RetrofitClientInstance.getRetrofitInstance().create(UserService.class);
-        Call<UserGetDTO> call = userService.findById(username);
+        Call<UserGetDTO> call = userService.findById(this.username);
 
         call.enqueue(new Callback<UserGetDTO>() {
             @Override
@@ -66,24 +69,66 @@ public class AccountScreenActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     // Uspešna prijava
                     user=response.body();
+                    EditText editTextFirstName = findViewById(R.id.editTextFirstName);
+                    editTextFirstName.setText(user.firstName);
+                    EditText editTextLastName = findViewById(R.id.editTextLastName);
+                    editTextLastName.setText(user.lastName);
+                    EditText editTextUsername = findViewById(R.id.editTextUsername);
+                    editTextUsername.setText(user.username);
+                    EditText editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
+                    editTextPhoneNumber.setText(user.phoneNumber);
+                    EditText editTextAddress = findViewById(R.id.editTextAddress);
+                    editTextAddress.setText(user.address);
+
                 }
             }
             @Override
             public void onFailure(Call<UserGetDTO> call, Throwable t) {
+                t.printStackTrace();
+                Log.d("TAAAAAAGGGGGGGGGG ", "Error: " + t.getMessage());
             }
         });
 
-        EditText editTextFirstName = findViewById(R.id.editTextFirstName);
-        editTextFirstName.setText(user.firstName);
-        EditText editTextLastName = findViewById(R.id.editTextLastName);
-        editTextLastName.setText(user.lastName);
-        EditText editTextUsername = findViewById(R.id.editTextUsername);
-        editTextUsername.setText(user.username);
-//        editTextPassword = findViewById(R.id.editTextPassword);
-        EditText editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
-        editTextPhoneNumber.setText(user.phoneNumber);
-        EditText editTextAddress = findViewById(R.id.editTextAddress);
-        editTextAddress.setText(user.address);
+        binding.saveChanges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UserService userService = RetrofitClientInstance.getRetrofitInstance().create(UserService.class);
+                Call<Void> call = userService.delete(TokenManager.getLoggedInUser().username);
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        Toast.makeText(AccountScreenActivity.this, "Successfully deleted!", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(AccountScreenActivity.this, "Cannot delete user", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+            }
+        });
+
+        binding.deleteAccount.setOnClickListener(new View.OnClickListener() {
+                                                     @Override
+                                                     public void onClick(View v) {
+
+                                                     }
+                                                 });
+
+
+//        EditText editTextFirstName = findViewById(R.id.editTextFirstName);
+//        editTextFirstName.setText(user.firstName);
+//        EditText editTextLastName = findViewById(R.id.editTextLastName);
+//        editTextLastName.setText(user.lastName);
+//        EditText editTextUsername = findViewById(R.id.editTextUsername);
+//        editTextUsername.setText(user.username);
+////        editTextPassword = findViewById(R.id.editTextPassword);
+//        EditText editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
+//        editTextPhoneNumber.setText(user.phoneNumber);
+//        EditText editTextAddress = findViewById(R.id.editTextAddress);
+//        editTextAddress.setText(user.address);
 
         binding.toggleButton2.setOnClickListener(new View.OnClickListener() {
             @Override
