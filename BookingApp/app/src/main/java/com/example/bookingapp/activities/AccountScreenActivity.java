@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -88,16 +89,18 @@ public class AccountScreenActivity extends AppCompatActivity {
                 Log.d("TAAAAAAGGGGGGGGGG ", "Error: " + t.getMessage());
             }
         });
+        ;
 
         binding.deleteAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(AccountScreenActivity.this,"BRISANJEEE",Toast.LENGTH_LONG).show();
                 UserService userService = RetrofitClientInstance.getRetrofitInstance().create(UserService.class);
                 Call<Void> call = userService.delete(TokenManager.getLoggedInUser().username);
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
-                        Log.d("Obrisan je "," NNNNNNNNNN");
+                        Log.d("E"," NNNNNNNNNN");
                         Toast.makeText(AccountScreenActivity.this, "Successfully deleted!", Toast.LENGTH_SHORT).show();
                     }
 
@@ -111,12 +114,12 @@ public class AccountScreenActivity extends AppCompatActivity {
             }
         });
 
-        binding.deleteAccount.setOnClickListener(new View.OnClickListener() {
-                                                     @Override
-                                                     public void onClick(View v) {
-
-                                                     }
-                                                 });
+//        binding.deleteAccount.setOnClickListener(new View.OnClickListener() {
+//                                                     @Override
+//                                                     public void onClick(View v) {
+//
+//                                                     }
+//                                                 });
 
 
 //        EditText editTextFirstName = findViewById(R.id.editTextFirstName);
