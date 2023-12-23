@@ -97,6 +97,7 @@ public class AccountScreenActivity extends AppCompatActivity {
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
+                        Log.d("Obrisan je "," NNNNNNNNNN");
                         Toast.makeText(AccountScreenActivity.this, "Successfully deleted!", Toast.LENGTH_SHORT).show();
                     }
 
