@@ -22,6 +22,7 @@ import com.example.bookingapp.R;
 import com.example.bookingapp.databinding.ActivityAccountScreenBinding;
 import com.example.bookingapp.databinding.ActivityRegisterScreenBinding;
 import com.example.bookingapp.model.DTOs.UserGetDTO;
+import com.example.bookingapp.model.DTOs.UserPutDTO;
 import com.example.bookingapp.model.TokenManager;
 import com.example.bookingapp.model.User;
 import com.example.bookingapp.network.RetrofitClientInstance;
@@ -100,7 +101,7 @@ public class AccountScreenActivity extends AppCompatActivity {
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
-                        Log.d("E"," NNNNNNNNNN");
+
                         Toast.makeText(AccountScreenActivity.this, "Successfully deleted!", Toast.LENGTH_SHORT).show();
                     }
 
@@ -114,25 +115,50 @@ public class AccountScreenActivity extends AppCompatActivity {
             }
         });
 
-//        binding.deleteAccount.setOnClickListener(new View.OnClickListener() {
-//                                                     @Override
-//                                                     public void onClick(View v) {
-//
-//                                                     }
-//                                                 });
+        binding.saveChanges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(AccountScreenActivity.this,"SUCCESSFULLY UPDATED",Toast.LENGTH_LONG).show();
+                UserService userService = RetrofitClientInstance.getRetrofitInstance().create(UserService.class);
+                User user=TokenManager.getLoggedInUser();
+                EditText editTextFirstName = findViewById(R.id.editTextFirstName);
+                EditText editTextLastName = findViewById(R.id.editTextLastName);
+                EditText editTextUsername = findViewById(R.id.editTextUsername);
+                EditText editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
+                EditText editTextAddress = findViewById(R.id.editTextAddress);
+                EditText editPassword=findViewById(R.id.editTextPassword);
+                EditText editPasswordConfirmation=findViewById(R.id.editTextPasswordConfirmation);
 
 
-//        EditText editTextFirstName = findViewById(R.id.editTextFirstName);
-//        editTextFirstName.setText(user.firstName);
-//        EditText editTextLastName = findViewById(R.id.editTextLastName);
-//        editTextLastName.setText(user.lastName);
-//        EditText editTextUsername = findViewById(R.id.editTextUsername);
-//        editTextUsername.setText(user.username);
-////        editTextPassword = findViewById(R.id.editTextPassword);
-//        EditText editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
-//        editTextPhoneNumber.setText(user.phoneNumber);
-//        EditText editTextAddress = findViewById(R.id.editTextAddress);
-//        editTextAddress.setText(user.address);
+// Sada možete dobiti tekst iz svakog polja
+                String firstName = editTextFirstName.getText().toString();
+                String lastName = editTextLastName.getText().toString();
+                String username = editTextUsername.getText().toString();
+                String phoneNumber = editTextPhoneNumber.getText().toString();
+                String address = editTextAddress.getText().toString();
+                String password=editPassword.getText().toString();
+                String confirmationPassword=editPasswordConfirmation.getText().toString();
+                UserPutDTO userPut=new UserPutDTO(firstName,lastName,
+                        password,address,phoneNumber,user.status,user.reservationRequestNotification,user.reservationCancellationNotification,user.ownerRatingNotification,user.accommodationRatingNotification,
+                        user.ownerRatingNotification,user.getToken(),user.getDeleted());
+                Call<User> call = userService.updateUser(userPut, TokenManager.getLoggedInUser().username);
+                call.enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        Toast.makeText(AccountScreenActivity.this, "Successfully updated!", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        Toast.makeText(AccountScreenActivity.this, "Cannot update user", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+            }
+        });
+
+
 
         binding.toggleButton2.setOnClickListener(new View.OnClickListener() {
             @Override
