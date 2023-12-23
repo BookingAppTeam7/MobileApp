@@ -6,20 +6,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.example.bookingapp.R;
-import com.example.bookingapp.adapters.AccommodationListAdapter;
 import com.example.bookingapp.adapters.AccomodationApprovalListAdapter;
 import com.example.bookingapp.databinding.ActivityAccomodationApprovalBinding;
-import com.example.bookingapp.databinding.ActivityHomeScreenBinding;
 import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.Review;
-import com.example.bookingapp.model.ReviewType;
+import com.example.bookingapp.model.ReviewEnum;
 import com.example.bookingapp.model.TimeSlot;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,10 +48,10 @@ public class AccomodationApprovalActivity extends AppCompatActivity {
         List<Review> reviewsList = new ArrayList<>();
 
 
-        reviewsList.add(new Review(R.drawable.ic_user,"User1", ReviewType.OWNER, "Great experience!", 5));
-        reviewsList.add(new Review(R.drawable.ic_user,"User2", ReviewType.ACCOMMODATION, "Nice place to stay.", 4));
-        reviewsList.add(new Review(R.drawable.ic_user,"User3", ReviewType.OWNER, "Very helpful owner.", 5));
-        reviewsList.add(new Review(R.drawable.ic_user,"User4", ReviewType.ACCOMMODATION, "Clean and comfortable.", 4));
+        reviewsList.add(new Review(1L,"User1", ReviewEnum.OWNER, "Great experience!", 5, LocalDateTime.now().toString()));
+        reviewsList.add(new Review(2L,"User2", ReviewEnum.ACCOMMODATION, "Nice place to stay.", 4,LocalDateTime.now().toString()));
+        reviewsList.add(new Review(3L,"User3", ReviewEnum.OWNER, "Very helpful owner.", 5,LocalDateTime.now().toString()));
+        reviewsList.add(new Review(4L,"User4", ReviewEnum.ACCOMMODATION, "Clean and comfortable.", 4,LocalDateTime.now().toString()));
 
         ArrayList<String> assets=new ArrayList<>();
         assets.add("TV");
