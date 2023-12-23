@@ -2,9 +2,10 @@ package com.example.bookingapp.model;
 
 import com.example.bookingapp.model.enums.PriceTypeEnum;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class PriceCard {
+public class PriceCard implements Serializable {
     public Long id;
 
     public TimeSlot timeSlot;

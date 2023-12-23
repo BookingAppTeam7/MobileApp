@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 
 import com.example.bookingapp.R;
 import com.example.bookingapp.adapters.AccommodationListAdapter;
@@ -21,11 +20,11 @@ import com.example.bookingapp.fragments.accommodations.FilterBottomSheetDialogFr
 import com.example.bookingapp.fragments.accommodations.SearchBottomSheetFragment;
 import com.example.bookingapp.interfaces.BottomSheetListener;
 import com.example.bookingapp.model.Accommodation;
-import com.example.bookingapp.model.Review;
-import com.example.bookingapp.model.ReviewType;
 import com.example.bookingapp.model.TimeSlot;
 import com.example.bookingapp.model.TokenManager;
 import com.example.bookingapp.model.enums.RoleEnum;
+import com.example.bookingapp.network.RetrofitClientInstance;
+import com.example.bookingapp.services.AccommodationService;
 import com.google.android.material.navigation.NavigationView;
 
 import java.time.LocalDate;
@@ -34,25 +33,33 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.Jwt;
 import retrofit2.http.Header;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 
 import android.view.MenuItem;
 import android.widget.Toast;
 
 public class HomeScreenActivity extends AppCompatActivity implements BottomSheetListener {
+    public Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+    public AccommodationService accommodationService=retrofit.create(AccommodationService.class);
     private Animation slideInAnimation;
     private Animation slideOutAnimation;
     private boolean isDrawerOpen = false;
     ActivityHomeScreenBinding binding;
     AccommodationListAdapter listAdapter;
-    ArrayList<Accommodation> accommodationArrayList = new ArrayList<Accommodation>();//initial
+   // ArrayList<Accommodation> accommodationArrayList = new ArrayList<Accommodation>();//initial
+    List<Accommodation> accommodationArrayListCalled = new ArrayList<Accommodation>();//initial with service
     ArrayList<Accommodation> accommodationsToShow=new ArrayList<>();
-    ArrayList<Accommodation> searchedAccommodationArrayList = new ArrayList<Accommodation>();
+    List<Accommodation> searchedAccommodationArrayList = new ArrayList<Accommodation>();
     Accommodation accommodation;
 
     RoleEnum role=RoleEnum.UNAUTHENTICATED;
@@ -72,66 +79,62 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         DrawerLayout drawerLayout = binding.drawerLayout;
         NavigationView navigationView = binding.navigationView;
 
-        int[] imageList = {R.drawable.accommodation1, R.drawable.accommodation2, R.drawable.accommodation1, R.drawable.accommodation2};
-        Long[] idList = {1L, 2L, 3L, 4L};
-        String[] nameList = {"Accommodation in Novi Sad", "Belgrade accommodation", "Prague accommodation", "Paris accommodation"};
-        String[] descriptionList = {"Beautiful accommodation settled in Novi Sad", "Beautiful accommodation settled in Belgrade",
-                "Beautiful accommodation settled in Prague", "Beautiful accommodation settled in Paris"};
-        int[] minGuestsList={1,3,4,2};
-        int[] maxGuestsList={5,8,8,5};
-        double [] locationXList={45.26799224033295,44.78318632559004,50.102423832053915,48.870974300967234};
-        double [] locationYList={19.830824522193232, 20.49925984639849, 14.480125374774326, 2.478835370652442};
-        String [] locationStrList={"Novi Sad","Belgrade","Prague",
-                "Paris"};
-        double [] priceList={150.0,215.0,100.0,199.99};
-        List<Review> reviewsList = new ArrayList<>();
+        //int[] imageList = {R.drawable.accommodation1, R.drawable.accommodation2, R.drawable.accommodation1, R.drawable.accommodation2};
 
-
-        reviewsList.add(new Review(R.drawable.ic_user,"User1", ReviewType.OWNER, "Great experience!", 5));
-        reviewsList.add(new Review(R.drawable.ic_user,"User2", ReviewType.ACCOMMODATION, "Nice place to stay.", 4));
-        reviewsList.add(new Review(R.drawable.ic_user,"User3", ReviewType.OWNER, "Very helpful owner.", 5));
-        reviewsList.add(new Review(R.drawable.ic_user,"User4", ReviewType.ACCOMMODATION, "Clean and comfortable.", 4));
-
-        ArrayList<String> assets=new ArrayList<>();
-        assets.add("TV");
-        assets.add("WI-FI");
-        assets.add("Free parking");
-        assets.add("Air conditioner");
-
-        ArrayList<TimeSlot> availability=new ArrayList<>();
-//        availability.add(new TimeSlot(1L, LocalDate.of(2023,12,3),LocalDate.of(2023,12,6)));
-//        availability.add(new TimeSlot(1L, LocalDate.of(2023,12,9),LocalDate.of(2023,12,15)));
-
-        for (int i = 0; i < imageList.length; i++) {
-//            accommodation = new Accommodation(idList[i], nameList[i], descriptionList[i],minGuestsList[i],maxGuestsList[i] ,imageList[i],
-//                    locationStrList[i],locationXList[i],locationYList[i],priceList[i],reviewsList,assets,availability);
-//            accommodationArrayList.add(accommodation);
-        }
-        for(Accommodation a:accommodationArrayList){
-            accommodationsToShow.add(a);
-        }
-
-        listAdapter = new AccommodationListAdapter(HomeScreenActivity.this, accommodationsToShow);
-        binding.listview.setAdapter(listAdapter);
-        binding.listview.setClickable(true);
-
-        binding.listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //
+        Log.e("PRE","AAAAAAAAAAAAAAAAAAAAAA");
+        Call call = accommodationService.findAllApproved();
+        call.enqueue(new Callback<List<Accommodation>>() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(HomeScreenActivity.this, DetailedActivity.class);
-//                intent.putExtra("name", accommodationsToShow.get(position).getName());
-//                intent.putExtra("description", accommodationsToShow.get(position).getDescription());
-//                intent.putExtra("image", accommodationsToShow.get(position).getImage());
-//                intent.putExtra("location",accommodationsToShow.get(position).getLocation());
-//                intent.putExtra("locationX",accommodationsToShow.get(position).getLocationX());
-//                intent.putExtra("locationY",accommodationsToShow.get(position).getLocationY());
-//                intent.putExtra("price",accommodationsToShow.get(position).getPrice());
-//                intent.putExtra("reviewsList",new ArrayList<>(accommodationsToShow.get(position).getReviews()));
-//                intent.putExtra("assets",new ArrayList<>(accommodationsToShow.get(position).getAssets()));
-//                intent.putExtra("availability",new ArrayList<>(accommodationsToShow.get(position).getAvailability()));
-                startActivity(intent);
+            public void onResponse(Call<List<Accommodation>> call, Response<List<Accommodation>> response) {
+                if (response.isSuccessful()) {
+                    accommodationArrayListCalled = response.body();
+                    for(Accommodation a:accommodationArrayListCalled)
+                        System.out.println(a);
+
+
+                    Log.e("DUZINA",String.valueOf(accommodationArrayListCalled.size()));
+                    for(Accommodation a:accommodationArrayListCalled){
+                        accommodationsToShow.add(a);
+                        Log.e("SMESTAJ",a.toString());
+                    }
+
+                    listAdapter = new AccommodationListAdapter(HomeScreenActivity.this, accommodationsToShow);
+                    binding.listview.setAdapter(listAdapter);
+                    binding.listview.setClickable(true);
+
+                    binding.listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(HomeScreenActivity.this, DetailedActivity.class);
+                            intent.putExtra("name", accommodationsToShow.get(position).getName());
+                            intent.putExtra("description", accommodationsToShow.get(position).getDescription());
+                            intent.putExtra("image", accommodationsToShow.get(position).getImages().get(0));
+                            intent.putExtra("location",accommodationsToShow.get(position).getLocation().address+", "+accommodationsToShow.get(position).getLocation().city);
+                            intent.putExtra("locationX",accommodationsToShow.get(position).getLocation().x);
+                            intent.putExtra("locationY",accommodationsToShow.get(position).getLocation().y);
+                           intent.putExtra("reviewsList",new ArrayList<>(accommodationsToShow.get(position).getReviews()));
+                            intent.putExtra("assets",new ArrayList<>(accommodationsToShow.get(position).getAssets()));
+                            intent.putExtra("priceList",new ArrayList<>(accommodationsToShow.get(position).getPrices()));
+                            startActivity(intent);
+                        }
+                    });
+                } else {
+                    // Handle error
+                    Log.e("GRESKA",String.valueOf(response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Accommodation>> call, Throwable t) {
+                Log.e("GREEEESKA",t.getMessage());
+                t.printStackTrace();
             }
         });
+        //
+
+
+
 
         binding.btnFilters.setOnClickListener(new View.OnClickListener() {
 
@@ -252,12 +255,12 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
 
     @Override
     public void onSearchButtonClicked(String place, int guests, String arrivalDate, String checkoutDate) {
-        searchedAccommodationArrayList = searchAccommodations(accommodationArrayList, place, guests, arrivalDate, checkoutDate);
+        searchedAccommodationArrayList = searchAccommodations(accommodationArrayListCalled, place, guests, arrivalDate, checkoutDate);
         listAdapter.updateData(searchedAccommodationArrayList);
     }
 
-    public ArrayList<Accommodation> searchAccommodations(ArrayList<Accommodation> sourceList, String place, int guests, String arrivalDate, String checkoutDate) {
-        ArrayList<Accommodation> retAccommodation = new ArrayList<>();
+    public List<Accommodation> searchAccommodations(List<Accommodation> sourceList, String place, int guests, String arrivalDate, String checkoutDate) {
+        List<Accommodation> retAccommodation = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         LocalDate arrival = LocalDate.parse(arrivalDate, formatter);

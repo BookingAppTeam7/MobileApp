@@ -46,8 +46,8 @@ public class EditAccommodationsDataActivity extends AppCompatActivity {
         });
     }
     private void showAddPriceDialog() {
-        PriceCardFragment priceCardFragment = new PriceCardFragment();
-        priceCardFragment.show(getFragmentManager(), priceCardFragment.getTag());
+//        PriceCardFragment priceCardFragment = new PriceCardFragment();
+//        priceCardFragment.show(getFragmentManager(), priceCardFragment.getTag());
     }
     private void showAddAvailabilityDialog(){
         AvailabilityFragment availabilityFragment=new AvailabilityFragment();

@@ -219,8 +219,28 @@ public class Accommodation implements Parcelable {
         //image = in.readInt();
     }
 
-
-    //    private Long id;
+    @Override
+    public String toString() {
+        return "Accommodation{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", location=" + location +
+                ", minGuests=" + minGuests +
+                ", maxGuests=" + maxGuests +
+                ", type=" + type +
+                ", assets=" + assets +
+                ", prices=" + prices +
+                ", ownerId='" + ownerId + '\'' +
+                ", status=" + status +
+                ", cancellationDeadline=" + cancellationDeadline +
+                ", reservationConfirmation=" + reservationConfirmation +
+                ", reviews=" + reviews +
+                ", images=" + images +
+                ", deleted=" + deleted +
+                '}';
+    }
+//    private Long id;
 //    private String name;
 //    private String description;
 //    private int minGuests;

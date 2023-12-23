@@ -1,54 +1,67 @@
 package com.example.bookingapp.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 ;
 public class Review implements Serializable {
-    private int image;
-    private String username;
-    private ReviewType reviewType;
-    private String content;
+    private Long id;
+    private String userId;
+    private ReviewEnum type;
+    private String comment;
     private int grade;
-    //private DateTime dateTime;
+    private String dateTime;
 
-    public Review(int image,String username, ReviewType reviewType, String content, int grade) {
-        this.image=image;
-        this.username = username;
-        this.reviewType = reviewType;
-        this.content = content;
+    public Review(Long id, String username, ReviewEnum reviewEnum, String content, int grade, String dateTime) {
+        this.id=id;
+        this.userId = username;
+        this.type = reviewEnum;
+        this.comment = content;
         this.grade = grade;
+        this.dateTime=dateTime;
     }
 
-    public int getImage() {
-        return image;
+    public Long getId() {
+        return id;
     }
 
-    public void setImage(int image) {
-        this.image = image;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public LocalDateTime getDateTime() {
+        // Parse the dateTime string into LocalDateTime
+        return LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_DATE_TIME);
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setDateTime(LocalDateTime dateTime) {
+        // Format LocalDateTime to String and set the dateTime field
+        this.dateTime = dateTime.format(DateTimeFormatter.ISO_DATE_TIME);
     }
 
-    public ReviewType getReviewType() {
-        return reviewType;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setReviewType(ReviewType reviewType) {
-        this.reviewType = reviewType;
+    public void setUserId(String username) {
+        this.userId = username;
+    }
+
+    public ReviewEnum getType() {
+        return type;
+    }
+
+    public void setType(ReviewEnum reviewEnum) {
+        this.type = reviewEnum;
     }
 
     public String getContent() {
-        return content;
+        return comment;
     }
 
     public void setContent(String content) {
-        this.content = content;
+        this.comment = content;
     }
 
     public int getGrade() {
