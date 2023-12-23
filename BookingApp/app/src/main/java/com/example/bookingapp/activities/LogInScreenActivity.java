@@ -6,11 +6,13 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.bookingapp.databinding.ActivityLogInScreenBinding;
 import com.example.bookingapp.model.JwtAuthenticationRequest;
+import com.example.bookingapp.model.TokenManager;
 import com.example.bookingapp.model.User;
 import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.UserService;
@@ -20,6 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LogInScreenActivity extends AppCompatActivity {
+    private static final String KEY_JWT_TOKEN = "jwtToken";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,7 @@ public class LogInScreenActivity extends AppCompatActivity {
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+               // Toast.makeText(LogInScreenActivity.this, "KLIK", Toast.LENGTH_SHORT).show();
                 String username = binding.editTextUsername.getText().toString();
                 String password = binding.editTextPassword.getText().toString();
 
@@ -47,13 +51,21 @@ public class LogInScreenActivity extends AppCompatActivity {
                 UserService userService = RetrofitClientInstance.getRetrofitInstance().create(UserService.class);
                 Call<User> call = userService.loginUser(user);
 
+
                 call.enqueue(new Callback<User>() {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if (response.isSuccessful()) {
                             // Uspešna prijava
                             Toast.makeText(LogInScreenActivity.this, "Successfully logged in  "+response.body().getUsername(), Toast.LENGTH_SHORT).show();
-                            saveJwtToken(response.body());
+                            saveJwtToken(response.body().getJwt());
+                           // TokenManager tokenManager=new TokenManager();
+                           // Log.d("token manageeer pa response body " , response.body().getJwt());
+                         //   binding.textViewError.setText("Respones body pa njegov token--> " + response.body().getJwt());
+                            //tokenManager.setLoggedInUser(response.body());
+                            TokenManager.setJwtToken(response.body().getJwt());
+                            TokenManager.setLoggedInUser(response.body());
+                            Toast.makeText(LogInScreenActivity.this,"Token je " + response.body().getJwt(),Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(LogInScreenActivity.this, HomeScreenActivity.class);
                             startActivity(intent);
                         } else {
@@ -81,13 +93,23 @@ public class LogInScreenActivity extends AppCompatActivity {
     }
 
 
-    private void saveJwtToken(User user) {
+//    private void saveJwtToken(String user) {
+//        SharedPreferences preferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = preferences.edit();
+//
+//        editor.putString("userId", user.username);
+//        editor.putString("role",user.role.toString());
+//        editor.apply();
+//    }
+    private void saveJwtToken(String jwtToken) {
+//        TokenManager tokenManager = new TokenManager();
+//        tokenManager.setJwt(jwtToken);
         SharedPreferences preferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("userId", user.username);
-        editor.putString("role",user.role.toString());
+        editor.putString(KEY_JWT_TOKEN, jwtToken);
         editor.apply();
     }
+
 
 
 
