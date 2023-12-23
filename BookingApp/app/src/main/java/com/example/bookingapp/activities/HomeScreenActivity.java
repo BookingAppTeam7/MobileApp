@@ -20,17 +20,23 @@ import com.example.bookingapp.fragments.accommodations.FilterBottomSheetDialogFr
 import com.example.bookingapp.fragments.accommodations.SearchBottomSheetFragment;
 import com.example.bookingapp.interfaces.BottomSheetListener;
 import com.example.bookingapp.model.Accommodation;
+import com.example.bookingapp.model.AccommodationDetails;
+import com.example.bookingapp.model.PriceCard;
 import com.example.bookingapp.model.TimeSlot;
 import com.example.bookingapp.model.enums.RoleEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.AccommodationService;
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,7 +58,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
    // ArrayList<Accommodation> accommodationArrayList = new ArrayList<Accommodation>();//initial
     List<Accommodation> accommodationArrayListCalled = new ArrayList<Accommodation>();//initial with service
     ArrayList<Accommodation> accommodationsToShow=new ArrayList<>();
-    List<Accommodation> searchedAccommodationArrayList = new ArrayList<Accommodation>();
+    List<AccommodationDetails> searchedAccommodationArrayList = new ArrayList<>();
     Accommodation accommodation;
 
     RoleEnum role=RoleEnum.UNAUTHENTICATED;
@@ -112,6 +118,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                             startActivity(intent);
                         }
                     });
+
+
                 } else {
                     // Handle error
                     Log.e("GRESKA",String.valueOf(response.code()));
@@ -124,19 +132,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 t.printStackTrace();
             }
         });
-        //
 
-
-
-
-        binding.btnFilters.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                FilterBottomSheetDialogFragment bottomSheetFragment = new FilterBottomSheetDialogFragment();
-                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
-            }
-        });
         binding.btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -244,41 +240,54 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
 
     @Override
     public void onSearchButtonClicked(String place, int guests, String arrivalDate, String checkoutDate) {
-        searchedAccommodationArrayList = searchAccommodations(accommodationArrayListCalled, place, guests, arrivalDate, checkoutDate);
-        listAdapter.updateData(searchedAccommodationArrayList);
-    }
+        for(Accommodation a:accommodationArrayListCalled)
+            Log.e("DRUGI POZIV",a.toString());
+        Log.e("ARRIVAL",arrivalDate);
+        Log.e("CHECKOUT",checkoutDate);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date arrival;
+        Date checkout;
 
-    public List<Accommodation> searchAccommodations(List<Accommodation> sourceList, String place, int guests, String arrivalDate, String checkoutDate) {
-        List<Accommodation> retAccommodation = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
-        LocalDate arrival = LocalDate.parse(arrivalDate, formatter);
-        LocalDate checkout = LocalDate.parse(checkoutDate, formatter);
-        for (Accommodation a : sourceList) {
-//            if (a.getLocation().equalsIgnoreCase(place) && guests >= a.getMinGuests() && guests <= a.getMaxGuests()) {
-//                if (hasAvailableTimeSlot(a, arrival, checkout)) {
-//                    retAccommodation.add(a);
-//                }
-//            }
+        try {
+            arrival = dateFormat.parse(arrivalDate + " 00:00:00");
+            checkout = dateFormat.parse(checkoutDate + " 00:00:00");
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return; // Handle the parsing error as needed
         }
-        return retAccommodation;
-    }
+        Log.e("ARRIVAL",arrival.toString());
+        Log.e("CHECKOUT",checkout.toString());
+        Log.e("Formatted Arrival", dateFormat.format(arrival));
+        Log.e("Formatted Checkout", dateFormat.format(checkout));
+        Call<List<AccommodationDetails>> call = accommodationService.search(place, guests, dateFormat.format(arrival), dateFormat.format(checkout));
+        call.enqueue(new Callback<List<AccommodationDetails>>() {
+            @Override
+            public void onResponse(Call<List<AccommodationDetails>> call, Response<List<AccommodationDetails>> response) {
+                if (response.isSuccessful()) {
+                    List<AccommodationDetails> accommodations = response.body();
+                    for(AccommodationDetails ad:accommodations)
+                        Log.e("USPEH222!!!",ad.toString());
+                    Intent intent = new Intent(HomeScreenActivity.this, SearchedAccommodationsActivity.class);
+                    intent.putExtra("accommodationsList", new ArrayList<>(accommodations));
+                    startActivity(intent);
 
-    private boolean hasAvailableTimeSlot(Accommodation accommodation, LocalDate arrival, LocalDate checkout) {
-//        for (TimeSlot timeSlot : accommodation.getAvailability()) {
-//            if (isWithinTimeSlot(arrival, checkout, timeSlot)) {
-//                return true;
-//            }
-//        }
-        return false;
-    }
-    private boolean isWithinTimeSlot(LocalDate arrival, LocalDate checkout, TimeSlot timeSlot) {
-        Date timeSlotStart = timeSlot.getStartDate();
-        Date timeSlotEnd = timeSlot.getEndDate();
-////        return !(arrival.isBefore(timeSlotStart) || checkout.isAfter(timeSlotEnd));
-        return false;
-    }
+                } else {
+                    Log.e("ERROR", "Response Code: " + response.code());
+                    try {
+                        Log.e("ERROR BODY", response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
 
+            @Override
+            public void onFailure(Call<List<AccommodationDetails>> call, Throwable t) {
+                Log.e("FAILURE!",t.getMessage());
+                t.printStackTrace();
+            }
+        });
+    }
         public void performLoginAction(){
             Intent intent = new Intent(HomeScreenActivity.this, LogInScreenActivity.class);
             startActivity(intent);

@@ -32,7 +32,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 @Override
                 public void run() {
 
-                    Intent intent = new Intent(SplashScreenActivity.this, HomeScreenActivity.class);
+                    Intent intent = new Intent(SplashScreenActivity.this, LogInScreenActivity.class);
                     startActivity(intent);
                     finish();   // Nema povratka, ovo poziva onDestroy() metodu
                 }

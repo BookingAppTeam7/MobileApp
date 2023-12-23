@@ -91,8 +91,8 @@ public class SearchBottomSheetFragment extends BottomSheetDialogFragment {
                 TextInputEditText editTextGuests = guestsInputLayout.findViewById(R.id.editTextGuests);
                 guests = Integer.parseInt(editTextGuests.getText().toString());
 
-                String arrivalDate = day1+"-"+month1+"-"+year1;
-                String checkoutDate = day2+"-"+month2+"-"+year2;
+                String arrivalDate = year1+"-"+month1+"-"+day1;
+                String checkoutDate = year2+"-"+month2+"-"+day2;
                 // Pass the data back to the activity
                 if (mListener != null) {
                     mListener.onSearchButtonClicked(place, guests, arrivalDate, checkoutDate);
