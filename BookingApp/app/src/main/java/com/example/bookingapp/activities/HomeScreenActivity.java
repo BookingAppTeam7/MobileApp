@@ -24,6 +24,7 @@ import com.example.bookingapp.model.AccommodationDetails;
 import com.example.bookingapp.model.PriceCard;
 import com.example.bookingapp.model.TimeSlot;
 import com.example.bookingapp.model.enums.RoleEnum;
+import com.example.bookingapp.model.enums.TypeEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.AccommodationService;
 import com.google.android.material.navigation.NavigationView;
@@ -265,8 +266,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             public void onResponse(Call<List<AccommodationDetails>> call, Response<List<AccommodationDetails>> response) {
                 if (response.isSuccessful()) {
                     List<AccommodationDetails> accommodations = response.body();
-                    for(AccommodationDetails ad:accommodations)
-                        Log.e("USPEH222!!!",ad.toString());
+                    //for(AccommodationDetails ad:accommodations)
+                        Log.e("USPEH222!!!",accommodations.toString());
                     Intent intent = new Intent(HomeScreenActivity.this, SearchedAccommodationsActivity.class);
                     intent.putExtra("accommodationsList", new ArrayList<>(accommodations));
                     startActivity(intent);
@@ -288,7 +289,13 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             }
         });
     }
-        public void performLoginAction(){
+
+    @Override
+    public void onFilterButtonClicked(TypeEnum selectedType, String joined, String minTotalPrice, String maxTotalPrice) {
+
+    }
+
+    public void performLoginAction(){
             Intent intent = new Intent(HomeScreenActivity.this, LogInScreenActivity.class);
             startActivity(intent);
         }

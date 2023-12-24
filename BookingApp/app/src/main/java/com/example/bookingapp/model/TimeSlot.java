@@ -1,12 +1,16 @@
 package com.example.bookingapp.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
 public class TimeSlot implements Serializable {
     private Long id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MMM dd, yyyy HH:mm:ss", timezone = "UTC")
     private Date startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MMM dd, yyyy HH:mm:ss", timezone = "UTC")
     private Date endDate;
 
     public TimeSlot(Long id, Date startDate, Date endDate) {
