@@ -24,6 +24,7 @@ import com.example.bookingapp.model.AccommodationDetails;
 import com.example.bookingapp.model.PriceCard;
 import com.example.bookingapp.model.TimeSlot;
 import com.example.bookingapp.model.TokenManager;
+import com.example.bookingapp.model.User;
 import com.example.bookingapp.model.enums.RoleEnum;
 import com.example.bookingapp.model.enums.TypeEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
@@ -200,7 +201,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 MenuItem accomodationMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_accommodation_approval);
                 MenuItem aboutUsMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_about_us);
                 MenuItem myAccountItem = binding.navigationView.getMenu().findItem(R.id.menu_account);
-
+                MenuItem notificationSettings=binding.navigationView.getMenu().findItem(R.id.menu_notification_settings);
 //                if (roleString.equals("OWNER")) {
 //                    // Prikazi navigaciju za vlasnika
 //                    logInMenuItem.setVisible(false);
@@ -242,6 +243,10 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
 
                     performMyAccountAction("Bearer "+jwtToken);
                     return true;
+                }else if(item.getItemId()==notificationSettings.getItemId()){
+                    User user=TokenManager.getLoggedInUser();
+                    performNotificationSettingsAction(user.role,user);
+                    return  true;
                 }
 
                 // Zatvori navigacijski izbornik
@@ -344,6 +349,20 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             Intent intent=new Intent(HomeScreenActivity.this,AccountScreenActivity.class);
             startActivity(intent);
         }
+
+    public void performNotificationSettingsAction(RoleEnum role,User user){
+        if(role.equals(RoleEnum.OWNER)){
+            Intent intent=new Intent(HomeScreenActivity.this,OwnerNotificationSettingsActivity.class);
+            startActivity(intent);
+        }else if(role.equals(RoleEnum.GUEST)){
+            Intent intent=new Intent(HomeScreenActivity.this,GuestNotificationSettingsActivity.class);
+            startActivity(intent);
+        }else{
+            Intent intent=new Intent(HomeScreenActivity.this,HomeScreenActivity.class);
+            startActivity(intent);
+        }
+
+    }
 
 
 

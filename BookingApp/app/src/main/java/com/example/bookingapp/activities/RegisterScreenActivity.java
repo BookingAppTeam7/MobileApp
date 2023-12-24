@@ -1,17 +1,34 @@
 package com.example.bookingapp.activities;
 
+import static android.app.PendingIntent.getActivity;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bookingapp.R;
 import com.example.bookingapp.databinding.ActivityRegisterScreenBinding;
+import com.example.bookingapp.fragments.accommodations.NotificationOwnerDialogFragment;
 import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.DTOs.PriceCardPostDTO;
 import com.example.bookingapp.model.DTOs.UserPostDTO;
@@ -21,6 +38,8 @@ import com.example.bookingapp.model.enums.StatusEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.AccommodationService;
 import com.example.bookingapp.services.UserService;
+
+import java.util.Arrays;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,7 +70,6 @@ public class RegisterScreenActivity extends AppCompatActivity {
         binding.buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 String firstName = binding.editTextFirstName.getText().toString();
                 String lastName = binding.editTextLastName.getText().toString();
                 String username = binding.editTextUsername.getText().toString();
@@ -65,17 +83,44 @@ public class RegisterScreenActivity extends AppCompatActivity {
 
                 //notifications
 
-                boolean reservationRequestNotification=true;
-                boolean reservationCancellationNotification=true;
-                boolean ownerRatingNotification=true;
-                boolean accommodationRatingNotification=true;
-                boolean ownerRepliedToRequestNotification=true;
+                boolean reservationRequestNotification=false;
+                boolean reservationCancellationNotification=false;
+                boolean ownerRatingNotification=false;
+                boolean accommodationRatingNotification=false;
+                boolean ownerRepliedToRequestNotification=false;
 
 
                 RoleEnum roleEnum=RoleEnum.GUEST;
-                Log.e("ULOGA",role);
-                if(role.equals("Guest")){roleEnum=RoleEnum.GUEST;}
-                if(role.equals("Owner")){roleEnum=RoleEnum.OWNER;}//////////
+
+
+                if(role.equals("Guest")){
+                  roleEnum=RoleEnum.GUEST;
+                    ownerRepliedToRequestNotification=true;
+                    reservationRequestNotification=true;
+                    reservationCancellationNotification=true;
+                    ownerRatingNotification=true;
+                    accommodationRatingNotification=true;
+                    // ownerRepliedToRequestNotification=showGuestNotificationDialog();
+
+                }
+                if(role.equals("Owner")){
+                    roleEnum=RoleEnum.OWNER;
+                    reservationRequestNotification=true;
+                    reservationCancellationNotification=true;
+                    ownerRatingNotification=true;
+                    accommodationRatingNotification=true;
+                    ownerRepliedToRequestNotification=false;
+                }
+                if(role.equals("Admin")){
+                    roleEnum=RoleEnum.ADMIN;
+                    reservationRequestNotification=false;
+                    reservationCancellationNotification=false;
+                    ownerRatingNotification=false;
+                    accommodationRatingNotification=false;
+                    ownerRepliedToRequestNotification=false;
+                }
+
+
                 UserPostDTO newUser=new UserPostDTO(firstName,lastName,username,password,passwordConfirmation,roleEnum,address,
                 phoneNumber,reservationRequestNotification,reservationCancellationNotification,ownerRatingNotification,accommodationRatingNotification,ownerRepliedToRequestNotification,false);
 
@@ -103,6 +148,8 @@ public class RegisterScreenActivity extends AppCompatActivity {
         });
 
     }
+
+
     @Override
     protected void onStart() {
         super.onStart();
