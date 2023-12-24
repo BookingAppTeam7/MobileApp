@@ -64,7 +64,9 @@ public class SearchedAccommodationsActivity extends AppCompatActivity implements
         if(intent!=null){
             loggedInUsername=intent.getStringExtra("username");
             loggedInRole=intent.getStringExtra("role");
+            if(loggedInUsername!=null)
             Log.e("USERNAME",loggedInUsername);
+            if(loggedInRole!=null)
             Log.e("ROLE",loggedInRole);
             for(AccommodationDetails ad:accommodationDetails){
                 Log.e("PRE ONAJ LOS",ad.toString());
@@ -119,7 +121,9 @@ public class SearchedAccommodationsActivity extends AppCompatActivity implements
                             if (response.isSuccessful()) {
                                 Accommodation accommodation = response.body();
                                 Intent intent = new Intent(SearchedAccommodationsActivity.this, DetailedActivity.class);
+                                if(loggedInUsername!=null)
                                 intent.putExtra("username",loggedInUsername);
+                                if(loggedInRole!=null)
                                 intent.putExtra("role",loggedInRole);
                                 intent.putExtra("accommodationId",accommodation.getId());
                                 intent.putExtra("name", accommodation.getName());

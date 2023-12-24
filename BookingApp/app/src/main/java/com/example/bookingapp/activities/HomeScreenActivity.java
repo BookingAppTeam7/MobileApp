@@ -84,8 +84,10 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         if(intent!=null){
             loggedInUsername=intent.getStringExtra("username");
             loggedInRole=intent.getStringExtra("role");
-            Log.e("USERNAME",loggedInUsername);
-            Log.e("ROLE",loggedInRole);
+            if(loggedInUsername!=null)
+                Log.e("USERNAME",loggedInUsername);
+            if(loggedInRole!=null)
+                Log.e("ROLE",loggedInRole);
         }
         String roleString = getRoleFromToken();
         Toast.makeText(HomeScreenActivity.this, "Role:  "+roleString, Toast.LENGTH_SHORT).show();
@@ -122,8 +124,10 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             Intent intent = new Intent(HomeScreenActivity.this, DetailedActivity.class);
-                            intent.putExtra("username",loggedInUsername);
-                            intent.putExtra("role",loggedInRole);
+                            if(loggedInUsername!=null)
+                                intent.putExtra("username",loggedInUsername);
+                            if(loggedInRole!=null)
+                                intent.putExtra("role",loggedInRole);
                             intent.putExtra("accommodationId",accommodationsToShow.get(position).getId());
                             intent.putExtra("name", accommodationsToShow.get(position).getName());
                             intent.putExtra("description", accommodationsToShow.get(position).getDescription());

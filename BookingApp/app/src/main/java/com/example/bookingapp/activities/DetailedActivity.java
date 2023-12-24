@@ -95,11 +95,15 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
             binding.assets.setText("Assets:"+allAssets);
 
             priceList = (List<PriceCard>) getIntent().getSerializableExtra("priceList");
-
-            if(loggedInRole.equals("GUEST"))
-                reservation.setVisibility(View.VISIBLE);
-            else
+            if(loggedInRole!=null){
+                if(loggedInRole.equals("GUEST"))
+                    reservation.setVisibility(View.VISIBLE);
+                else
+                    reservation.setVisibility(View.INVISIBLE);
+            }else{
                 reservation.setVisibility(View.INVISIBLE);
+            }
+
 
             listAdapter = new ReviewListAdapter(DetailedActivity.this, reviewsList);
             binding.listReviewView.setAdapter(listAdapter);
