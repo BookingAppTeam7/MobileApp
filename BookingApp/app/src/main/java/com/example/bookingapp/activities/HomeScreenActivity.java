@@ -362,8 +362,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             Intent intent=new Intent(HomeScreenActivity.this,GuestNotificationSettingsActivity.class);
             startActivity(intent);
         }else{
-            Intent intent=new Intent(HomeScreenActivity.this,HomeScreenActivity.class);
-            startActivity(intent);
+            return;
         }
 
     }
