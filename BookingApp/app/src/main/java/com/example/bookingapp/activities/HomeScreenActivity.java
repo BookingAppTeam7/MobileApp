@@ -193,6 +193,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 MenuItem accomodationMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_accommodation_approval);
                 MenuItem aboutUsMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_about_us);
                 MenuItem myAccountItem = binding.navigationView.getMenu().findItem(R.id.menu_account);
+                MenuItem addAccommodationMenuItem=binding.navigationView.getMenu().findItem(R.id.createAccommodation);
 
 //                if (roleString.equals("OWNER")) {
 //                    // Prikazi navigaciju za vlasnika
@@ -235,6 +236,10 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
 
                     performMyAccountAction("Bearer "+jwtToken);
                     return true;
+                }
+                else if(item.getItemId()==addAccommodationMenuItem.getItemId()){
+                    Intent intent = new Intent(HomeScreenActivity.this, CreateAccommodationActivity.class);
+                    startActivity(intent);
                 }
 
                 // Zatvori navigacijski izbornik
@@ -303,7 +308,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         }
 
         public void performAccomodationAction(){
-            Intent intent=new Intent(HomeScreenActivity.this, CreateAccommodationActivity.class);
+            Intent intent=new Intent(HomeScreenActivity.this, OwnersAccommodationActivity.class);
             startActivity(intent);
         }
 

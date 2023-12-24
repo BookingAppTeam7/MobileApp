@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.EditAccommodationsDataActivity">
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,20 +14,32 @@
     android:layout_height="match_parent"
     tools:context=".activities.EditAccommodationsDataActivity">
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawerLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <ImageView
+        android:layout_width="410dp"
+        android:layout_height="746dp"
+        android:alpha="0.35"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="-28dp">
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        <ImageView
-            android:layout_width="410dp"
-            android:layout_height="746dp"
-            android:alpha="0.35"
-            android:scaleType="centerCrop"
-            android:src="@drawable/background" />
-    </androidx.drawerlayout.widget.DrawerLayout>
+<!--    <androidx.drawerlayout.widget.DrawerLayout-->
+<!--        android:id="@+id/drawerLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        tools:layout_editor_absoluteY="-28dp">-->
+
+<!--        <ImageView-->
+<!--            android:layout_width="410dp"-->
+<!--            android:layout_height="746dp"-->
+<!--            android:alpha="0.35"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:src="@drawable/background" />-->
+<!--    </androidx.drawerlayout.widget.DrawerLayout>-->
+
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -32,22 +52,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <ImageButton
-            android:id="@+id/toggleButton2"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:background="?attr/selectableItemBackground"
-            android:contentDescription="Toggle Button"
-            android:scaleType="fitCenter"
-            android:src="@drawable/hamburger" />
+<!--        <ImageButton-->
+<!--            android:id="@+id/toggleButton2"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:background="?attr/selectableItemBackground"-->
+<!--            android:contentDescription="Toggle Button"-->
+<!--            android:scaleType="fitCenter"-->
+<!--            android:src="@drawable/hamburger" />-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="end"
             android:weightSum="8">
+
 
             <ImageButton
                 android:id="@+id/languageButton"
@@ -91,83 +112,33 @@
             android:padding="12dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
-        android:id="@+id/locationLayout1"
-        android:layout_width="0dp"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/locationInput"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/nameInput"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.9"
-        app:layout_constraintHorizontal_bias="0.5">
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/addressInput"
-            android:layout_width="130dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nameInput"
+        app:layout_constraintWidth_percent="0.75"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextLocation"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nameInput"
-            app:layout_constraintWidth_percent="0.75"
-            >
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/addressHint"
-                android:padding="12dp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/xInput"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nameInput"
-            app:layout_constraintWidth_percent="0.75"
-            android:layout_marginLeft="20dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextX"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/xCoordinate"
-                android:padding="12dp" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/yInput"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nameInput"
-            app:layout_constraintWidth_percent="0.75"
-            android:layout_marginLeft="10dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextY"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/yCoordinate"
-                android:padding="12dp" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
+            android:hint="@string/addressHint"
+            android:padding="12dp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:id="@+id/locationLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/locationLayout1"
+        app:layout_constraintTop_toBottomOf="@id/locationInput"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintWidth_percent="0.9"
@@ -214,7 +185,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/guestsLayout"
@@ -277,7 +247,6 @@
     </LinearLayout>
 
 
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/descriptionInput"
         android:layout_width="0dp"
@@ -297,74 +266,6 @@
             android:padding="12dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!---<ImageButton
-        android:id="@+id/myButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="16dp"
-        android:layout_weight="1"
-        android:background="?attr/selectableItemBackground"
-        android:contentDescription="Add images"
-        android:onClick="onButtonClick"
-        android:src="@drawable/add_image_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.897"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/priceLayout" /> -->
-
-    <!--<LinearLayout
-        android:id="@+id/priceLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/descriptionInput"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.9"
-        app:layout_constraintHorizontal_bias="0.5"
-        >
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/priceInput"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="0.5"
-            android:layout_margin="10dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextPrice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/price"
-                android:padding="12dp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <RadioGroup
-            android:id="@+id/radioGroupPriceType"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:layout_margin="10dp">
-
-            <RadioButton
-                android:id="@+id/radioButtonPerGuest"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="serif"
-                android:text="@string/perGuestRadioButton"
-                app:buttonTint="@color/colorButton" />
-
-            <RadioButton
-                android:id="@+id/radioButtonAccommodationUnit"
-                android:layout_width="115dp"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:fontFamily="serif"
-                android:text="@string/perAccommodationUnitRadioButton"
-                app:buttonTint="@color/colorButton" />
-        </RadioGroup>
-    </LinearLayout>-->
     <LinearLayout
         android:id="@+id/accommodationTypeLayout"
         android:layout_width="0dp"
@@ -377,103 +278,55 @@
         app:layout_constraintHorizontal_bias="0.5"
         >
 
-        <TextView
-            android:id="@+id/textViewPrice2"
-            android:layout_width="wrap_content"
+
+        <RadioGroup
+            android:id="@+id/radioGroupAccommodationType"
+            android:layout_width="231dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:hint="@string/accommodationType"
-            android:padding="12dp" />
-    <RadioGroup
-        android:id="@+id/radioGroupAccommodationType"
-        android:layout_width="231dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.283"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/descriptionInput"
-        app:layout_constraintWidth_percent="0.5">
-
-        <RadioButton
-            android:id="@+id/radioButtonRoom"
-            android:layout_width="105dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="serif"
-            android:text="@string/roomRadioButton"
-            app:buttonTint="@color/colorButton" />
-
-        <RadioButton
-            android:id="@+id/radioButtonApartment"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:fontFamily="serif"
-            android:text="@string/apartmentRadioButton"
-            app:buttonTint="@color/colorButton"
-
-            />
-
-    </RadioGroup>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/buttonsLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/amenitiesCheckList"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        >
-
-        <ImageButton
-            android:id="@+id/buttonAddImages"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/amenitiesCheckList"
-        app:layout_constraintWidth_percent="1" />
-
-
-        <Button
-            android:id="@+id/buttonAddPrice"
-            android:layout_width="145dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAccent2"
-            android:fontFamily="serif"
-            android:text="@string/addPriceCard"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintHorizontal_bias="0.283"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/amenitiesCheckList"
-            app:layout_constraintWidth_percent="1" />
+            app:layout_constraintTop_toBottomOf="@id/descriptionInput"
+            app:layout_constraintWidth_percent="0.5">
 
-        <Button
-            android:id="@+id/buttonAccommodationAvailability"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:backgroundTint="@color/colorButton"
-            android:fontFamily="serif"
-            android:text="@string/accommodationAvailability"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/amenitiesCheckList"
-            app:layout_constraintWidth_percent="1"
-            android:layout_marginLeft="5dp"/>
-    </LinearLayout>
+            <RadioButton
+                android:id="@+id/radioButtonRoom"
+                android:layout_width="105dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="serif"
+                android:text="@string/roomRadioButton"
+                app:buttonTint="@color/colorButton" />
+
+            <RadioButton
+                android:id="@+id/radioButtonApartment"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="serif"
+                android:text="@string/apartmentRadioButton"
+                app:buttonTint="@color/colorButton"
+
+                />
+
+            <RadioButton
+                android:id="@+id/radioButtonVipRoom"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="serif"
+                android:text="Vip-room"
+                app:buttonTint="@color/colorButton"
+                />
+
+        </RadioGroup>
+    </LinearLayout>-->
+
     <Button
-        android:id="@+id/buttonSave"
-        android:layout_width="205dp"
-        android:layout_height="57dp"
-        android:backgroundTint="@color/black"
+        android:id="@+id/buttonCreate"
+        android:layout_width="195dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="70dp"
+        android:backgroundTint="@color/colorButton"
         android:fontFamily="serif"
         android:text="@string/saveChanges"
         app:layout_constraintEnd_toEndOf="parent"
@@ -482,13 +335,15 @@
         app:layout_constraintTop_toBottomOf="@id/buttonsLayout"
         app:layout_constraintWidth_percent="0.5" />
 
+
+
     <TextView
         android:id="@+id/textViewError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/errorText"
         android:textColor="#FF0000"
-        app:layout_constraintTop_toBottomOf="@id/buttonsLayout"
+        app:layout_constraintTop_toBottomOf="@id/buttonCreate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"/>
@@ -505,38 +360,38 @@
         app:layout_constraintHorizontal_bias="0.5"
         >
 
-        <TextView
-            android:id="@+id/textViewPrice1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:hint="@string/reservationConfirmation"
-            android:padding="12dp" />
+                <TextView
+                    android:id="@+id/reservationConfirmation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:hint="@string/reservationConfirmation"
+                    android:padding="12dp" />
 
-        <RadioGroup
-            android:id="@+id/radioGroupReservationConfirm"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_weight="1">
+                <RadioGroup
+                    android:id="@+id/radioGroupReservationConfirmation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1">
 
-            <RadioButton
-                android:id="@+id/radioButtonManual"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="serif"
-                android:text="@string/radioButtonManual"
-                app:buttonTint="@color/colorButton" />
+                    <RadioButton
+                        android:id="@+id/radioButtonManualConfirmation"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="serif"
+                        android:text="@string/radioButtonManual"
+                        app:buttonTint="@color/colorButton" />
 
-            <RadioButton
-                android:id="@+id/radioButtonAutomatic"
-                android:layout_width="115dp"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:fontFamily="serif"
-                android:text="@string/radioButtonAutomatic"
-                app:buttonTint="@color/colorButton" />
-        </RadioGroup>
+                    <RadioButton
+                        android:id="@+id/radioButtonAutomaticConfirmation"
+                        android:layout_width="115dp"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:fontFamily="serif"
+                        android:text="@string/radioButtonAutomatic"
+                        app:buttonTint="@color/colorButton" />
+                </RadioGroup>
     </LinearLayout>
 
 
@@ -553,7 +408,7 @@
         <LinearLayout
             android:id="@+id/amenitiesCheckListLeft"
             android:layout_width="162dp"
-            android:layout_height="80dp"
+            android:layout_height="92dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.204"
@@ -581,7 +436,7 @@
         <LinearLayout
             android:id="@+id/amenitiesCheckListRight"
             android:layout_width="162dp"
-            android:layout_height="80dp"
+            android:layout_height="92dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toStartOf="@+id/amenitiesCheckListRight"
             app:layout_constraintHorizontal_bias="0.204"
@@ -602,12 +457,159 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
                 android:text="@string/kitchen"
-                app:buttonTint="@color/black" />
+                app:buttonTint="@color/colorButton" />
 
         </LinearLayout>
     </LinearLayout>
 
-    <!--<com.google.android.material.navigation.NavigationView
+    <LinearLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/amenitiesCheckList"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:padding="5dp"
+        >
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/price"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.5"
+            android:layout_margin="5dp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextPrice"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/price"
+                android:padding="12dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RadioGroup
+            android:id="@+id/radioGroupPriceType"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.283"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/amenitiesCheckList"
+            app:layout_constraintWidth_percent="0.5">
+
+            <RadioButton
+                android:id="@+id/radioButtonUnit"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="serif"
+                android:text="UNIT"
+                app:buttonTint="@color/colorButton" />
+
+            <RadioButton
+                android:id="@+id/radioButtonGuest"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:fontFamily="serif"
+                android:text="GUEST"
+                app:buttonTint="@color/colorButton"
+
+                />
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/buttonAddTimeSlot"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent2"
+            android:layout_marginRight="10dp"
+            android:fontFamily="serif"
+            android:text=" + Add range"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/amenitiesCheckList"
+            />
+
+        <!--        <ImageButton-->
+        <!--            android:id="@+id/buttonAddImages"-->
+        <!--            android:layout_width="50dp"-->
+        <!--            android:layout_height="50dp"-->
+        <!--            android:layout_marginRight="70dp"-->
+        <!--            android:layout_marginLeft="20dp"-->
+        <!--            android:src="@drawable/image"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintHorizontal_bias="0.502"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/amenitiesCheckList"-->
+        <!--            app:layout_constraintWidth_percent="1" />-->
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/priceCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/buttonsLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        >
+
+        <ImageButton
+            android:id="@+id/showPricesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/price_cards"
+            android:background="?android:attr/selectableItemBackground"
+            app:layout_constraintTop_toBottomOf="@id/buttonsLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            android:layout_marginTop="16dp"
+            />
+
+        <TextView
+            android:id="@+id/selectedDate"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="10dp"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:fontFamily="serif"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintTop_toBottomOf="@id/buttonsLayout" />
+
+        <Button
+            android:id="@+id/buttonAddPriceCard"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:backgroundTint="@color/colorAccent1"
+            android:fontFamily="serif"
+            android:text="@string/addPriceCard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/amenitiesCheckList"
+            />
+
+    </LinearLayout>
+
+
+
+    <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="300dp"
         android:layout_height="match_parent"
@@ -618,7 +620,7 @@
         app:layout_constraintStart_toStartOf="parent"
 
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/nav_menu_owner"/> -->
+        app:menu="@menu/nav_menu_owner"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
+</ScrollView>

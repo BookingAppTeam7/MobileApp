@@ -293,7 +293,7 @@
     <Button
         android:id="@+id/buttonCreate"
         android:layout_width="195dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_marginTop="70dp"
         android:backgroundTint="@color/colorButton"
         android:fontFamily="serif"

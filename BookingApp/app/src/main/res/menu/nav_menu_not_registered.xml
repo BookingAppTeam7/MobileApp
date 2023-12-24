@@ -22,6 +22,11 @@
         android:icon="@drawable/ic_accommodation"/>
 
     <item
+        android:id="@+id/createAccommodation"
+        android:title="Add Accommodation"
+        android:icon="@drawable/create_accommodation_icon"/>
+
+    <item
         android:id="@+id/menu_about_us"
         android:title="About us"
         android:icon="@drawable/ic_about_us"/>

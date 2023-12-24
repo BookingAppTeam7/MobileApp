@@ -2,27 +2,24 @@ package com.example.bookingapp.model.DTOs;
 
 import com.example.bookingapp.model.enums.PriceTypeEnum;
 
-import java.io.Serializable;
-
-public class PriceCardPostDTO implements Serializable {
-    public TimeSlotPostDTO timeSlot;
+public class PriceCardStringDTO {
+    public TimeSlotStringDTO timeSlot;
     public double price;
     public PriceTypeEnum type;
 
     public Long accommodationId;
 
-
-    public PriceCardPostDTO(TimeSlotPostDTO timeSlot, double price, PriceTypeEnum type) {
+    public PriceCardStringDTO(TimeSlotStringDTO timeSlot, double price, PriceTypeEnum type) {
         this.timeSlot = timeSlot;
         this.price = price;
         this.type = type;
     }
 
-    public TimeSlotPostDTO getTimeSlot() {
+    public TimeSlotStringDTO getTimeSlot() {
         return timeSlot;
     }
 
-    public void setTimeSlot(TimeSlotPostDTO timeSlot) {
+    public void setTimeSlot(TimeSlotStringDTO timeSlot) {
         this.timeSlot = timeSlot;
     }
 

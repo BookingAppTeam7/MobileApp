@@ -3,6 +3,7 @@ package com.example.bookingapp.services;
 import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.DTOs.AccommodationPostDTO;
 import com.example.bookingapp.model.DTOs.PriceCardPostDTO;
+import com.example.bookingapp.model.DTOs.PriceCardStringDTO;
 import com.example.bookingapp.model.PriceCard;
 
 import retrofit2.Call;
@@ -15,6 +16,6 @@ public interface PriceCardService {
             "User-Agent: Mobile-Android",
             "Content-Type:application/json"
     })
-    @POST("priceCards")
-    Call<PriceCard> create(@Body PriceCardPostDTO newPriceCard);
+    @POST("priceCards/DatesString")
+    Call<PriceCard> create(@Body PriceCardStringDTO newPriceCard);
 }
