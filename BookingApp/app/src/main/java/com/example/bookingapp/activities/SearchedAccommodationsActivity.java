@@ -342,6 +342,11 @@ public class SearchedAccommodationsActivity extends AppCompatActivity implements
         });
     }
 
+    @Override
+    public void onReservationButtonClicked(int guests, String arrivalDate, String checkoutDate) {
+
+    }
+
     public void performLoginAction(){
         Intent intent = new Intent(SearchedAccommodationsActivity.this, LogInScreenActivity.class);
         startActivity(intent);
