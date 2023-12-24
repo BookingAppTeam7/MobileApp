@@ -10,6 +10,8 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public interface PriceCardService {
     @Headers({
@@ -18,4 +20,7 @@ public interface PriceCardService {
     })
     @POST("priceCards/DatesString")
     Call<PriceCard> create(@Body PriceCardStringDTO newPriceCard);
+
+    @PUT("priceCards/StringDates/{id}")
+    Call<PriceCard> modify(@Body PriceCardStringDTO priceCard, @Path("id") Long id);
 }

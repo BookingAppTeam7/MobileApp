@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bookingapp.R;
 import com.example.bookingapp.databinding.ActivityEditAccommodationsDataBinding;
@@ -27,7 +28,9 @@ import com.example.bookingapp.fragments.accommodations.AvailabilityFragment;
 import com.example.bookingapp.fragments.accommodations.PriceCardFragment;
 import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.DTOs.PriceCardPostDTO;
+import com.example.bookingapp.model.DTOs.PriceCardStringDTO;
 import com.example.bookingapp.model.DTOs.TimeSlotPostDTO;
+import com.example.bookingapp.model.DTOs.TimeSlotStringDTO;
 import com.example.bookingapp.model.PriceCard;
 import com.example.bookingapp.model.enums.PriceTypeEnum;
 import com.example.bookingapp.model.enums.ReservationConfirmationEnum;
@@ -53,13 +56,13 @@ import retrofit2.Retrofit;
 
 public class EditAccommodationsDataActivity extends AppCompatActivity {
 
-    public List<PriceCardPostDTO> prices=new ArrayList<>();
+    public List<PriceCard> prices=new ArrayList<>();
     public Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
     public AccommodationService accommodationService = retrofit.create(AccommodationService.class);
     public PriceCardService priceCardService=retrofit.create(PriceCardService.class);
 
-    Date startDateObject;
-    Date endDateObject;
+    String startDateObject;
+    String endDateObject;
 
     public Accommodation accommodation;
 
@@ -193,6 +196,7 @@ public class EditAccommodationsDataActivity extends AppCompatActivity {
                 List<PriceCard> prices = EditAccommodationsDataActivity.this.accommodation.prices;
 
                 intent.putExtra("prices", (Serializable) prices);
+                intent.putExtra("accommodationId", accommodationId);
 
                 startActivity(intent);
             }
@@ -220,10 +224,32 @@ public class EditAccommodationsDataActivity extends AppCompatActivity {
 
         }
 
-        TimeSlotPostDTO newTimeSlot=new TimeSlotPostDTO(startDateObject,endDateObject);
-        PriceCardPostDTO newPriceCard=new PriceCardPostDTO(newTimeSlot,price,priceType);
-        this.prices.add(newPriceCard);
-        //treba setovati accommodation_id
+        TimeSlotStringDTO newTimeSlot=new TimeSlotStringDTO(startDateObject,endDateObject);
+        PriceCardStringDTO newPriceCard=new PriceCardStringDTO(newTimeSlot,price,priceType);
+        newPriceCard.setAccommodationId(accommodation.id);
+
+
+        Call<PriceCard> call = this.priceCardService.create(newPriceCard);
+        call.enqueue(new Callback<PriceCard>() {
+            @Override
+            public void onResponse(Call<PriceCard> call, Response<PriceCard> response) {
+                if (response.isSuccessful()) {
+                    PriceCard createdPriceCard = response.body();
+                    EditAccommodationsDataActivity.this.prices.add(createdPriceCard);
+                    prices = EditAccommodationsDataActivity.this.accommodation.prices;
+                    Toast.makeText(EditAccommodationsDataActivity.this, "Successfully created Price Card!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(EditAccommodationsDataActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<PriceCard> call, Throwable t) {
+                Log.e("Retrofit", "Error:", t);
+                Toast.makeText(EditAccommodationsDataActivity.this, "Connection error!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 
     private void showAddTimeSlotDialog(TextView selectedDate) {
@@ -248,8 +274,8 @@ public class EditAccommodationsDataActivity extends AppCompatActivity {
             String selectedDateRange = startDateString + " - " + endDateString;
 
 
-            startDateObject = new Date(startDateString);
-            endDateObject = new Date(endDateString);
+            startDateObject = startDateString;
+            endDateObject = endDateString;
 
             // Displaying the selected date range in the TextView
             selectedDate.setText(selectedDateRange);

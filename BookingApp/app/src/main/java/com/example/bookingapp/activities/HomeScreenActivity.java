@@ -240,6 +240,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 else if(item.getItemId()==addAccommodationMenuItem.getItemId()){
                     Intent intent = new Intent(HomeScreenActivity.this, CreateAccommodationActivity.class);
                     startActivity(intent);
+                    return true;
                 }
 
                 // Zatvori navigacijski izbornik

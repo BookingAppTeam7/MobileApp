@@ -85,7 +85,7 @@ public class OwnersAccommodationActivity extends AppCompatActivity {
                             Long accommodationId = selectedAccommodation.id;
 
                             Intent intent = new Intent(OwnersAccommodationActivity.this, EditAccommodationsDataActivity.class);
-                            intent.putExtra("accommodationId", accommodationId);
+                           intent.putExtra("accommodationId", accommodationId);
                             startActivity(intent);
                         }
                     });

@@ -80,6 +80,8 @@ public class CreateAccommodationActivity extends AppCompatActivity {
     String endDateObject;
 
     Accommodation createdAccommodation;
+
+    public String ownerId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +107,7 @@ public class CreateAccommodationActivity extends AppCompatActivity {
 
         EditText newPrice=binding.editTextPrice;
 
+        this.ownerId= TokenManager.getLoggedInUser().username;
 
         buttonAddTimeSlot.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,7 +185,7 @@ public class CreateAccommodationActivity extends AppCompatActivity {
 
         //OWNER ID dobaviti iz tokena
 
-        String ownerId= TokenManager.getLoggedInUser().username;
+
 
         RadioGroup radioGroupAccommodationType = findViewById(R.id.radioGroupAccommodationType);
         int selectedRadioButtonId = radioGroupAccommodationType.getCheckedRadioButtonId();

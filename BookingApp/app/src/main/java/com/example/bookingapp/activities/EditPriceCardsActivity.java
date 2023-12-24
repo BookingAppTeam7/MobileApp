@@ -20,8 +20,10 @@ public class EditPriceCardsActivity extends AppCompatActivity {
 
     ActivityEditPriceCardsBinding binding;
     List<PriceCard> prices;
+    public Long accommodationId;
 
     PriceCardListAdapter priceCardListAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,12 +42,12 @@ public class EditPriceCardsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             this.prices = (List<PriceCard>) intent.getSerializableExtra("prices");
-
+            accommodationId = getIntent().getLongExtra("accommodationId", -1);
         }
         priceCardListAdapter = new PriceCardListAdapter(EditPriceCardsActivity.this, prices);
         ListView listView = binding.listview;
         listView.setAdapter(priceCardListAdapter);
-
+        priceCardListAdapter.setAccommodationId(accommodationId);
 
     }
 }

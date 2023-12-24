@@ -17,20 +17,32 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookingapp.R;
+import com.example.bookingapp.activities.EditPriceCardsActivity;
 import com.example.bookingapp.model.Accommodation;
+import com.example.bookingapp.model.DTOs.PriceCardStringDTO;
+import com.example.bookingapp.model.DTOs.TimeSlotStringDTO;
 import com.example.bookingapp.model.PriceCard;
 import com.example.bookingapp.model.enums.PriceTypeEnum;
 import com.example.bookingapp.model.enums.TypeEnum;
+import com.example.bookingapp.network.RetrofitClientInstance;
+import com.example.bookingapp.services.AccommodationService;
+import com.example.bookingapp.services.PriceCardService;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class PriceCardListAdapter extends ArrayAdapter<PriceCard> {
     private List<PriceCard> aPrices;
+    private static Long accommodationId;
 
-    public PriceCardListAdapter(Context context, List<PriceCard> prices){
+    public PriceCardListAdapter(Context context, List<PriceCard> prices) {
         super(context, R.layout.item_edit_price_card, prices);
         aPrices = prices;
     }
@@ -51,11 +63,15 @@ public class PriceCardListAdapter extends ArrayAdapter<PriceCard> {
         return position;
     }
 
+    public void setAccommodationId(Long id) {
+        this.accommodationId = id;
+    }
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         PriceCard priceCard = getItem(position);
-        if(convertView == null){
+        if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_edit_price_card,
                     parent, false);
         }
@@ -88,12 +104,48 @@ public class PriceCardListAdapter extends ArrayAdapter<PriceCard> {
 
         }
 
+
+        buttonSaveChanges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Prikupite podatke iz forme
+                double price = Double.parseDouble(editTextPrice.getText().toString());
+                String startDate = editTextStartDate.getText().toString();
+                String endDate = editTextEndDate.getText().toString();
+                PriceTypeEnum type = radioButtonUnit.isChecked() ? PriceTypeEnum.PERUNIT : PriceTypeEnum.PERGUEST;
+
+                TimeSlotStringDTO timeSlotStringDTO = new TimeSlotStringDTO(startDate, endDate);
+                PriceCardStringDTO priceCardStringDTO = new PriceCardStringDTO(timeSlotStringDTO, price, type);
+                // accommodationId nam je nebitan u ovom slučaju
+                priceCardStringDTO.setAccommodationId(accommodationId);
+
+                Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+                PriceCardService priceCardService = retrofit.create(PriceCardService.class);
+
+                Call<PriceCard> call = priceCardService.modify(priceCardStringDTO, priceCard.getId());
+                call.enqueue(new Callback<PriceCard>() {
+                    @Override
+                    public void onResponse(Call<PriceCard> call, Response<PriceCard> response) {
+                        if (response.isSuccessful()) {
+                            PriceCard modifiedPriceCard = response.body();
+                            // Update the data in the adapter
+                            updatePriceCard(position, modifiedPriceCard);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PriceCard> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+            }
+        });
         return convertView;
     }
 
-    public void updateData(List<PriceCard> newData) {
-        aPrices.clear();
-        aPrices.addAll(newData);
+    public void updatePriceCard(int position, PriceCard updatedPriceCard) {
+        aPrices.set(position, updatedPriceCard);
         notifyDataSetChanged();
     }
+
 }
