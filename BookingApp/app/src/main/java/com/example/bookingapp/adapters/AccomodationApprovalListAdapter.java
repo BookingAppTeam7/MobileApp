@@ -14,27 +14,28 @@ import androidx.annotation.Nullable;
 
 import com.example.bookingapp.R;
 import com.example.bookingapp.model.Accommodation;
+import com.example.bookingapp.model.AccommodationRequest;
 
 import java.util.ArrayList;
 
-public class AccomodationApprovalListAdapter extends ArrayAdapter<Accommodation> {
+public class AccomodationApprovalListAdapter extends ArrayAdapter<AccommodationRequest> {
 
-    private ArrayList<Accommodation> aAccommodations;
+    private ArrayList<AccommodationRequest> aRequests;
 
-    public AccomodationApprovalListAdapter(Context context, ArrayList<Accommodation> accommodations){
-        super(context, R.layout.list_approval_accomodation, accommodations);
-        aAccommodations = accommodations;
+    public AccomodationApprovalListAdapter(Context context, ArrayList<AccommodationRequest> requests){
+        super(context, R.layout.list_approval_accomodation, requests);
+        aRequests = requests;
     }
 
     @Override
     public int getCount() {
-        return aAccommodations.size();
+        return aRequests.size();
     }
 
     @Nullable
     @Override
-    public Accommodation getItem(int position) {
-        return aAccommodations.get(position);
+    public AccommodationRequest getItem(int position) {
+        return aRequests.get(position);
     }
 
     @Override
@@ -45,24 +46,22 @@ public class AccomodationApprovalListAdapter extends ArrayAdapter<Accommodation>
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        Accommodation accommodation = getItem(position);
+        AccommodationRequest request = getItem(position);
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_approval_accomodation,
                     parent, false);
         }
-        //LinearLayout accommodationCard = convertView.findViewById(R.id.accommodation_card_item);
-        ImageView imageView = convertView.findViewById(R.id.listImage);
+
         ImageButton imageButtonApprove = convertView.findViewById(R.id.imageButtonApprove);
         ImageButton imageButtonReject = convertView.findViewById(R.id.imageButtonReject);
 
-        TextView accommodationName = convertView.findViewById(R.id.listAccommodationName);
-        //TextView accommodationDescription = convertView.findViewById(R.id.listAccommodationDesc);
+        TextView requestId = convertView.findViewById(R.id.listRequestId);
+        TextView requestStatus = convertView.findViewById(R.id.listStatus);
 
-        //imageView.setImageResource(accommodation.getImage());
-        accommodationName.setText(accommodation.getName());
+        requestId.setText(String.valueOf(request.getId()));
+        requestStatus.setText(String.valueOf(request.getRequestStatus()));
         imageButtonApprove.setImageResource(R.drawable.ic_check_blue);
         imageButtonReject.setImageResource(R.drawable.ic_reject_blue);
-        //accommodationDescription.setText(accommodation.getDescription());
 
         return convertView;
     }

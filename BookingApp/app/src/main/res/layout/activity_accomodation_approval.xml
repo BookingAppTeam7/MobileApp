@@ -36,8 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:context=".fragments.accommodations.AccommodationPageFragment">
+        app:layout_constraintTop_toTopOf="parent">
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -89,7 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginLeft="125dp"
+            android:layout_marginLeft="80dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
 
@@ -128,6 +127,8 @@
         android:divider="@android:color/transparent"
         android:dividerHeight="10.0sp"
         android:scrollbars="vertical"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/linear5"
         app:layout_constraintVertical_bias="1.0"
