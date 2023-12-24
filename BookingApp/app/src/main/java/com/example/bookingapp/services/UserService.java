@@ -45,6 +45,7 @@ public interface UserService {
     @GET("users/user/username/{username}")
     Call<User> findUserById(@Path("username") String username);
 
-
+    @GET("/logOut")
+    Call<Void>logout();
 
 }
