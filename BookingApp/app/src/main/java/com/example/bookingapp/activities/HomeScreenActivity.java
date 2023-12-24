@@ -199,7 +199,53 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 }
             }
         });
+        /////////////////////////////PODESAVANJE NAVBARA
+        MenuItem logInMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_login);
+        MenuItem registerMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_registration);
+        MenuItem accomodationMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_accommodation_approval);
+        MenuItem aboutUsMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_about_us);
+        MenuItem myAccountItem = binding.navigationView.getMenu().findItem(R.id.menu_account);
+        MenuItem notificationSettings=binding.navigationView.getMenu().findItem(R.id.menu_notification_settings);
+        MenuItem logOut=binding.navigationView.getMenu().findItem(R.id.menu_logout);
+        if(loggedInRole==null){//znaci da je neulogovan
+            logInMenuItem.setVisible(true);
+            registerMenuItem.setVisible(true);
+            accomodationMenuItem.setVisible(false);
+            aboutUsMenuItem.setVisible(true);
+            myAccountItem.setVisible(false);
+            notificationSettings.setVisible(false);
+            logOut.setVisible(false);
+        }else{
+            if(loggedInRole.equals("GUEST")){//za goste
+                logInMenuItem.setVisible(false);
+                registerMenuItem.setVisible(false);
+                accomodationMenuItem.setVisible(false);
+                aboutUsMenuItem.setVisible(true);
+                myAccountItem.setVisible(true);
+                notificationSettings.setVisible(true);
+                logOut.setVisible(true);
+            }
+            if(loggedInRole.equals("OWNER")){
+                logInMenuItem.setVisible(false);
+                registerMenuItem.setVisible(false);
+                accomodationMenuItem.setVisible(true);
+                aboutUsMenuItem.setVisible(true);
+                myAccountItem.setVisible(true);
+                notificationSettings.setVisible(true);
+                logOut.setVisible(true);
+            }
+            if(loggedInRole.equals("ADMIN")){
+                logInMenuItem.setVisible(false);
+                registerMenuItem.setVisible(false);
+                accomodationMenuItem.setVisible(true);
+                aboutUsMenuItem.setVisible(true);
+                myAccountItem.setVisible(true);
+                notificationSettings.setVisible(false);
+                logOut.setVisible(true);
+            }
+        }
 
+        ///////////////////////////////////
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
@@ -210,26 +256,6 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 MenuItem myAccountItem = binding.navigationView.getMenu().findItem(R.id.menu_account);
                 MenuItem notificationSettings=binding.navigationView.getMenu().findItem(R.id.menu_notification_settings);
                 MenuItem logOut=binding.navigationView.getMenu().findItem(R.id.menu_logout);
-//                if (roleString.equals("OWNER")) {
-//                    // Prikazi navigaciju za vlasnika
-//                    logInMenuItem.setVisible(false);
-//                    registerMenuItem.setVisible(false);
-//                    accomodationMenuItem.setVisible(true); // Prikazi opciju za vlasnika
-//                    aboutUsMenuItem.setVisible(true);
-//                } else
-//                if(roleString.equals("GUEST")){
-//                    // Prikazi navigaciju za gosta
-//                    logInMenuItem.setVisible(false);
-//                    registerMenuItem.setVisible(false);
-//                    accomodationMenuItem.setVisible(false); // Sakrij opciju za vlasnika
-//                    aboutUsMenuItem.setVisible(true);
-//                }
-//                else{
-//                    logInMenuItem.setVisible(true);
-//                    registerMenuItem.setVisible(true);
-//                    accomodationMenuItem.setVisible(false); // Sakrij opciju za vlasnika
-//                    aboutUsMenuItem.setVisible(true);
-//                }
 
                 if (item.getItemId() == logInMenuItem.getItemId()) {
                     performLoginAction();
@@ -273,8 +299,6 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             getMenuInflater().inflate(R.menu.nav_menu, menu);
             return true;
         }
-
-
 
     @Override
     public void onSearchButtonClicked(String place, int guests, String arrivalDate, String checkoutDate) {
@@ -391,8 +415,12 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
+                    Log.e("LOGOUT","LOGOOOUT");
+                    loggedInRole=null;
                   Toast.makeText(HomeScreenActivity.this,"LOG OUT SUCCESSFULL",Toast.LENGTH_LONG);
                   TokenManager.setLoggedInUser(null);
+                    Intent intent = new Intent(HomeScreenActivity.this,LogInScreenActivity.class);
+                    startActivity(intent);
                 }
             }
             @Override

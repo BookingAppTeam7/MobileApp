@@ -118,6 +118,7 @@ public class OwnerNotificationSettingsActivity extends AppCompatActivity {
 
 
                 Intent intent=new Intent(OwnerNotificationSettingsActivity.this, HomeScreenActivity.class);
+                intent.putExtra("role","OWNER");
                 startActivity(intent);
             }
         });

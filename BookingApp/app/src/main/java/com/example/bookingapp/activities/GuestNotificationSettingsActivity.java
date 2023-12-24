@@ -74,6 +74,7 @@ public class GuestNotificationSettingsActivity extends AppCompatActivity {
                 });
 
                 Intent intent=new Intent(GuestNotificationSettingsActivity.this, HomeScreenActivity.class);
+                intent.putExtra("role","GUEST");
                 startActivity(intent);
             }
         });
