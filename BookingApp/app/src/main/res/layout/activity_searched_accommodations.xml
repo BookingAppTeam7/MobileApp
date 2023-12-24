@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.HomeScreenActivity">
+    tools:context=".activities.SearchedAccommodationsActivity">
 
 
     <androidx.drawerlayout.widget.DrawerLayout
@@ -90,14 +90,13 @@
             android:layout_marginTop="10dp"
             >
             <Button
-                android:id="@+id/btnSearch"
+                android:id="@+id/btnFilters"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.7"
-                android:text="@string/search"
+                android:text="@string/filters"
                 tools:ignore="TextContrastCheck"
-                android:backgroundTint="@color/colorButton"
-                android:layout_marginEnd="8dp"/>
+                android:backgroundTint="@color/colorButton"/>
 
         </LinearLayout>
     </LinearLayout>
@@ -112,7 +111,7 @@
         app:layout_constraintTop_toBottomOf="@id/linear5"
         app:layout_constraintVertical_bias="1.0"
         tools:layout_editor_absoluteX="0dp"
-        tools:listitem="@layout/list_accommodation"
+        tools:listitem="@layout/list_detail_accommodation"
         android:divider="@android:color/transparent"
         android:dividerHeight="10.0sp"/>
 

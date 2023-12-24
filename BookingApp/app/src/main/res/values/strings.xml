@@ -25,8 +25,9 @@
     <string name="sort">sort</string>
     <string name="search">Search</string>
     <string name="category">Category</string>
-    <string name="hotel">Hotel</string>
-    <string name="apartment">Apartment</string>
+    <string name="room">ROOM</string>
+    <string name="apartment">APARTMENT</string>
+    <string name="vip_room">VIP ROOM</string>
     <string name="assets">Assets</string>
     <string name="wifi">Free wi-fi</string>
     <string name="pool">Swimming pool</string>
@@ -43,11 +44,13 @@
     <string name="descriptionHint"> Description </string>
     <string name="minNumOfGuests"> Min guests  </string>
     <string name="maxNumOfGuests"> Max guests  </string>
+    <string name="minTotalPrice">Min price</string>
+    <string name="maxTotalPrice">Max price</string>
     <string name="apartmentRadioButton"> Apartment</string>
     <string name="roomRadioButton"> Room</string>
     <string name="createAccommodationButtonText"> Create </string>
     <string name="amenities"> Amenities </string>
-    <string name="freeParking">Free Parking </string>
+    <string name="freeParking">Free Parking</string>
     <string name="kitchen">Kitchen</string>
     <string name="perAccommodationUnitRadioButton"> Per unit</string>
     <string name="perGuestRadioButton"> Per guest</string>
