@@ -79,6 +79,15 @@
             android:layout_marginEnd="10dp"
             android:text="Availability"/>
 
+        <Button
+            android:id="@+id/reservation"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:backgroundTint="@color/black"
+            android:layout_gravity="end"
+            android:layout_marginEnd="10dp"
+            android:text="Reserve"/>
+
     </LinearLayout>
     <TextView
         android:id="@+id/assets"

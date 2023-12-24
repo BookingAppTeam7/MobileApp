@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -72,9 +73,9 @@ public class RegisterScreenActivity extends AppCompatActivity {
 
 
                 RoleEnum roleEnum=RoleEnum.GUEST;
-
+                Log.e("ULOGA",role);
                 if(role.equals("Guest")){roleEnum=RoleEnum.GUEST;}
-
+                if(role.equals("Owner")){roleEnum=RoleEnum.OWNER;}//////////
                 UserPostDTO newUser=new UserPostDTO(firstName,lastName,username,password,passwordConfirmation,roleEnum,address,
                 phoneNumber,reservationRequestNotification,reservationCancellationNotification,ownerRatingNotification,accommodationRatingNotification,ownerRepliedToRequestNotification,false);
 

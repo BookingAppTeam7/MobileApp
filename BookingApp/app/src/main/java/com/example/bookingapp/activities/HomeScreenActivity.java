@@ -68,7 +68,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
     ArrayList<Accommodation> accommodationsToShow=new ArrayList<>();
     List<AccommodationDetails> searchedAccommodationArrayList = new ArrayList<>();
     Accommodation accommodation;
-
+    String loggedInUsername;
+    String loggedInRole;
     RoleEnum role=RoleEnum.UNAUTHENTICATED;
 
 
@@ -78,7 +79,13 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         binding = ActivityHomeScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
+        Intent intent=this.getIntent();
+        if(intent!=null){
+            loggedInUsername=intent.getStringExtra("username");
+            loggedInRole=intent.getStringExtra("role");
+            Log.e("USERNAME",loggedInUsername);
+            Log.e("ROLE",loggedInRole);
+        }
         String roleString = getRoleFromToken();
         Toast.makeText(HomeScreenActivity.this, "Role:  "+roleString, Toast.LENGTH_SHORT).show();
 
@@ -114,6 +121,9 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             Intent intent = new Intent(HomeScreenActivity.this, DetailedActivity.class);
+                            intent.putExtra("username",loggedInUsername);
+                            intent.putExtra("role",loggedInRole);
+                            intent.putExtra("accommodationId",accommodationsToShow.get(position).getId());
                             intent.putExtra("name", accommodationsToShow.get(position).getName());
                             intent.putExtra("description", accommodationsToShow.get(position).getDescription());
                             intent.putExtra("image", accommodationsToShow.get(position).getImages().get(0));
@@ -303,6 +313,11 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
 
     @Override
     public void onFilterButtonClicked(TypeEnum selectedType, String joined, String minTotalPrice, String maxTotalPrice) {
+
+    }
+
+    @Override
+    public void onReservationButtonClicked(int guests, String arrivalDate, String checkoutDate) {
 
     }
 
