@@ -121,6 +121,7 @@ public class SearchedAccommodationsActivity extends AppCompatActivity implements
                                 Intent intent = new Intent(SearchedAccommodationsActivity.this, DetailedActivity.class);
                                 intent.putExtra("username",loggedInUsername);
                                 intent.putExtra("role",loggedInRole);
+                                intent.putExtra("accommodationId",accommodation.getId());
                                 intent.putExtra("name", accommodation.getName());
                                 intent.putExtra("description", accommodation.getDescription());
                                 intent.putExtra("image", accommodation.getImages().get(0));
