@@ -2,6 +2,7 @@ package com.example.bookingapp.services;
 
 import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.DTOs.AccommodationPostDTO;
+import com.example.bookingapp.model.DTOs.AccommodationPutDTO;
 import com.example.bookingapp.model.DTOs.UserGetDTO;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface AccommodationService {
@@ -29,4 +31,7 @@ public interface AccommodationService {
 
     @GET("accommodations/{id}")
     Call<Accommodation> findById(@Path("id") Long id);
+
+    @PUT("accommodations/{id}")
+    Call<Accommodation> update(@Body AccommodationPutDTO accommodation, @Path("id") Long id);
 }

@@ -194,6 +194,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 MenuItem aboutUsMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_about_us);
                 MenuItem myAccountItem = binding.navigationView.getMenu().findItem(R.id.menu_account);
                 MenuItem addAccommodationMenuItem=binding.navigationView.getMenu().findItem(R.id.createAccommodation);
+                MenuItem accommodationsRequestMenuItem=binding.navigationView.getMenu().findItem(R.id.accommodationRequests);
 
 //                if (roleString.equals("OWNER")) {
 //                    // Prikazi navigaciju za vlasnika
@@ -239,6 +240,12 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 }
                 else if(item.getItemId()==addAccommodationMenuItem.getItemId()){
                     Intent intent = new Intent(HomeScreenActivity.this, CreateAccommodationActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+
+                else if(item.getItemId()==accommodationsRequestMenuItem.getItemId()){
+                    Intent intent = new Intent(HomeScreenActivity.this, AccomodationApprovalActivity.class);
                     startActivity(intent);
                     return true;
                 }

@@ -27,11 +27,16 @@ import com.example.bookingapp.databinding.ActivityEditAccommodationsDataBinding;
 import com.example.bookingapp.fragments.accommodations.AvailabilityFragment;
 import com.example.bookingapp.fragments.accommodations.PriceCardFragment;
 import com.example.bookingapp.model.Accommodation;
+import com.example.bookingapp.model.DTOs.AccommodationPostDTO;
+import com.example.bookingapp.model.DTOs.AccommodationPutDTO;
+import com.example.bookingapp.model.DTOs.LocationPostDTO;
+import com.example.bookingapp.model.DTOs.LocationPutDTO;
 import com.example.bookingapp.model.DTOs.PriceCardPostDTO;
 import com.example.bookingapp.model.DTOs.PriceCardStringDTO;
 import com.example.bookingapp.model.DTOs.TimeSlotPostDTO;
 import com.example.bookingapp.model.DTOs.TimeSlotStringDTO;
 import com.example.bookingapp.model.PriceCard;
+import com.example.bookingapp.model.TokenManager;
 import com.example.bookingapp.model.enums.PriceTypeEnum;
 import com.example.bookingapp.model.enums.ReservationConfirmationEnum;
 import com.example.bookingapp.model.enums.TypeEnum;
@@ -169,10 +174,18 @@ public class EditAccommodationsDataActivity extends AppCompatActivity {
         Button buttonAddTimeSlot=binding.buttonAddTimeSlot;
         Button buttonAddPriceCard=binding.buttonAddPriceCard;
         ImageButton buttonEditPrices=binding.showPricesButton;
+        Button saveChanges=binding.buttonCreate;
 
         TextView selectedDate=binding.selectedDate;
 
         EditText newPrice=binding.editTextPrice;
+
+        saveChanges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDataAndUpdate();
+            }
+        });
 
         buttonAddTimeSlot.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,8 +214,115 @@ public class EditAccommodationsDataActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void getDataAndUpdate() {
+
+        String name = ((EditText) findViewById(R.id.editTextName)).getText().toString();
+        String address = ((EditText) findViewById(R.id.editTextLocation)).getText().toString();
+        String city = ((EditText) findViewById(R.id.editTextCity)).getText().toString();
+        String country = ((EditText) findViewById(R.id.editTextCountry)).getText().toString();
+        String minNumOfGuests = ((EditText) findViewById(R.id.editTextMinNumOfGusets)).getText().toString();
+        String maxNumOfGuests = ((EditText) findViewById(R.id.editTextMaxNumOfGusets)).getText().toString();
+        String cancellationDeadline = ((EditText) findViewById(R.id.editTextCancellationDeadLine)).getText().toString();
+        String description = ((EditText) findViewById(R.id.editTextDescription)).getText().toString();
+        TypeEnum type=TypeEnum.APARTMENT;
+        ReservationConfirmationEnum reservationConfirmation=ReservationConfirmationEnum.MANUAL;
+
+        //OWNER ID dobaviti iz tokena
 
 
+
+        RadioGroup radioGroupAccommodationType = findViewById(R.id.radioGroupAccommodationType);
+        int selectedRadioButtonId = radioGroupAccommodationType.getCheckedRadioButtonId();
+        if (selectedRadioButtonId != -1) {
+            RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
+            String selectedAccommodationType = selectedRadioButton.getText().toString();
+            if(selectedAccommodationType=="ROOM"){
+                type=TypeEnum.ROOM;
+            }
+            else if(selectedAccommodationType=="VIP_ROOM"){
+                type=TypeEnum.VIP_ROOM;
+            }
+            System.out.println("Odabrani tip smještaja: " + selectedAccommodationType);
+        } else {
+            System.out.println("Nijedan tip smještaja nije odabran");
+        }
+
+        RadioGroup radioGroupReservationConfirmation = findViewById(R.id.radioGroupReservationConfirmation);
+        selectedRadioButtonId = radioGroupReservationConfirmation.getCheckedRadioButtonId();
+        if (selectedRadioButtonId != -1) {
+            RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
+            String selectedConfirmationType = selectedRadioButton.getText().toString();
+            if(selectedConfirmationType=="MANUAL"){
+                reservationConfirmation=ReservationConfirmationEnum.MANUAL;
+            }
+            else {
+                reservationConfirmation=ReservationConfirmationEnum.AUTOMATIC;
+            }
+        } else {
+            System.out.println("Nijedan tip potvrde rezervacije nije odabran");
+        }
+
+        List<String> assets=new ArrayList<>();
+
+        LinearLayout amenitiesCheckList = findViewById(R.id.amenitiesCheckList);
+
+        LinearLayout amenitiesCheckListLeft = findViewById(R.id.amenitiesCheckListLeft);
+        LinearLayout amenitiesCheckListRight = findViewById(R.id.amenitiesCheckListRight);
+
+        CheckBox checkBoxWiFi = amenitiesCheckListLeft.findViewById(R.id.checkBoxWiFi);
+        CheckBox checkBoxParking = amenitiesCheckListLeft.findViewById(R.id.checkBoxParking);
+        CheckBox checkBoxAirConditioning = amenitiesCheckListRight.findViewById(R.id.checkBoxAirConditioning);
+        CheckBox checkBoxKitchen = amenitiesCheckListRight.findViewById(R.id.checkBoxKitchen);
+
+        boolean isWiFiChecked = checkBoxWiFi.isChecked();
+        if(isWiFiChecked){
+            assets.add("Free Wi-Fi");
+        }
+        boolean isParkingChecked = checkBoxParking.isChecked();
+        if(isParkingChecked){
+            assets.add("Free Parking");
+        }
+        boolean isAirConditioningChecked = checkBoxAirConditioning.isChecked();
+        if(isAirConditioningChecked){
+            assets.add("Air conditioner");
+        }
+        boolean isKitchenChecked = checkBoxKitchen.isChecked();
+        if(isKitchenChecked){
+            assets.add("Kitchen");
+        }
+
+        AccommodationPutDTO updatedAccommodation = new AccommodationPutDTO();
+        updatedAccommodation.name = name;
+        updatedAccommodation.location = new LocationPutDTO(address,city,country,0.0,0.0);
+        updatedAccommodation.description=description;
+        updatedAccommodation.minGuests=Integer.parseInt(minNumOfGuests);
+        updatedAccommodation.maxGuests=Integer.parseInt(maxNumOfGuests);
+        updatedAccommodation.type=type;
+        updatedAccommodation.ownerId= TokenManager.getLoggedInUser().username;
+        updatedAccommodation.cancellationDeadline=Integer.parseInt(cancellationDeadline);
+        updatedAccommodation.images=new ArrayList<>();
+        updatedAccommodation.assets=assets;
+        updatedAccommodation.setReservationConfirmation(reservationConfirmation);
+
+        Call<Accommodation> call = this.accommodationService.update(updatedAccommodation,EditAccommodationsDataActivity.this.accommodation.id);
+        call.enqueue(new Callback<Accommodation>() {
+            @Override
+            public void onResponse(Call<Accommodation> call, Response<Accommodation> response) {
+                if (response.isSuccessful()) {
+
+                    Toast.makeText(EditAccommodationsDataActivity.this, "Successfully created accommodation!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(EditAccommodationsDataActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<Accommodation> call, Throwable t) {
+                Log.e("Retrofit", "Error:", t);
+                Toast.makeText(EditAccommodationsDataActivity.this, "Connection error!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 

@@ -21,7 +21,6 @@ import java.util.List;
 
 public class AccomodationApprovalActivity extends AppCompatActivity {
 
-
     ActivityAccomodationApprovalBinding binding;
     AccomodationApprovalListAdapter listAdapter;
     ArrayList<Accommodation> accommodationArrayList = new ArrayList<Accommodation>();
