@@ -75,5 +75,7 @@
     <string name="yCoordinate">Y</string>
     <string name="cityHint">City</string>
     <string name="countryHint">Country</string>
+    <string name="notificationSettingsTitle">Notification settings</string>
+    <string name="textNotificationSettings">By enabling notifications, you will regularly receive updates from us. It is important to note that notifications will be sent at specific intervals to provide you with the best user experience. Thank you for choosing to receive notifications and being part of our community!</string>
 
 </resources>

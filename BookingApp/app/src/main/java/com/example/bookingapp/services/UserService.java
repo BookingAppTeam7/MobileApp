@@ -42,6 +42,9 @@ public interface UserService {
             @Path("username") String username
     );
 
+    @GET("users/user/username/{username}")
+    Call<User> findUserById(@Path("username") String username);
+
 
 
 }
