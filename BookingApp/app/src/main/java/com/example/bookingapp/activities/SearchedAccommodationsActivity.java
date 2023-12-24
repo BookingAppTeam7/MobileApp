@@ -48,6 +48,8 @@ public class SearchedAccommodationsActivity extends AppCompatActivity implements
     private Animation slideInAnimation;
     private Animation slideOutAnimation;
     private boolean isDrawerOpen = false;
+    String loggedInUsername;
+    String loggedInRole;
     SearchedAccommodationListAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,10 @@ public class SearchedAccommodationsActivity extends AppCompatActivity implements
         accommodationDetails=(ArrayList<AccommodationDetails>) getIntent().getSerializableExtra("accommodationsList");
         Intent intent=this.getIntent();
         if(intent!=null){
+            loggedInUsername=intent.getStringExtra("username");
+            loggedInRole=intent.getStringExtra("role");
+            Log.e("USERNAME",loggedInUsername);
+            Log.e("ROLE",loggedInRole);
             for(AccommodationDetails ad:accommodationDetails){
                 Log.e("PRE ONAJ LOS",ad.toString());
                 Long accommodationId=ad.getAccommodation().getId();
@@ -113,6 +119,8 @@ public class SearchedAccommodationsActivity extends AppCompatActivity implements
                             if (response.isSuccessful()) {
                                 Accommodation accommodation = response.body();
                                 Intent intent = new Intent(SearchedAccommodationsActivity.this, DetailedActivity.class);
+                                intent.putExtra("username",loggedInUsername);
+                                intent.putExtra("role",loggedInRole);
                                 intent.putExtra("name", accommodation.getName());
                                 intent.putExtra("description", accommodation.getDescription());
                                 intent.putExtra("image", accommodation.getImages().get(0));

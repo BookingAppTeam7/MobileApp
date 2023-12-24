@@ -290,6 +290,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                     //for(AccommodationDetails ad:accommodations)
                         Log.e("USPEH222!!!",accommodations.toString());
                     Intent intent = new Intent(HomeScreenActivity.this, SearchedAccommodationsActivity.class);
+                    intent.putExtra("username",loggedInUsername);
+                    intent.putExtra("role",loggedInRole);
                     intent.putExtra("accommodationsList", new ArrayList<>(accommodations));
                     startActivity(intent);
 
