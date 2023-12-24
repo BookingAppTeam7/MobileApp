@@ -32,8 +32,9 @@
     <string name="pool">Swimming pool</string>
     <string name="TV">Television</string>
     <string name="air_conditioner">Air conditioner</string>
-    <string name="ownerRadioButton"> Owner </string>
-    <string name="guestRadioButton"> Guest </string>
+    <string name="ownerRadioButton">Owner</string>
+    <string name="guestRadioButton">Guest</string>
+    <string name="adminRadioButton">Admin</string>
     <string name="registerAsLabel"> Register as : </string>
     <string name="arrivalDate">Arrival date</string>
     <string name="checkoutDate">Check-out date</string>
