@@ -21,6 +21,7 @@ import com.example.bookingapp.fragments.accommodations.SearchBottomSheetFragment
 import com.example.bookingapp.interfaces.BottomSheetListener;
 import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.AccommodationDetails;
+import com.example.bookingapp.model.DTOs.UserGetDTO;
 import com.example.bookingapp.model.PriceCard;
 import com.example.bookingapp.model.TimeSlot;
 import com.example.bookingapp.model.TokenManager;
@@ -29,6 +30,7 @@ import com.example.bookingapp.model.enums.RoleEnum;
 import com.example.bookingapp.model.enums.TypeEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.AccommodationService;
+import com.example.bookingapp.services.UserService;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.IOException;
@@ -54,6 +56,7 @@ import retrofit2.Retrofit;
 
 
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class HomeScreenActivity extends AppCompatActivity implements BottomSheetListener {
@@ -206,6 +209,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 MenuItem aboutUsMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_about_us);
                 MenuItem myAccountItem = binding.navigationView.getMenu().findItem(R.id.menu_account);
                 MenuItem notificationSettings=binding.navigationView.getMenu().findItem(R.id.menu_notification_settings);
+                MenuItem logOut=binding.navigationView.getMenu().findItem(R.id.menu_logout);
 //                if (roleString.equals("OWNER")) {
 //                    // Prikazi navigaciju za vlasnika
 //                    logInMenuItem.setVisible(false);
@@ -251,6 +255,9 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                     User user=TokenManager.getLoggedInUser();
                     performNotificationSettingsAction(user.role,user);
                     return  true;
+                }else if(item.getItemId()==logOut.getItemId()){
+                    performLogOutAction();
+                    return true;
                 }
 
                 // Zatvori navigacijski izbornik
@@ -374,6 +381,27 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
     private String getRoleFromToken() {
         SharedPreferences preferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
         return preferences.getString("role", "");
+    }
+
+    private void   performLogOutAction(){
+        UserService userService = RetrofitClientInstance.getRetrofitInstance().create(UserService.class);
+        Call<Void> call = userService.logout();
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                  Toast.makeText(HomeScreenActivity.this,"LOG OUT SUCCESSFULL",Toast.LENGTH_LONG);
+                  TokenManager.setLoggedInUser(null);
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                t.printStackTrace();
+                Log.d("TAAAAAAGGGGGGGGGG ", "Error: " + t.getMessage());
+            }
+        });
+
     }
 
 
