@@ -92,8 +92,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             if(loggedInRole!=null)
                 Log.e("ROLE",loggedInRole);
         }
-        String roleString = getRoleFromToken();
-        Toast.makeText(HomeScreenActivity.this, "Role:  "+roleString, Toast.LENGTH_SHORT).show();
+        //String roleString = getRoleFromToken();
+        //Toast.makeText(HomeScreenActivity.this, "Role:  "+roleString, Toast.LENGTH_SHORT).show();
 
 
         DrawerLayout drawerLayout = binding.drawerLayout;
@@ -207,6 +207,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         MenuItem myAccountItem = binding.navigationView.getMenu().findItem(R.id.menu_account);
         MenuItem notificationSettings=binding.navigationView.getMenu().findItem(R.id.menu_notification_settings);
         MenuItem logOut=binding.navigationView.getMenu().findItem(R.id.menu_logout);
+        MenuItem addAccommodationMenuItem=binding.navigationView.getMenu().findItem(R.id.createAccommodation);
+        MenuItem accommodationsRequestMenuItem=binding.navigationView.getMenu().findItem(R.id.accommodationRequests);
         if(loggedInRole==null){//znaci da je neulogovan
             logInMenuItem.setVisible(true);
             registerMenuItem.setVisible(true);
@@ -215,6 +217,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             myAccountItem.setVisible(false);
             notificationSettings.setVisible(false);
             logOut.setVisible(false);
+            addAccommodationMenuItem.setVisible(false);
+            accommodationsRequestMenuItem.setVisible(false);
         }else{
             if(loggedInRole.equals("GUEST")){//za goste
                 logInMenuItem.setVisible(false);
@@ -224,6 +228,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 myAccountItem.setVisible(true);
                 notificationSettings.setVisible(true);
                 logOut.setVisible(true);
+                addAccommodationMenuItem.setVisible(false);
+                accommodationsRequestMenuItem.setVisible(false);
             }
             if(loggedInRole.equals("OWNER")){
                 logInMenuItem.setVisible(false);
@@ -233,6 +239,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 myAccountItem.setVisible(true);
                 notificationSettings.setVisible(true);
                 logOut.setVisible(true);
+                addAccommodationMenuItem.setVisible(true);
+                accommodationsRequestMenuItem.setVisible(false);
             }
             if(loggedInRole.equals("ADMIN")){
                 logInMenuItem.setVisible(false);
@@ -242,6 +250,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 myAccountItem.setVisible(true);
                 notificationSettings.setVisible(false);
                 logOut.setVisible(true);
+                addAccommodationMenuItem.setVisible(false);
+                accommodationsRequestMenuItem.setVisible(true);
             }
         }
 
