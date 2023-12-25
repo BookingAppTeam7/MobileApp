@@ -51,17 +51,17 @@ public class AccomodationApprovalListAdapter extends ArrayAdapter<AccommodationR
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_approval_accomodation,
                     parent, false);
         }
-
-        ImageButton imageButtonApprove = convertView.findViewById(R.id.imageButtonApprove);
-        ImageButton imageButtonReject = convertView.findViewById(R.id.imageButtonReject);
+//
+//        ImageButton imageButtonApprove = convertView.findViewById(R.id.imageButtonApprove);
+//        ImageButton imageButtonReject = convertView.findViewById(R.id.imageButtonReject);
 
         TextView requestId = convertView.findViewById(R.id.listRequestId);
         TextView requestStatus = convertView.findViewById(R.id.listStatus);
 
         requestId.setText(String.valueOf(request.getId()));
         requestStatus.setText(String.valueOf(request.getRequestStatus()));
-        imageButtonApprove.setImageResource(R.drawable.ic_check_blue);
-        imageButtonReject.setImageResource(R.drawable.ic_reject_blue);
+//        imageButtonApprove.setImageResource(R.drawable.ic_check_blue);
+//        imageButtonReject.setImageResource(R.drawable.ic_reject_blue);
 
         return convertView;
     }

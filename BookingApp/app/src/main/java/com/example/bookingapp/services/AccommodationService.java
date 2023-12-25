@@ -54,8 +54,7 @@ public interface AccommodationService {
             @Query("arrivalString") String arrival,
             @Query("checkoutString") String checkout
     );
-    @GET("accommodations/{id}")
-    Call<Accommodation> findById(@Path("id") Long id);
+
 
     @GET("accommodations/filter")
     Call<List<AccommodationDetails>> filter(

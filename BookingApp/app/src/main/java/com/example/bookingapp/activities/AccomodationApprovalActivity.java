@@ -59,9 +59,9 @@ public class AccomodationApprovalActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     List<AccommodationRequest> accommodationRequests = response.body();
                     AccomodationApprovalActivity.this.requests= (ArrayList<AccommodationRequest>) accommodationRequests;
-                    listAdapter = new AccomodationApprovalListAdapter(AccomodationApprovalActivity.this, requests);
+                    AccomodationApprovalActivity.this.listAdapter = new AccomodationApprovalListAdapter(AccomodationApprovalActivity.this, requests);
                     binding.listview.setAdapter(listAdapter);
-                    binding.listview.setClickable(true);
+                    //binding.listview.setClickable(true);
                     binding.listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
