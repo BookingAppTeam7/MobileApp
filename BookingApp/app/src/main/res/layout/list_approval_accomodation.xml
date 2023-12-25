@@ -43,9 +43,9 @@
 
         <TextView
             android:id="@+id/listStatus"
-            android:layout_width="81dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="83dp"
+            android:layout_width="143dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="159dp"
             android:layout_marginTop="25dp"
             android:layout_toEndOf="@id/listImage"
             android:fontFamily="serif"
@@ -53,25 +53,25 @@
             android:textColor="@color/black"
             android:textSize="15sp" />
 
-        <ImageButton
-            android:id="@+id/imageButtonApprove"
-            android:layout_width="40dp"
-            android:layout_height="35dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="70dp"
-            android:backgroundTint="@color/white"
+        <!--        <ImageButton-->
+<!--            android:id="@+id/imageButtonApprove"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="35dp"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_marginEnd="70dp"-->
+<!--            android:backgroundTint="@color/white"-->
 
-            android:src="@drawable/ic_check_blue" />
+<!--            android:src="@drawable/ic_check_blue" />-->
 
-        <ImageButton
-            android:id="@+id/imageButtonReject"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_reject_blue"
-            android:backgroundTint="@color/white"/>
+<!--        <ImageButton-->
+<!--            android:id="@+id/imageButtonReject"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_marginEnd="20dp"-->
+<!--            android:src="@drawable/ic_reject_blue"-->
+<!--            android:backgroundTint="@color/white"/>-->
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
