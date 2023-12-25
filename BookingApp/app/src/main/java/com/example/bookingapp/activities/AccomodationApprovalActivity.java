@@ -68,6 +68,13 @@ public class AccomodationApprovalActivity extends AppCompatActivity {
 
                             AccommodationRequest request=requests.get(position);
                             Long accommodationId=Long.valueOf(request.unapprovedAccommodationId);
+                            Long pricesId;
+                            if(request.originalAccommodationId==null){
+                                pricesId= request.unapprovedAccommodationId;
+                            }
+                            else{
+                                pricesId=request.originalAccommodationId;
+                            }
                             Toast.makeText(AccomodationApprovalActivity.this,"USAO",Toast.LENGTH_LONG).show();
 
                             Call<Accommodation> call2 = accommodationService.findById(accommodationId);
@@ -77,16 +84,21 @@ public class AccomodationApprovalActivity extends AppCompatActivity {
                                 public void onResponse(Call<Accommodation> call2, Response<Accommodation> response2) {
                                     if (response2.isSuccessful()) {
                                         Accommodation accommodation = response2.body();
-                                        Intent intent = new Intent(AccomodationApprovalActivity.this, DetailedActivity.class);
+                                        Intent intent = new Intent(AccomodationApprovalActivity.this, DetailedRequestActivity.class);
                                         intent.putExtra("name",accommodation.getName());
                                         intent.putExtra("description", accommodation.getDescription());
                                         intent.putExtra("image", "putanja");
                                         intent.putExtra("location",accommodation.getLocation().address+", "+accommodation.getLocation().city);
-                                        intent.putExtra("locationX",accommodation.getLocation().x);
-                                        intent.putExtra("locationY",accommodation.getLocation().y);
-                                        intent.putExtra("reviewsList",new ArrayList<>(accommodation.getReviews()));
                                         intent.putExtra("assets",new ArrayList<>(accommodation.getAssets()));
-                                        intent.putExtra("priceList",new ArrayList<>(accommodation.getPrices()));
+                                        intent.putExtra("minGuests", accommodation.getMinGuests());
+                                        intent.putExtra("maxGuests", accommodation.getMaxGuests());
+                                        intent.putExtra("cancellationDeadline",String.valueOf(accommodation.getCancellationDeadline()));
+                                        intent.putExtra("typeOfAccommodation", accommodation.getType());
+                                        intent.putExtra("reservationConfirmation", String.valueOf(accommodation.getReservationConfirmation()));
+                                        intent.putExtra("pricesId",pricesId);
+                                        intent.putExtra("requestId",request.id);
+
+                                        //intent.putExtra("priceList",new ArrayList<>(accommodation.getPrices()));
                                         startActivity(intent);
                                     }
                                 }

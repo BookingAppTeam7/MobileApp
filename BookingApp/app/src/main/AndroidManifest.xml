@@ -20,7 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="31">
-
+        <activity
+            android:name=".activities.DetailedRequestActivity"
+            android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -35,7 +37,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA-Y4maZx43fNt13Jn7Y4jWj5spBfF0Iws" />
-      
 
         <activity
             android:name=".activities.MapsActivity"
@@ -49,14 +50,14 @@
             android:exported="false" />
         <activity
             android:name=".activities.OwnerNotificationSettingsActivity"
-          android:exported="false" />
-      <activity
+            android:exported="false" />
+        <activity
             android:name=".activities.EditPriceCardsActivity"
             android:exported="false" />
         <activity
             android:name=".activities.OwnersAccommodationActivity"
             android:exported="false" />
-      <activity
+        <activity
             android:name=".activities.SearchedAccommodationsActivity"
             android:exported="false" />
         <activity
