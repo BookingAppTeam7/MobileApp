@@ -39,9 +39,12 @@ import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.DTOs.AccommodationPostDTO;
 import com.example.bookingapp.model.DTOs.LocationPostDTO;
 import com.example.bookingapp.model.DTOs.PriceCardPostDTO;
+import com.example.bookingapp.model.DTOs.PriceCardStringDTO;
 import com.example.bookingapp.model.DTOs.TimeSlotPostDTO;
+import com.example.bookingapp.model.DTOs.TimeSlotStringDTO;
 import com.example.bookingapp.model.PriceCard;
 import com.example.bookingapp.model.TimeSlot;
+import com.example.bookingapp.model.TokenManager;
 import com.example.bookingapp.model.enums.PriceTypeEnum;
 import com.example.bookingapp.model.enums.ReservationConfirmationEnum;
 import com.example.bookingapp.model.enums.TypeEnum;
@@ -68,15 +71,17 @@ import retrofit2.Retrofit;
 
 public class CreateAccommodationActivity extends AppCompatActivity {
 
-    public List<PriceCardPostDTO>prices=new ArrayList<>();
+    public List<PriceCardStringDTO>prices=new ArrayList<>();
     public Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
     public AccommodationService accommodationService = retrofit.create(AccommodationService.class);
     public PriceCardService priceCardService=retrofit.create(PriceCardService.class);
 
-    private Pair<Long, Long> selectedDateRange;
+    String startDateObject;
+    String endDateObject;
 
-    Date startDateObject;
-    Date endDateObject;
+    Accommodation createdAccommodation;
+
+    public String ownerId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +93,6 @@ public class CreateAccommodationActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setTitle("Create Accommodation");
-
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Dodajte nazad dugme
@@ -103,6 +107,7 @@ public class CreateAccommodationActivity extends AppCompatActivity {
 
         EditText newPrice=binding.editTextPrice;
 
+        this.ownerId= TokenManager.getLoggedInUser().username;
 
         buttonAddTimeSlot.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,8 +164,8 @@ public class CreateAccommodationActivity extends AppCompatActivity {
 
         }
 
-        TimeSlotPostDTO newTimeSlot=new TimeSlotPostDTO(startDateObject,endDateObject);
-        PriceCardPostDTO newPriceCard=new PriceCardPostDTO(newTimeSlot,price,priceType);
+        TimeSlotStringDTO newTimeSlot=new TimeSlotStringDTO(this.startDateObject,this.endDateObject);
+        PriceCardStringDTO newPriceCard=new PriceCardStringDTO(newTimeSlot,price,priceType);
         this.prices.add(newPriceCard);
         //treba setovati accommodation_id
     }
@@ -179,7 +184,8 @@ public class CreateAccommodationActivity extends AppCompatActivity {
         ReservationConfirmationEnum reservationConfirmation=ReservationConfirmationEnum.MANUAL;
 
         //OWNER ID dobaviti iz tokena
-        String ownerId="tamara@gmail.com";
+
+
 
         RadioGroup radioGroupAccommodationType = findViewById(R.id.radioGroupAccommodationType);
         int selectedRadioButtonId = radioGroupAccommodationType.getCheckedRadioButtonId();
@@ -243,9 +249,10 @@ public class CreateAccommodationActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Accommodation> call, Response<Accommodation> response) {
                 if (response.isSuccessful()) {
-                    Accommodation createdAccommodation = response.body();
-                    for(PriceCardPostDTO p: prices){
-                        p.setAccommodationId(createdAccommodation.id);
+                    CreateAccommodationActivity.this.createdAccommodation = response.body();
+
+                    for(PriceCardStringDTO p: CreateAccommodationActivity.this.prices){
+                        p.setAccommodationId(CreateAccommodationActivity.this.createdAccommodation.id);
                         createPriceCard(p);
                     }
                     Toast.makeText(CreateAccommodationActivity.this, "Successfully created accommodation!", Toast.LENGTH_SHORT).show();
@@ -262,10 +269,9 @@ public class CreateAccommodationActivity extends AppCompatActivity {
 
     }
 
-    public void createPriceCard(PriceCardPostDTO newPriceCard){
+    public void createPriceCard(PriceCardStringDTO newPriceCard){
 
         Call<PriceCard> call = this.priceCardService.create(newPriceCard);
-        Long accommodationId=newPriceCard.accommodationId;
         call.enqueue(new Callback<PriceCard>() {
             @Override
             public void onResponse(Call<PriceCard> call, Response<PriceCard> response) {
@@ -306,12 +312,10 @@ public class CreateAccommodationActivity extends AppCompatActivity {
             // Creating the date range string
             String selectedDateRange = startDateString + " - " + endDateString;
 
-            try {
-                startDateObject = sdf.parse(startDateString);
-                endDateObject = sdf.parse(endDateString);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
+
+            startDateObject = startDateString;
+            endDateObject = endDateString;
+
             // Displaying the selected date range in the TextView
             selectedDate.setText(selectedDateRange);
         });

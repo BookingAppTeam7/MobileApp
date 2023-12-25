@@ -29,6 +29,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.bookingapp.R;
 import com.example.bookingapp.activities.CreateAccommodationActivity;
 import com.example.bookingapp.model.DTOs.PriceCardPostDTO;
+import com.example.bookingapp.model.DTOs.PriceCardStringDTO;
 import com.example.bookingapp.model.enums.PriceTypeEnum;
 import com.example.bookingapp.model.enums.TypeEnum;
 import com.google.android.material.textfield.TextInputEditText;
@@ -42,9 +43,9 @@ import java.util.Locale;
 
 public class PriceCardFragment extends Fragment {
 
-    private List<PriceCardPostDTO> prices;
+    private List<PriceCardStringDTO> prices;
 
-    public PriceCardFragment(List<PriceCardPostDTO> prices) {
+    public PriceCardFragment(List<PriceCardStringDTO> prices) {
         this.prices = prices;
     }
 
@@ -56,18 +57,18 @@ public class PriceCardFragment extends Fragment {
 
 //        ImageButton closeButton=view.findViewById(R.id.closeButton);
 
-        for (PriceCardPostDTO priceCard : prices) {
+        for (PriceCardStringDTO priceCard : prices) {
             TableRow row = new TableRow(requireContext());
 
             TextView startDateTextView = new TextView(requireContext());
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            String startDateText = sdf.format(priceCard.getTimeSlot().getStartDate());
-            startDateTextView.setText(startDateText);
+//            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+//            String startDateText = sdf.format(priceCard.getTimeSlot().getStartDate());
+            startDateTextView.setText(priceCard.timeSlot.getStartDate());
             row.addView(startDateTextView);
 
             TextView endDateTextView = new TextView(requireContext());
-            String endDateText = sdf.format(priceCard.getTimeSlot().getEndDate());
-            endDateTextView.setText(endDateText);
+//            String endDateText = sdf.format(priceCard.getTimeSlot().getEndDate());
+            endDateTextView.setText(priceCard.timeSlot.getEndDate());
             row.addView(endDateTextView);
 
             TextView priceTextView = new TextView(requireContext());
