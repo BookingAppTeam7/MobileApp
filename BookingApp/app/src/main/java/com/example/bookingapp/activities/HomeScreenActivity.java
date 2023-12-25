@@ -141,6 +141,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                            intent.putExtra("reviewsList",new ArrayList<>(accommodationsToShow.get(position).getReviews()));
                             intent.putExtra("assets",new ArrayList<>(accommodationsToShow.get(position).getAssets()));
                             intent.putExtra("priceList",new ArrayList<>(accommodationsToShow.get(position).getPrices()));
+                            intent.putExtra("minGuests",accommodationsToShow.get(position).getMinGuests());
+                            intent.putExtra("maxGuests",accommodationsToShow.get(position).getMaxGuests());
                             startActivity(intent);
                         }
                     });

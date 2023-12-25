@@ -90,6 +90,14 @@
 
     </LinearLayout>
     <TextView
+        android:id="@+id/minMaxGuests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guests:"
+        android:layout_marginStart="10dp"
+        android:textSize="16sp"
+        android:fontFamily="serif"/>
+    <TextView
         android:id="@+id/assets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
