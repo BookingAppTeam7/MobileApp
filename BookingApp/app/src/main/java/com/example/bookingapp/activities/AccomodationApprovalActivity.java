@@ -49,19 +49,19 @@ public class AccomodationApprovalActivity extends AppCompatActivity {
         binding = ActivityAccomodationApprovalBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.listview.setClickable(true);
+        //binding.listview.setClickable(true);
 
-        Call<List<AccommodationRequest>> call = requestsService.findByStatus(AccommodationRequestStatus.PENDING_CREATED,AccommodationRequestStatus.PENDING_EDITED);
+        Call<List<AccommodationRequest>> call1 = requestsService.findByStatus(AccommodationRequestStatus.PENDING_CREATED,AccommodationRequestStatus.PENDING_EDITED);
 
-        call.enqueue(new Callback<List<AccommodationRequest>>() {
+        call1.enqueue(new Callback<List<AccommodationRequest>>() {
             @Override
-            public void onResponse(Call<List<AccommodationRequest>> call, Response<List<AccommodationRequest>> response) {
-                if (response.isSuccessful()) {
-                    List<AccommodationRequest> accommodationRequests = response.body();
+            public void onResponse(Call<List<AccommodationRequest>> call1, Response<List<AccommodationRequest>> response1) {
+                if (response1.isSuccessful()) {
+                    List<AccommodationRequest> accommodationRequests = response1.body();
                     AccomodationApprovalActivity.this.requests= (ArrayList<AccommodationRequest>) accommodationRequests;
                     AccomodationApprovalActivity.this.listAdapter = new AccomodationApprovalListAdapter(AccomodationApprovalActivity.this, requests);
                     binding.listview.setAdapter(listAdapter);
-                    //binding.listview.setClickable(true);
+                    binding.listview.setClickable(true);
                     binding.listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -70,17 +70,17 @@ public class AccomodationApprovalActivity extends AppCompatActivity {
                             Long accommodationId=Long.valueOf(request.unapprovedAccommodationId);
                             Toast.makeText(AccomodationApprovalActivity.this,"USAO",Toast.LENGTH_LONG).show();
 
-                            Call<Accommodation> call = accommodationService.findById(accommodationId);
+                            Call<Accommodation> call2 = accommodationService.findById(accommodationId);
 
-                            call.enqueue(new Callback<Accommodation>() {
+                            call2.enqueue(new Callback<Accommodation>() {
                                 @Override
-                                public void onResponse(Call<Accommodation> call, Response<Accommodation> response) {
-                                    if (response.isSuccessful()) {
-                                        Accommodation accommodation = response.body();
+                                public void onResponse(Call<Accommodation> call2, Response<Accommodation> response2) {
+                                    if (response2.isSuccessful()) {
+                                        Accommodation accommodation = response2.body();
                                         Intent intent = new Intent(AccomodationApprovalActivity.this, DetailedActivity.class);
                                         intent.putExtra("name",accommodation.getName());
                                         intent.putExtra("description", accommodation.getDescription());
-                                        intent.putExtra("image", accommodation.getImages().get(0));
+                                        intent.putExtra("image", "putanja");
                                         intent.putExtra("location",accommodation.getLocation().address+", "+accommodation.getLocation().city);
                                         intent.putExtra("locationX",accommodation.getLocation().x);
                                         intent.putExtra("locationY",accommodation.getLocation().y);
@@ -92,7 +92,7 @@ public class AccomodationApprovalActivity extends AppCompatActivity {
                                 }
 
                                 @Override
-                                public void onFailure(Call<Accommodation> call, Throwable t) {
+                                public void onFailure(Call<Accommodation> call2, Throwable t) {
                                     // Obrada greške prilikom poziva
                                     t.printStackTrace();
                                 }
@@ -105,19 +105,19 @@ public class AccomodationApprovalActivity extends AppCompatActivity {
 
                 } else {
                     //Log.e("AccomodationApprovalActivity", "Greška: " + response.code());
-                    System.out.println("Greška: " + response.code());
+                    System.out.println("Greška: " + response1.code());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<AccommodationRequest>> call, Throwable t) {
+            public void onFailure(Call<List<AccommodationRequest>> call1, Throwable t) {
                 // Obrada greške prilikom poziva
                 Log.e("AccomodationApprovalActivity", "Greška: ");
                 t.printStackTrace();
             }
         });
 
-        binding.listview.setClickable(true);
+       // binding.listview.setClickable(true);
 
 
 
