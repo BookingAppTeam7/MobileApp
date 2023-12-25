@@ -137,6 +137,8 @@ public class SearchedAccommodationsActivity extends AppCompatActivity implements
                                 intent.putExtra("priceList",new ArrayList<>(accommodation.getPrices()));
                                 intent.putExtra("minGuests",accommodation.getMinGuests());
                                 intent.putExtra("maxGuests",accommodation.getMaxGuests());
+                                intent.putExtra("type",accommodation.getType().toString());
+                                intent.putExtra("cancelDeadline",String.valueOf(accommodation.getCancellationDeadline()));
                                 startActivity(intent);
                             } else {
                                 Log.e("Error", "Response Code: " + response.code());

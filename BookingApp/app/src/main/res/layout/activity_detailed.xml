@@ -98,6 +98,14 @@
         android:textSize="16sp"
         android:fontFamily="serif"/>
     <TextView
+        android:id="@+id/cancelDeadline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel deadline:"
+        android:layout_marginStart="10dp"
+        android:textSize="16sp"
+        android:fontFamily="serif"/>
+    <TextView
         android:id="@+id/assets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

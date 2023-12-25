@@ -83,10 +83,13 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
             price=intent.getDoubleExtra("price",0.0);
             int minGuests=intent.getIntExtra("minGuests",0);
             int maxGuests=intent.getIntExtra("maxGuests",0);
+            String type=intent.getStringExtra("type");
+            String cancel=intent.getStringExtra("cancelDeadline");
             binding.detailName.setText(name);
             binding.detailDescription.setText(description);
             binding.detailImage.setImageResource(image);
-            binding.minMaxGuests.setText("Guests: "+String.valueOf(minGuests)+" - "+String.valueOf(maxGuests));
+            binding.minMaxGuests.setText("Guests: "+String.valueOf(minGuests)+" - "+String.valueOf(maxGuests)+"    Type:"+type);
+            binding.cancelDeadline.setText("Cancel deadline (in days):"+cancel);
             List<Review> reviewsList = (ArrayList<Review>) getIntent().getSerializableExtra("reviewsList");
             List<String> assetsList=(ArrayList<String>) getIntent().getSerializableExtra("assets");
             String allAssets=" ";
