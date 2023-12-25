@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.OwnerNotificationSettingsActivity">
+
+    <!-- Notification Settings Title -->
+
+    <!-- Text Notification Settings -->
+
+    <!-- Radio Group 1: Reservation Request Notification -->
+
+    <!-- Radio Group 2: Reservation Cancellation Notification -->
+
+    <!-- Radio Group 3: Owner Rating Notification -->
+
+    <!-- Radio Group 4: Accommodation Rating Notification -->
+
+    <!-- Apply Button -->
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/notificationSettingsTitle"
+        android:textColor="#2196F3"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="359dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/textNotificationSettings"
+        android:textSize="15sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <TextView
+        android:id="@+id/textViewReservationRequest"
+        android:layout_width="337dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="24dp"
+        android:text="Reservation Request Notification"
+        android:textColor="#2196F3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupReservationRequest"
+        android:layout_width="285dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewReservationRequest">
+
+        <RadioButton
+            android:id="@+id/radioButtonYesReservationRequest"
+            android:layout_width="168dp"
+            android:layout_height="wrap_content"
+            android:text="Yes" />
+
+        <RadioButton
+            android:id="@+id/radioButtonNoReservationRequest"
+            android:layout_width="88dp"
+            android:layout_height="wrap_content"
+            android:text="No" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textViewReservationCancellation"
+        android:layout_width="328dp"
+        android:layout_height="19dp"
+        android:layout_marginTop="20dp"
+        android:text="Reservation Cancellation Notification"
+        android:textColor="#2196F3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.891"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupReservationRequest" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupReservationCancellation"
+        android:layout_width="319dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.717"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewReservationCancellation">
+
+        <RadioButton
+            android:id="@+id/radioButtonYesReservationCancellation"
+            android:layout_width="172dp"
+            android:layout_height="wrap_content"
+            android:text="Yes" />
+
+        <RadioButton
+            android:id="@+id/radioButtonNoReservationCancellation"
+            android:layout_width="84dp"
+            android:layout_height="wrap_content"
+            android:text="No" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textViewOwnerRating"
+        android:layout_width="314dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="20dp"
+        android:text="Owner Rating Notification"
+        android:textColor="#2196F3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupReservationCancellation" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupOwnerRating"
+        android:layout_width="286dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewOwnerRating">
+
+        <RadioButton
+            android:id="@+id/radioButtonYesOwnerRating"
+            android:layout_width="178dp"
+            android:layout_height="wrap_content"
+            android:text="Yes" />
+
+        <RadioButton
+            android:id="@+id/radioButtonNoOwnerRating"
+            android:layout_width="79dp"
+            android:layout_height="wrap_content"
+            android:text="No" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textViewAccommodationRating"
+        android:layout_width="292dp"
+        android:layout_height="19dp"
+        android:layout_marginTop="24dp"
+        android:text="Accommodation Rating Notification"
+        android:textColor="#2196F3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.621"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupOwnerRating" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupAccommodationRating"
+        android:layout_width="299dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.66"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAccommodationRating">
+
+        <RadioButton
+            android:id="@+id/radioButtonYesAccommodationRating"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:text="Yes" />
+
+        <RadioButton
+            android:id="@+id/radioButtonNoAccommodationRating"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:text="No" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/buttonApply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#2196F3"
+        android:text="Apply"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupAccommodationRating"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

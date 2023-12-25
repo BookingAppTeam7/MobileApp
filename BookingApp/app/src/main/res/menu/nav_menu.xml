@@ -23,4 +23,8 @@
         android:id="@+id/menu_logout"
         android:title="Logout"
         android:icon="@drawable/ic_logoutt"/>
+    <item
+        android:id="@+id/menu_notification_settings"
+        android:title="Notification settings"
+        android:icon="@drawable/ic_settings_black"/>
 </menu>

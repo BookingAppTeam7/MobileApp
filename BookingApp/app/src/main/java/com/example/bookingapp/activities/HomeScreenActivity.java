@@ -20,18 +20,28 @@ import com.example.bookingapp.fragments.accommodations.FilterBottomSheetDialogFr
 import com.example.bookingapp.fragments.accommodations.SearchBottomSheetFragment;
 import com.example.bookingapp.interfaces.BottomSheetListener;
 import com.example.bookingapp.model.Accommodation;
+import com.example.bookingapp.model.AccommodationDetails;
+import com.example.bookingapp.model.DTOs.UserGetDTO;
+import com.example.bookingapp.model.PriceCard;
 import com.example.bookingapp.model.TimeSlot;
 import com.example.bookingapp.model.TokenManager;
+import com.example.bookingapp.model.User;
 import com.example.bookingapp.model.enums.RoleEnum;
+import com.example.bookingapp.model.enums.TypeEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.AccommodationService;
+import com.example.bookingapp.services.UserService;
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 
 import io.jsonwebtoken.Claims;
@@ -46,6 +56,7 @@ import retrofit2.Retrofit;
 
 
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class HomeScreenActivity extends AppCompatActivity implements BottomSheetListener {
@@ -59,9 +70,10 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
    // ArrayList<Accommodation> accommodationArrayList = new ArrayList<Accommodation>();//initial
     List<Accommodation> accommodationArrayListCalled = new ArrayList<Accommodation>();//initial with service
     ArrayList<Accommodation> accommodationsToShow=new ArrayList<>();
-    List<Accommodation> searchedAccommodationArrayList = new ArrayList<Accommodation>();
+    List<AccommodationDetails> searchedAccommodationArrayList = new ArrayList<>();
     Accommodation accommodation;
-
+    String loggedInUsername;
+    String loggedInRole;
     RoleEnum role=RoleEnum.UNAUTHENTICATED;
 
 
@@ -71,7 +83,15 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         binding = ActivityHomeScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
+        Intent intent=this.getIntent();
+        if(intent!=null){
+            loggedInUsername=intent.getStringExtra("username");
+            loggedInRole=intent.getStringExtra("role");
+            if(loggedInUsername!=null)
+                Log.e("USERNAME",loggedInUsername);
+            if(loggedInRole!=null)
+                Log.e("ROLE",loggedInRole);
+        }
         String roleString = getRoleFromToken();
         Toast.makeText(HomeScreenActivity.this, "Role:  "+roleString, Toast.LENGTH_SHORT).show();
 
@@ -107,6 +127,11 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             Intent intent = new Intent(HomeScreenActivity.this, DetailedActivity.class);
+                            if(loggedInUsername!=null)
+                                intent.putExtra("username",loggedInUsername);
+                            if(loggedInRole!=null)
+                                intent.putExtra("role",loggedInRole);
+                            intent.putExtra("accommodationId",accommodationsToShow.get(position).getId());
                             intent.putExtra("name", accommodationsToShow.get(position).getName());
                             intent.putExtra("description", accommodationsToShow.get(position).getDescription());
                             intent.putExtra("image", accommodationsToShow.get(position).getImages().get(0));
@@ -119,6 +144,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                             startActivity(intent);
                         }
                     });
+
+
                 } else {
                     // Handle error
                     Log.e("GRESKA",String.valueOf(response.code()));
@@ -131,19 +158,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 t.printStackTrace();
             }
         });
-        //
 
-
-
-
-        binding.btnFilters.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                FilterBottomSheetDialogFragment bottomSheetFragment = new FilterBottomSheetDialogFragment();
-                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
-            }
-        });
         binding.btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,7 +199,53 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 }
             }
         });
+        /////////////////////////////PODESAVANJE NAVBARA
+        MenuItem logInMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_login);
+        MenuItem registerMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_registration);
+        MenuItem accomodationMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_accommodation_approval);
+        MenuItem aboutUsMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_about_us);
+        MenuItem myAccountItem = binding.navigationView.getMenu().findItem(R.id.menu_account);
+        MenuItem notificationSettings=binding.navigationView.getMenu().findItem(R.id.menu_notification_settings);
+        MenuItem logOut=binding.navigationView.getMenu().findItem(R.id.menu_logout);
+        if(loggedInRole==null){//znaci da je neulogovan
+            logInMenuItem.setVisible(true);
+            registerMenuItem.setVisible(true);
+            accomodationMenuItem.setVisible(false);
+            aboutUsMenuItem.setVisible(true);
+            myAccountItem.setVisible(false);
+            notificationSettings.setVisible(false);
+            logOut.setVisible(false);
+        }else{
+            if(loggedInRole.equals("GUEST")){//za goste
+                logInMenuItem.setVisible(false);
+                registerMenuItem.setVisible(false);
+                accomodationMenuItem.setVisible(false);
+                aboutUsMenuItem.setVisible(true);
+                myAccountItem.setVisible(true);
+                notificationSettings.setVisible(true);
+                logOut.setVisible(true);
+            }
+            if(loggedInRole.equals("OWNER")){
+                logInMenuItem.setVisible(false);
+                registerMenuItem.setVisible(false);
+                accomodationMenuItem.setVisible(true);
+                aboutUsMenuItem.setVisible(true);
+                myAccountItem.setVisible(true);
+                notificationSettings.setVisible(true);
+                logOut.setVisible(true);
+            }
+            if(loggedInRole.equals("ADMIN")){
+                logInMenuItem.setVisible(false);
+                registerMenuItem.setVisible(false);
+                accomodationMenuItem.setVisible(true);
+                aboutUsMenuItem.setVisible(true);
+                myAccountItem.setVisible(true);
+                notificationSettings.setVisible(false);
+                logOut.setVisible(true);
+            }
+        }
 
+        ///////////////////////////////////
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
@@ -217,6 +278,9 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
 //                    aboutUsMenuItem.setVisible(true);
 //                }
 
+                MenuItem notificationSettings=binding.navigationView.getMenu().findItem(R.id.menu_notification_settings);
+                MenuItem logOut=binding.navigationView.getMenu().findItem(R.id.menu_logout);
+
                 if (item.getItemId() == logInMenuItem.getItemId()) {
                     performLoginAction();
                     return true;
@@ -236,6 +300,13 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                     String jwtToken = TokenManager.getJwtToken();
 
                     performMyAccountAction("Bearer "+jwtToken);
+                    return true;
+                }else if(item.getItemId()==notificationSettings.getItemId()){
+                    User user=TokenManager.getLoggedInUser();
+                    performNotificationSettingsAction(user.role,user);
+                    return  true;
+                }else if(item.getItemId()==logOut.getItemId()){
+                    performLogOutAction();
                     return true;
                 }
                 else if(item.getItemId()==addAccommodationMenuItem.getItemId()){
@@ -264,46 +335,70 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             return true;
         }
 
-
-
     @Override
     public void onSearchButtonClicked(String place, int guests, String arrivalDate, String checkoutDate) {
-        searchedAccommodationArrayList = searchAccommodations(accommodationArrayListCalled, place, guests, arrivalDate, checkoutDate);
-        listAdapter.updateData(searchedAccommodationArrayList);
-    }
+        for(Accommodation a:accommodationArrayListCalled)
+            Log.e("DRUGI POZIV",a.toString());
+        Log.e("ARRIVAL",arrivalDate);
+        Log.e("CHECKOUT",checkoutDate);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date arrival;
+        Date checkout;
 
-    public List<Accommodation> searchAccommodations(List<Accommodation> sourceList, String place, int guests, String arrivalDate, String checkoutDate) {
-        List<Accommodation> retAccommodation = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
-        LocalDate arrival = LocalDate.parse(arrivalDate, formatter);
-        LocalDate checkout = LocalDate.parse(checkoutDate, formatter);
-        for (Accommodation a : sourceList) {
-//            if (a.getLocation().equalsIgnoreCase(place) && guests >= a.getMinGuests() && guests <= a.getMaxGuests()) {
-//                if (hasAvailableTimeSlot(a, arrival, checkout)) {
-//                    retAccommodation.add(a);
-//                }
-//            }
+        try {
+            arrival = dateFormat.parse(arrivalDate + " 00:00:00");
+            checkout = dateFormat.parse(checkoutDate + " 00:00:00");
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return; // Handle the parsing error as needed
         }
-        return retAccommodation;
+        Log.e("ARRIVAL",arrival.toString());
+        Log.e("CHECKOUT",checkout.toString());
+        Log.e("Formatted Arrival", dateFormat.format(arrival));
+        Log.e("Formatted Checkout", dateFormat.format(checkout));
+        Call<List<AccommodationDetails>> call = accommodationService.search(place, guests, dateFormat.format(arrival), dateFormat.format(checkout));
+        call.enqueue(new Callback<List<AccommodationDetails>>() {
+            @Override
+            public void onResponse(Call<List<AccommodationDetails>> call, Response<List<AccommodationDetails>> response) {
+                if (response.isSuccessful()) {
+                    List<AccommodationDetails> accommodations = response.body();
+                    //for(AccommodationDetails ad:accommodations)
+                        Log.e("USPEH222!!!",accommodations.toString());
+                    Intent intent = new Intent(HomeScreenActivity.this, SearchedAccommodationsActivity.class);
+                    intent.putExtra("username",loggedInUsername);
+                    intent.putExtra("role",loggedInRole);
+                    intent.putExtra("accommodationsList", new ArrayList<>(accommodations));
+                    startActivity(intent);
+
+                } else {
+                    Log.e("ERROR", "Response Code: " + response.code());
+                    try {
+                        Log.e("ERROR BODY", response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<AccommodationDetails>> call, Throwable t) {
+                Log.e("FAILURE!",t.getMessage());
+                t.printStackTrace();
+            }
+        });
     }
 
-    private boolean hasAvailableTimeSlot(Accommodation accommodation, LocalDate arrival, LocalDate checkout) {
-//        for (TimeSlot timeSlot : accommodation.getAvailability()) {
-//            if (isWithinTimeSlot(arrival, checkout, timeSlot)) {
-//                return true;
-//            }
-//        }
-        return false;
-    }
-    private boolean isWithinTimeSlot(LocalDate arrival, LocalDate checkout, TimeSlot timeSlot) {
-        Date timeSlotStart = timeSlot.getStartDate();
-        Date timeSlotEnd = timeSlot.getEndDate();
-////        return !(arrival.isBefore(timeSlotStart) || checkout.isAfter(timeSlotEnd));
-        return false;
+    @Override
+    public void onFilterButtonClicked(TypeEnum selectedType, String joined, String minTotalPrice, String maxTotalPrice) {
+
     }
 
-        public void performLoginAction(){
+    @Override
+    public void onReservationButtonClicked(int guests, String arrivalDate, String checkoutDate) {
+
+    }
+
+    public void performLoginAction(){
             Intent intent = new Intent(HomeScreenActivity.this, LogInScreenActivity.class);
             startActivity(intent);
         }
@@ -325,6 +420,19 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             startActivity(intent);
         }
 
+    public void performNotificationSettingsAction(RoleEnum role,User user){
+        if(role.equals(RoleEnum.OWNER)){
+            Intent intent=new Intent(HomeScreenActivity.this,OwnerNotificationSettingsActivity.class);
+            startActivity(intent);
+        }else if(role.equals(RoleEnum.GUEST)){
+            Intent intent=new Intent(HomeScreenActivity.this,GuestNotificationSettingsActivity.class);
+            startActivity(intent);
+        }else{
+            return;
+        }
+
+    }
+
 
 
 
@@ -332,6 +440,31 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
     private String getRoleFromToken() {
         SharedPreferences preferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
         return preferences.getString("role", "");
+    }
+
+    private void   performLogOutAction(){
+        UserService userService = RetrofitClientInstance.getRetrofitInstance().create(UserService.class);
+        Call<Void> call = userService.logout();
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Log.e("LOGOUT","LOGOOOUT");
+                    loggedInRole=null;
+                  Toast.makeText(HomeScreenActivity.this,"LOG OUT SUCCESSFULL",Toast.LENGTH_LONG);
+                  TokenManager.setLoggedInUser(null);
+                    Intent intent = new Intent(HomeScreenActivity.this,LogInScreenActivity.class);
+                    startActivity(intent);
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                t.printStackTrace();
+                Log.d("TAAAAAAGGGGGGGGGG ", "Error: " + t.getMessage());
+            }
+        });
+
     }
 
 

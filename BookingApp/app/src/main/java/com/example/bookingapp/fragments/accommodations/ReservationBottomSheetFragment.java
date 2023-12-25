@@ -2,7 +2,6 @@ package com.example.bookingapp.fragments.accommodations;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
-public class SearchBottomSheetFragment extends BottomSheetDialogFragment {
+public class ReservationBottomSheetFragment extends BottomSheetDialogFragment {
     private BottomSheetListener mListener;
     private String day1;
     private String month1;
@@ -31,11 +25,15 @@ public class SearchBottomSheetFragment extends BottomSheetDialogFragment {
     private String day2;
     private String month2;
     private String year2;
+    public static ReservationBottomSheetFragment newInstance(){
+        ReservationBottomSheetFragment fragment=new ReservationBottomSheetFragment();
+        return fragment;
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.bottom_sheet_search, container, false);
-        Button btnSearch = view.findViewById(R.id.btnSearch1);
+        View view= inflater.inflate(R.layout.bottom_sheet_reservation, container, false);
+        Button btnReservation = view.findViewById(R.id.createReservation);
         CalendarView calendar1 = view.findViewById(R.id.calendar1);
         CalendarView calendar2 = view.findViewById(R.id.calendar2);
         calendar1.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -77,15 +75,11 @@ public class SearchBottomSheetFragment extends BottomSheetDialogFragment {
 
             }
         });
-        btnSearch.setOnClickListener(new View.OnClickListener() {
+        btnReservation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String place="";
                 int guests=0;
                 // Get the values from your views (placeInput, editTextGuests, etc.)
-                TextInputLayout placeInputLayout = view.findViewById(R.id.placeInput);
-                TextInputEditText editTextPlace = placeInputLayout.findViewById(R.id.editTextPlace);
-                place = editTextPlace.getText().toString();
 
                 TextInputLayout guestsInputLayout = view.findViewById(R.id.guestsInput);
                 TextInputEditText editTextGuests = guestsInputLayout.findViewById(R.id.editTextGuests);
@@ -95,7 +89,7 @@ public class SearchBottomSheetFragment extends BottomSheetDialogFragment {
                 String checkoutDate = year2+"-"+month2+"-"+day2;
                 // Pass the data back to the activity
                 if (mListener != null) {
-                    mListener.onSearchButtonClicked(place, guests, arrivalDate, checkoutDate);
+                    mListener.onReservationButtonClicked(guests, arrivalDate, checkoutDate);
                 }
 
                 // Dismiss the bottom sheet
@@ -113,5 +107,4 @@ public class SearchBottomSheetFragment extends BottomSheetDialogFragment {
             throw new ClassCastException(context.toString() + " must implement BottomSheetListener");
         }
     }
-
 }
