@@ -249,13 +249,14 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             if(loggedInRole.equals("ADMIN")){
                 logInMenuItem.setVisible(false);
                 registerMenuItem.setVisible(false);
-                accomodationMenuItem.setVisible(true);
+                accomodationMenuItem.setVisible(false);
                 aboutUsMenuItem.setVisible(true);
                 myAccountItem.setVisible(true);
                 notificationSettings.setVisible(false);
                 logOut.setVisible(true);
                 addAccommodationMenuItem.setVisible(false);
                 accommodationsRequestMenuItem.setVisible(true);
+
             }
         }
 
