@@ -65,7 +65,7 @@ public class LogInScreenActivity extends AppCompatActivity {
                             //tokenManager.setLoggedInUser(response.body());
                             TokenManager.setJwtToken(response.body().getJwt());
                             TokenManager.setLoggedInUser(response.body());
-                            Toast.makeText(LogInScreenActivity.this,"Token je " + response.body().getJwt(),Toast.LENGTH_LONG).show();
+                            //Toast.makeText(LogInScreenActivity.this,"Token je " + response.body().getJwt(),Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(LogInScreenActivity.this, HomeScreenActivity.class);
                             intent.putExtra("username",response.body().getUsername());
                             intent.putExtra("role",response.body().getRole().toString());
