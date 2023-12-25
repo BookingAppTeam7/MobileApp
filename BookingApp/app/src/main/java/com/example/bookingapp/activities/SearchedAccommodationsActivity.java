@@ -128,7 +128,7 @@ public class SearchedAccommodationsActivity extends AppCompatActivity implements
                                 intent.putExtra("accommodationId",accommodation.getId());
                                 intent.putExtra("name", accommodation.getName());
                                 intent.putExtra("description", accommodation.getDescription());
-                                intent.putExtra("image", accommodation.getImages().get(0));
+                                intent.putExtra("image","putanja");
                                 intent.putExtra("location",accommodation.getLocation().address+", "+accommodation.getLocation().city);
                                 intent.putExtra("locationX",accommodation.getLocation().x);
                                 intent.putExtra("locationY",accommodation.getLocation().y);

@@ -134,7 +134,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                             intent.putExtra("accommodationId",accommodationsToShow.get(position).getId());
                             intent.putExtra("name", accommodationsToShow.get(position).getName());
                             intent.putExtra("description", accommodationsToShow.get(position).getDescription());
-                            intent.putExtra("image", accommodationsToShow.get(position).getImages().get(0));
+                            intent.putExtra("image", "putanja");
                             intent.putExtra("location",accommodationsToShow.get(position).getLocation().address+", "+accommodationsToShow.get(position).getLocation().city);
                             intent.putExtra("locationX",accommodationsToShow.get(position).getLocation().x);
                             intent.putExtra("locationY",accommodationsToShow.get(position).getLocation().y);
