@@ -3,11 +3,13 @@ package com.example.bookingapp.activities;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.util.Pair;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -175,10 +177,20 @@ public class EditAccommodationsDataActivity extends AppCompatActivity {
         Button buttonAddPriceCard=binding.buttonAddPriceCard;
         ImageButton buttonEditPrices=binding.showPricesButton;
         Button saveChanges=binding.buttonCreate;
+        Button showReservations=binding.buttonViewReservations;
 
-        TextView selectedDate=binding.selectedDate;
+//        TextView selectedDate=binding.selectedDate;
 
         EditText newPrice=binding.editTextPrice;
+
+        showReservations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(EditAccommodationsDataActivity.this,AccommodationsReservationsActivity.class);
+                intent.putExtra("accommodationId",EditAccommodationsDataActivity.this.accommodation.id);
+                startActivity(intent);
+            }
+        });
 
         saveChanges.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,7 +202,7 @@ public class EditAccommodationsDataActivity extends AppCompatActivity {
         buttonAddTimeSlot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showAddTimeSlotDialog(selectedDate);
+                showAddTimeSlotDialog();
             }
         });
 
@@ -372,12 +384,14 @@ public class EditAccommodationsDataActivity extends AppCompatActivity {
 
     }
 
-    private void showAddTimeSlotDialog(TextView selectedDate) {
+    private void showAddTimeSlotDialog() {
 
         MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
         builder.setTitleText("Select a date range");
 
         MaterialDatePicker<Pair<Long, Long>> datePicker = builder.build();
+
+       // builder.setTheme(R.style.CustomMaterialCalendar);
 
         datePicker.addOnPositiveButtonClickListener(selection -> {
 
@@ -398,7 +412,7 @@ public class EditAccommodationsDataActivity extends AppCompatActivity {
             endDateObject = endDateString;
 
             // Displaying the selected date range in the TextView
-            selectedDate.setText(selectedDateRange);
+            //selectedDate.setText(selectedDateRange);
         });
 
         // Showing the date picker dialog
