@@ -21,10 +21,17 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
+
             android:name=".activities.RateAccommodationActivity"
             android:exported="false" />
         <activity
             android:name=".activities.RateOwnerActivity"
+
+            android:name=".activities.GuestsReservationsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AccommodationsReservationsActivity"
+
             android:exported="false" />
         <activity
             android:name=".activities.DetailedRequestActivity"

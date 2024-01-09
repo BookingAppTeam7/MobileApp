@@ -47,17 +47,6 @@ public class RetrofitClientInstance {
 
         if (retrofit == null) {
 
-//            // Kreiranje interceptor-a
-//            MyInterceptor myInterceptor = new MyInterceptor(context);
-//
-//            // Kreiranje OkHttp klijenta
-//            OkHttpClient client = new OkHttpClient.Builder()
-//                    .addInterceptor(myInterceptor)
-//                    // Dodajte druge interceptore ili postavke prema potrebi
-
-
-//                    .build();
-
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -79,14 +68,6 @@ public class RetrofitClientInstance {
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
-
-          //  UserService userService = retrofit.create(UserService.class);
-
-//            retrofit = new Retrofit.Builder()
-//                    .baseUrl(BASE_URL)
-//                    .addConverterFactory(GsonConverterFactory.create())
-//                 //   .client(client)
-//                    .build();
         }
         return retrofit;
     }

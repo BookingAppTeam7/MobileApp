@@ -29,6 +29,10 @@
         android:title="Logout"
         android:icon="@drawable/ic_logoutt"/>
 
+    <item
+        android:id="@+id/menu_my_reservations"
+        android:title="My Reservations"
+        android:icon="@drawable/ic_accommodation"/>
 
     <item
         android:id="@+id/createAccommodation"

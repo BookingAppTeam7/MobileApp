@@ -213,7 +213,11 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         MenuItem logOut=binding.navigationView.getMenu().findItem(R.id.menu_logout);
         MenuItem addAccommodationMenuItem=binding.navigationView.getMenu().findItem(R.id.createAccommodation);
         MenuItem accommodationsRequestMenuItem=binding.navigationView.getMenu().findItem(R.id.accommodationRequests);
+
         MenuItem rateOwnerItem=binding.navigationView.getMenu().findItem(R.id.menu_rate_owner);
+
+        MenuItem myReservationsMenuItem=binding.navigationView.getMenu().findItem(R.id.menu_my_reservations);
+
         if(loggedInRole==null){//znaci da je neulogovan
             logInMenuItem.setVisible(true);
             registerMenuItem.setVisible(true);
@@ -224,6 +228,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             logOut.setVisible(false);
             addAccommodationMenuItem.setVisible(false);
             accommodationsRequestMenuItem.setVisible(false);
+            myReservationsMenuItem.setVisible(false);
         }else{
             if(loggedInRole.equals("GUEST")){//za goste
                 logInMenuItem.setVisible(false);
@@ -235,7 +240,11 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 logOut.setVisible(true);
                 addAccommodationMenuItem.setVisible(false);
                 accommodationsRequestMenuItem.setVisible(false);
+
                 rateOwnerItem.setVisible(true);
+
+                myReservationsMenuItem.setVisible(true);
+
             }
             if(loggedInRole.equals("OWNER")){
                 logInMenuItem.setVisible(false);
@@ -247,6 +256,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 logOut.setVisible(true);
                 addAccommodationMenuItem.setVisible(true);
                 accommodationsRequestMenuItem.setVisible(false);
+                myReservationsMenuItem.setVisible(false);
             }
             if(loggedInRole.equals("ADMIN")){
                 logInMenuItem.setVisible(false);
@@ -258,6 +268,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 logOut.setVisible(true);
                 addAccommodationMenuItem.setVisible(false);
                 accommodationsRequestMenuItem.setVisible(true);
+                myReservationsMenuItem.setVisible(false);
 
             }
         }
@@ -273,6 +284,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 MenuItem myAccountItem = binding.navigationView.getMenu().findItem(R.id.menu_account);
                 MenuItem addAccommodationMenuItem=binding.navigationView.getMenu().findItem(R.id.createAccommodation);
                 MenuItem accommodationsRequestMenuItem=binding.navigationView.getMenu().findItem(R.id.accommodationRequests);
+
                 MenuItem rateOwnerItem=binding.navigationView.getMenu().findItem(R.id.menu_rate_owner);
 //                if (roleString.equals("OWNER")) {
 //                    // Prikazi navigaciju za vlasnika
@@ -294,6 +306,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
 //                    accomodationMenuItem.setVisible(false); // Sakrij opciju za vlasnika
 //                    aboutUsMenuItem.setVisible(true);
 //                }
+
+
 
                 MenuItem notificationSettings=binding.navigationView.getMenu().findItem(R.id.menu_notification_settings);
                 MenuItem logOut=binding.navigationView.getMenu().findItem(R.id.menu_logout);
@@ -338,6 +352,11 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                     return true;
                 }else if(item.getItemId()==rateOwnerItem.getItemId()){
                     Intent intent = new Intent(HomeScreenActivity.this, RateOwnerActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+                else if(item.getItemId()==myReservationsMenuItem.getItemId()){
+                    Intent intent = new Intent(HomeScreenActivity.this, GuestsReservationsActivity.class);
                     startActivity(intent);
                     return true;
                 }
