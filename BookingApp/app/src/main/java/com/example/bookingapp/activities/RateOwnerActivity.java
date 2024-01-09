@@ -24,6 +24,7 @@ import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.ReviewService;
 import com.example.bookingapp.services.UserService;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 import retrofit2.Call;
@@ -72,21 +73,45 @@ public class RateOwnerActivity extends AppCompatActivity {
                 call.enqueue(new Callback<Review>() {
                     @Override
                     public void onResponse(Call<Review> call, Response<Review> response) {
+                        String errorMessage = "Successfully rated!";
                         if (response.isSuccessful()) {
                             Review createdReview = response.body();
-                            Toast.makeText(RateOwnerActivity.this, "Successfully rated!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RateOwnerActivity.this, "Successfully rated!", Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(RateOwnerActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                          //  String errorMessage = "Something went wrong...Please try later!";
+                            if (response.code() == 400) {
+                                // Greška Bad Request, API nije prihvatio zahtev
+                                errorMessage = "Bad Request: Invalid data. Please check your input.";
+                                Toast.makeText(RateOwnerActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+                                // Ostale greške
+
+
+                                // Provera da li odgovor sadrži detalje o grešci
+                                if (response.errorBody() != null) {
+                                    try {
+                                        // Čitanje detalja o grešci iz response body-ja
+                                        errorMessage = response.errorBody().string();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                // Ispisivanje greške
+
+                            }
+                            Toast.makeText(RateOwnerActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<Review> call, Throwable t) {
+                        Toast.makeText(RateOwnerActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
 
                     }
                 });
 
-                Intent intent=new Intent(RateOwnerActivity.this, AccountScreenActivity.class);
+
+                Intent intent=new Intent(RateOwnerActivity.this, HomeScreenActivity.class);
                 startActivity(intent);
             }
         });
