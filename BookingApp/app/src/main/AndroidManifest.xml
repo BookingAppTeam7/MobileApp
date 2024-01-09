@@ -26,7 +26,8 @@
             android:exported="false" />
         <activity
             android:name=".activities.RateOwnerActivity"
-
+            android:exported="false" />
+    <activity
             android:name=".activities.GuestsReservationsActivity"
             android:exported="false" />
         <activity
