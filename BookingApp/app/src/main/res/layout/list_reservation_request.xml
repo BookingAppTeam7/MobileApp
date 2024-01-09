@@ -9,6 +9,7 @@
     app:cardCornerRadius="20dp"
     app:cardElevation="8dp"
     android:layout_height="wrap_content">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -81,5 +82,43 @@
             android:layout_marginBottom="30dp"
             android:layout_toEndOf="@id/accommodationImage"
             android:fontFamily="serif"/>
+
+        <LinearLayout
+            android:layout_width="305dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="200dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal"
+
+            android:textSize="15sp">
+
+            <Button
+                android:id="@+id/btnApprove"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/colorAccent1"
+                android:layout_marginLeft="80dp"
+                android:onClick="onApproveClick"
+                android:text="Approve"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <Button
+                android:id="@+id/btnReject"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:backgroundTint="@color/colorRed"
+                android:onClick="onRejectClick"
+                android:text="Reject"
+                android:clickable="true"
+                android:focusable="true"/>
+        </LinearLayout>
+
+
     </RelativeLayout>
+
+
 </androidx.cardview.widget.CardView>

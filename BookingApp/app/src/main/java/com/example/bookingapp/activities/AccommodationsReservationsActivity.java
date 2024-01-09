@@ -70,7 +70,7 @@ public class AccommodationsReservationsActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
 
                     for(Reservation r:response.body()){
-                        if(r.status== ReservationStatusEnum.PENDING) {
+                        if(r.status.toString().equals("PENDING")) {
                             reservationsToShow.add(r);
                         }
                     }
