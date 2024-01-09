@@ -1,7 +1,5 @@
 package com.example.bookingapp.adapters;
 
-import static java.security.AccessController.getContext;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.bookingapp.R;
-import com.example.bookingapp.model.AccommodationRequest;
 import com.example.bookingapp.model.Reservation;
 import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.ReservationService;
@@ -29,11 +26,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class PendingReservationsListAdapter extends ArrayAdapter<Reservation> {
+public class ReservationsListAdapter extends ArrayAdapter<Reservation> {
 
     private ArrayList<Reservation> aReservations;
 
-    public PendingReservationsListAdapter(Context context, ArrayList<Reservation> reservations){
+    public ReservationsListAdapter(Context context, ArrayList<Reservation> reservations){
         super(context, R.layout.list_reservation_request, reservations);
         aReservations = reservations;
     }

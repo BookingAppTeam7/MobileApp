@@ -3,25 +3,15 @@ package com.example.bookingapp.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.example.bookingapp.R;
-import com.example.bookingapp.adapters.AccommodationListAdapter;
-import com.example.bookingapp.adapters.AccomodationApprovalListAdapter;
-import com.example.bookingapp.adapters.PendingReservationsListAdapter;
+import com.example.bookingapp.adapters.ReservationsListAdapter;
 import com.example.bookingapp.databinding.ActivityAccommodationsReservationsBinding;
-import com.example.bookingapp.databinding.ActivityEditAccommodationsDataBinding;
-import com.example.bookingapp.model.Accommodation;
-import com.example.bookingapp.model.AccommodationRequest;
 import com.example.bookingapp.model.Reservation;
-import com.example.bookingapp.model.TokenManager;
-import com.example.bookingapp.model.enums.ReservationStatusEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
-import com.example.bookingapp.services.AccommodationRequestService;
 import com.example.bookingapp.services.AccommodationService;
 import com.example.bookingapp.services.ReservationService;
 
@@ -41,7 +31,7 @@ public class AccommodationsReservationsActivity extends AppCompatActivity {
     public AccommodationService accommodationService = retrofit.create(AccommodationService.class);
 
     public ReservationService reservationService = retrofit.create(ReservationService.class);
-    PendingReservationsListAdapter listAdapter;
+    ReservationsListAdapter listAdapter;
     public ArrayList<Reservation> requests = new ArrayList<Reservation>();
     public ArrayList<Reservation> reservationsToShow= new ArrayList<Reservation>();
     //Accommodation accommodation;
@@ -75,7 +65,7 @@ public class AccommodationsReservationsActivity extends AppCompatActivity {
                         }
                     }
 
-                    listAdapter = new PendingReservationsListAdapter(AccommodationsReservationsActivity.this, reservationsToShow);
+                    listAdapter = new ReservationsListAdapter(AccommodationsReservationsActivity.this, reservationsToShow);
                     binding.listview.setAdapter(listAdapter);
                     binding.listview.setClickable(true);
 
