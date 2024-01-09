@@ -44,6 +44,11 @@
         android:title="About us"
         android:icon="@drawable/ic_about_us"/>
 
+    <item
+        android:id="@+id/menu_rate_owner"
+        android:title="Rate owner"
+        android:icon="@drawable/rate"/>
+
 
 
 </menu>

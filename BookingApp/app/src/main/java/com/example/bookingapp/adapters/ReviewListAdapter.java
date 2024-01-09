@@ -12,10 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.bookingapp.R;
-import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.Review;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ReviewListAdapter extends ArrayAdapter<Review> {
@@ -62,7 +60,7 @@ public class ReviewListAdapter extends ArrayAdapter<Review> {
         reviewUsername.setText("Username: "+review.getUserId());
         reviewType.setText("Type: " + review.getType().toString());
         reviewGrade.setText("Grade: " + String.valueOf(review.getGrade()));
-        reviewComment.setText(review.getContent());
+        reviewComment.setText(review.getComment());
 
         return convertView;
     }

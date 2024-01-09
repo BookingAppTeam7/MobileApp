@@ -1,22 +1,21 @@
-package com.example.bookingapp.model;
+package com.example.bookingapp.model.DTOs;
 
+import com.example.bookingapp.model.ReviewEnum;
 import com.example.bookingapp.model.enums.ReviewStatusEnum;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
-;
-public class Review implements  Serializable {
+public class ReviewPostDTO {
 
-    public Long id;
+
+
 
     public String userId;
 
     public ReviewEnum type;
     public String comment;
     public int grade;
-    public LocalDateTime dateTime;
+
 
 
     private Boolean deleted;
@@ -29,28 +28,14 @@ public class Review implements  Serializable {
     public ReviewStatusEnum status;
 
 
-    public Review( String userId, ReviewEnum type, String comment, int grade, LocalDateTime dateTime, Boolean deleted, Long accommodationId, String ownerId, Boolean reported,
-                   ReviewStatusEnum status) {
+    public ReviewPostDTO( String userId, ReviewEnum type, String comment, int grade, Boolean deleted, Long accommodationId, String ownerId,
+                          ReviewStatusEnum status) {
 
         this.userId = userId;
         this.type = type;
         this.comment = comment;
         this.grade = grade;
-        this.dateTime = dateTime;
-        this.deleted = deleted;
-        this.accommodationId = accommodationId;
-        this.ownerId = ownerId;
-        this.reported = reported;
-        this.status=status;
-    }
-    public Review( Long id,String userId, ReviewEnum type, String comment, int grade, LocalDateTime dateTime, Boolean deleted, Long accommodationId, String ownerId, Boolean reported,
-                   ReviewStatusEnum status) {
-        this.id=id;
-        this.userId = userId;
-        this.type = type;
-        this.comment = comment;
-        this.grade = grade;
-        this.dateTime = dateTime;
+
         this.deleted = deleted;
         this.accommodationId = accommodationId;
         this.ownerId = ownerId;
@@ -58,9 +43,7 @@ public class Review implements  Serializable {
         this.status=status;
     }
 
-    public Review() {
 
-    }
 
 
 
@@ -111,13 +94,7 @@ public class Review implements  Serializable {
 
 
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
 
     public ReviewEnum getType() {
@@ -132,13 +109,13 @@ public class Review implements  Serializable {
         this.type = type;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
+//    public LocalDateTime getDateTime() {
+//        return dateTime;
+//    }
+//
+//    public void setDateTime(LocalDateTime dateTime) {
+//        this.dateTime = dateTime;
+//    }
 
     public String getComment() {
         return comment;

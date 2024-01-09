@@ -1,41 +1,31 @@
 package com.example.bookingapp.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bookingapp.R;
-import com.example.bookingapp.adapters.AccommodationListAdapter;
 import com.example.bookingapp.adapters.ReviewListAdapter;
 import com.example.bookingapp.databinding.ActivityDetailedBinding;
 import com.example.bookingapp.fragments.accommodations.AvailabilityBottomSheetDialogFragment;
-import com.example.bookingapp.fragments.accommodations.FilterBottomSheetDialogFragment;
 import com.example.bookingapp.fragments.accommodations.ReservationBottomSheetFragment;
 import com.example.bookingapp.interfaces.BottomSheetListener;
-import com.example.bookingapp.model.Accommodation;
-import com.example.bookingapp.model.DTOs.ReservationPostDTO;
 import com.example.bookingapp.model.PriceCard;
 import com.example.bookingapp.model.Reservation;
 import com.example.bookingapp.model.Review;
-import com.example.bookingapp.model.TimeSlot;
 import com.example.bookingapp.model.enums.TypeEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
-import com.example.bookingapp.services.AccommodationService;
 import com.example.bookingapp.services.ReservationService;
 
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

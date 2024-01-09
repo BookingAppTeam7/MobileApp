@@ -9,20 +9,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.example.bookingapp.R;
 import com.example.bookingapp.adapters.AccomodationApprovalListAdapter;
 import com.example.bookingapp.databinding.ActivityAccomodationApprovalBinding;
 import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.AccommodationRequest;
-import com.example.bookingapp.model.Review;
-import com.example.bookingapp.model.ReviewEnum;
-import com.example.bookingapp.model.TimeSlot;
 import com.example.bookingapp.model.enums.AccommodationRequestStatus;
 import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.AccommodationRequestService;
 import com.example.bookingapp.services.AccommodationService;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
