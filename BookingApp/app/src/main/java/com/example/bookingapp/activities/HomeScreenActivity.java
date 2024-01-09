@@ -213,7 +213,11 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         MenuItem logOut=binding.navigationView.getMenu().findItem(R.id.menu_logout);
         MenuItem addAccommodationMenuItem=binding.navigationView.getMenu().findItem(R.id.createAccommodation);
         MenuItem accommodationsRequestMenuItem=binding.navigationView.getMenu().findItem(R.id.accommodationRequests);
+
+        MenuItem rateOwnerItem=binding.navigationView.getMenu().findItem(R.id.menu_rate_owner);
+
         MenuItem myReservationsMenuItem=binding.navigationView.getMenu().findItem(R.id.menu_my_reservations);
+
         if(loggedInRole==null){//znaci da je neulogovan
             logInMenuItem.setVisible(true);
             registerMenuItem.setVisible(true);
@@ -236,7 +240,11 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 logOut.setVisible(true);
                 addAccommodationMenuItem.setVisible(false);
                 accommodationsRequestMenuItem.setVisible(false);
+
+                rateOwnerItem.setVisible(true);
+
                 myReservationsMenuItem.setVisible(true);
+
             }
             if(loggedInRole.equals("OWNER")){
                 logInMenuItem.setVisible(false);
@@ -277,6 +285,30 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 MenuItem addAccommodationMenuItem=binding.navigationView.getMenu().findItem(R.id.createAccommodation);
                 MenuItem accommodationsRequestMenuItem=binding.navigationView.getMenu().findItem(R.id.accommodationRequests);
 
+                MenuItem rateOwnerItem=binding.navigationView.getMenu().findItem(R.id.menu_rate_owner);
+//                if (roleString.equals("OWNER")) {
+//                    // Prikazi navigaciju za vlasnika
+//                    logInMenuItem.setVisible(false);
+//                    registerMenuItem.setVisible(false);
+//                    accomodationMenuItem.setVisible(true); // Prikazi opciju za vlasnika
+//                    aboutUsMenuItem.setVisible(true);
+//                } else
+//                if(roleString.equals("GUEST")){
+//                    // Prikazi navigaciju za gosta
+//                    logInMenuItem.setVisible(false);
+//                    registerMenuItem.setVisible(false);
+//                    accomodationMenuItem.setVisible(false); // Sakrij opciju za vlasnika
+//                    aboutUsMenuItem.setVisible(true);
+//                }
+//                else{
+//                    logInMenuItem.setVisible(true);
+//                    registerMenuItem.setVisible(true);
+//                    accomodationMenuItem.setVisible(false); // Sakrij opciju za vlasnika
+//                    aboutUsMenuItem.setVisible(true);
+//                }
+
+
+
                 MenuItem notificationSettings=binding.navigationView.getMenu().findItem(R.id.menu_notification_settings);
                 MenuItem logOut=binding.navigationView.getMenu().findItem(R.id.menu_logout);
 
@@ -316,6 +348,10 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
 
                 else if(item.getItemId()==accommodationsRequestMenuItem.getItemId()){
                     Intent intent = new Intent(HomeScreenActivity.this, AccomodationApprovalActivity.class);
+                    startActivity(intent);
+                    return true;
+                }else if(item.getItemId()==rateOwnerItem.getItemId()){
+                    Intent intent = new Intent(HomeScreenActivity.this, RateOwnerActivity.class);
                     startActivity(intent);
                     return true;
                 }

@@ -9,6 +9,8 @@
     <string name="notRegisteredLabel">Not registered yet?</string>
     <string name="errorText"> </string>
     <string name="firstNameHint"> FirstName </string>
+    <string name="OwnerUserNameHint">Owners username </string>
+    <string name="rateOwnerButton">Rate owner:</string>
     <string name="lastNameHint"> LastName </string>
     <string name="phoneNumberHint"> Phone Number </string>
     <string name="addressHint"> Address </string>
