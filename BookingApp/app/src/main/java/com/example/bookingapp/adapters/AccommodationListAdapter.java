@@ -58,8 +58,21 @@ public class AccommodationListAdapter extends ArrayAdapter<Accommodation> {
         //TextView accommodationDescription = convertView.findViewById(R.id.listAccommodationDesc);
 
         //imageView.setImageResource(accommodation.getImage());
-        accommodationName.setText(accommodation.getName());
+        accommodationName.setText("Name :" +accommodation.getName());
         //accommodationDescription.setText(accommodation.getDescription());
+
+        TextView accommodationLocation = convertView.findViewById(R.id.listAccommodationLocation);
+        if(accommodation.location!=null) {
+            accommodationLocation.setText("Location : " + accommodation.location.address + ", " + accommodation.location.city);
+        }
+        TextView accommodationAssets=convertView.findViewById(R.id.listAccommodationAssets);
+
+        String assetsString="";
+        for(String s:accommodation.assets){
+            assetsString+=" "+s;
+        }
+
+        accommodationAssets.setText("Assets : "+assetsString);
 
         return convertView;
     }
