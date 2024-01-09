@@ -1,6 +1,7 @@
 package com.example.bookingapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,15 @@ import androidx.annotation.Nullable;
 
 import com.example.bookingapp.R;
 import com.example.bookingapp.model.Reservation;
+import com.example.bookingapp.model.TokenManager;
+import com.example.bookingapp.model.enums.ReservationStatusEnum;
+import com.example.bookingapp.model.enums.RoleEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.ReservationService;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import retrofit2.Call;
@@ -61,6 +66,8 @@ public class ReservationsListAdapter extends ArrayAdapter<Reservation> {
         }
 
 
+
+
         TextView requestStatus = convertView.findViewById(R.id.listStatus);
         TextView guest = convertView.findViewById(R.id.listGuestUsername);
         TextView startDate=convertView.findViewById(R.id.listStartDate);
@@ -87,6 +94,19 @@ public class ReservationsListAdapter extends ArrayAdapter<Reservation> {
 
         Button btnApprove = convertView.findViewById(R.id.btnApprove);
         Button btnReject = convertView.findViewById(R.id.btnReject);
+
+        Button btnCancel=convertView.findViewById(R.id.btnCancel);
+        btnCancel.setVisibility(View.INVISIBLE);
+
+        Button btnRateAccommodation=convertView.findViewById(R.id.btnRateAccommodation);
+        btnRateAccommodation.setVisibility(View.INVISIBLE);
+
+        RoleEnum role= TokenManager.getLoggedInUser().role;
+        if(!role.equals(RoleEnum.OWNER)){
+            btnApprove.setVisibility(View.INVISIBLE);
+            btnCancel.setVisibility(View.VISIBLE);
+            btnRateAccommodation.setVisibility(View.VISIBLE);
+        }
 
         btnApprove.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,6 +173,66 @@ public class ReservationsListAdapter extends ArrayAdapter<Reservation> {
                         Toast.makeText(getContext(), "Greška u komunikaciji sa serverom", Toast.LENGTH_SHORT).show();
                     }
                 });
+            }
+
+        });
+
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(request.status!= ReservationStatusEnum.APPROVED){
+                    Toast.makeText(getContext(), "Reservation is not approved yet!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                //check cancellationDeadline
+
+                Date startDate = request.getTimeSlot().getStartDate();
+
+                if (startDate != null) {
+                    Date currentDate = new Date();
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(startDate);
+                    calendar.add(Calendar.DAY_OF_YEAR, -request.getAccommodation().getCancellationDeadline());
+                    Date cancellationAllowedDate = calendar.getTime();
+
+                    if (currentDate.after(cancellationAllowedDate)) {
+                        Toast.makeText(getContext(), "Error! Cancellation deadline is passed!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+                Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+
+                ReservationService reservationService = retrofit.create(ReservationService.class);
+
+                Call<Void> call = reservationService.cancelReservation(request.id);
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            requestStatus.setText("Status of request : CANCELLED");
+                            Toast.makeText(getContext(), "Reservation wit id : "+request.id+"  CANCELLED!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Error...", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(getContext(), "Greška u komunikaciji sa serverom", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+        });
+
+        btnRateAccommodation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
 
         });

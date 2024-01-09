@@ -34,4 +34,7 @@ public interface ReservationService {
 
     @PUT("reservations/confirm/{id}")
     Call<Void> confirmReservation(@Path("id") Long id);
+
+    @GET("reservations/user/{id}")
+    Call<List<Reservation>> findByGuestId(@Path("id") String id);
 }
