@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Reservation {
     public Long id;
 
-
     public Accommodation accommodation;
 
     public User user;
