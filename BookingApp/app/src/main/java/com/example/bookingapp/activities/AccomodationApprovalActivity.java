@@ -129,48 +129,6 @@ public class AccomodationApprovalActivity extends AppCompatActivity {
             }
         });
 
-       // binding.listview.setClickable(true);
-
-
-
-//        binding.listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//                AccommodationRequest request=requests.get(position);
-//                Long accommodationId=Long.valueOf(request.unapprovedAccommodationId);
-//
-//                Call<Accommodation> call = accommodationService.findById(accommodationId);
-//
-//                call.enqueue(new Callback<Accommodation>() {
-//                    @Override
-//                    public void onResponse(Call<Accommodation> call, Response<Accommodation> response) {
-//                        if (response.isSuccessful()) {
-//                            Accommodation accommodation = response.body();
-//                            Intent intent = new Intent(AccomodationApprovalActivity.this, DetailedActivity.class);
-//                            intent.putExtra("name",accommodation.getName());
-//                            intent.putExtra("description", accommodation.getDescription());
-//                            intent.putExtra("image", accommodation.getImages().get(0));
-//                            intent.putExtra("location",accommodation.getLocation().address+", "+accommodation.getLocation().city);
-//                            intent.putExtra("locationX",accommodation.getLocation().x);
-//                            intent.putExtra("locationY",accommodation.getLocation().y);
-//                            intent.putExtra("reviewsList",new ArrayList<>(accommodation.getReviews()));
-//                            intent.putExtra("assets",new ArrayList<>(accommodation.getAssets()));
-//                            intent.putExtra("priceList",new ArrayList<>(accommodation.getPrices()));
-//                            startActivity(intent);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<Accommodation> call, Throwable t) {
-//                        // Obrada greške prilikom poziva
-//                        t.printStackTrace();
-//                    }
-//                });
-//
-//            }
-//        });
 
     }
 }
