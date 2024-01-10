@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.EditAccommodationsDataActivity">
+    tools:context=".activities.CreateAccommodationActivity">
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawerLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="-28dp">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.CreateAccommodationActivity">
 
-        <ImageView
-            android:layout_width="410dp"
-            android:layout_height="746dp"
-            android:alpha="0.35"
-            android:scaleType="centerCrop"
-            android:src="@drawable/background" />
+<!--    <androidx.drawerlayout.widget.DrawerLayout-->
+<!--        android:id="@+id/drawerLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        tools:layout_editor_absoluteY="-28dp">-->
+<!--        -->
 
-
-    </androidx.drawerlayout.widget.DrawerLayout>
+<!--    </androidx.drawerlayout.widget.DrawerLayout>-->
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -301,7 +300,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonsLayout"
+        app:layout_constraintTop_toBottomOf="@id/listview"
         app:layout_constraintWidth_percent="0.5" />
 
 
@@ -573,35 +572,35 @@
         app:layout_constraintHorizontal_bias="0.5"
         >
 
-        <ImageButton
-            android:id="@+id/showPricesButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:src="@drawable/price_cards"
-            android:background="?android:attr/selectableItemBackground"
-            app:layout_constraintTop_toBottomOf="@id/buttonsLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            android:layout_marginTop="16dp"
-            />
+<!--        <ImageButton-->
+<!--            android:id="@+id/showPricesButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="20dp"-->
+<!--            android:src="@drawable/price_cards"-->
+<!--            android:background="?android:attr/selectableItemBackground"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/buttonsLayout"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.5"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            />-->
 
         <TextView
             android:id="@+id/selectedDate"
             android:layout_width="160dp"
             android:layout_height="60dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="10dp"
+            android:fontFamily="serif"
             android:text=""
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:fontFamily="serif"
-            android:layout_marginLeft="20dp"
             app:layout_constraintTop_toBottomOf="@id/buttonsLayout" />
 
         <Button
             android:id="@+id/buttonAddPriceCard"
-            android:layout_width="150dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:backgroundTint="@color/colorAccent1"
@@ -615,32 +614,20 @@
 
     </LinearLayout>
 
-
-
-
-<!--    <Button-->
-<!--        android:id="@+id/buttonAddPrice"-->
-<!--        android:layout_width="200dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:backgroundTint="@color/colorAccent2"-->
-<!--        android:fontFamily="serif"-->
-<!--        android:text="@string/addPriceCard"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.502"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/buttonsLayout"-->
-<!--        android:layout_gravity="center_horizontal"-->
-<!--        app:layout_constraintWidth_percent="1" />-->
-
-<!--    <FrameLayout-->
-<!--        android:id="@+id/fragmentContainer"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/buttonsLayout"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent" />-->
-
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10.0sp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/priceCard"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="0dp"
+        tools:listitem="@layout/list_price_card" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
+</ScrollView>
