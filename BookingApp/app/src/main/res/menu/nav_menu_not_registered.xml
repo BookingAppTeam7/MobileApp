@@ -51,11 +51,15 @@
         android:id="@+id/menu_about_us"
         android:title="About us"
         android:icon="@drawable/ic_about_us"/>
-
     <item
-        android:id="@+id/menu_rate_owner"
-        android:title="Rate owner"
-        android:icon="@drawable/rate"/>
+        android:id="@+id/menu_report_user"
+        android:title="Report user"
+        android:icon="@drawable/ic_report_user"/>
+    <item
+        android:id="@+id/menu_owner_reviews"
+        android:title="Report user"
+        android:icon="@drawable/ic_owner_reviews"/>
+
 
 
 
