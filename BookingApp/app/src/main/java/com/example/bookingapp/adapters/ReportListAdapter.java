@@ -75,7 +75,6 @@ public class ReportListAdapter  extends ArrayAdapter<UserReport> {
             @Override
             public void onClick(View v) {
 
-
                 Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
 
                 UserReportService reportService = retrofit.create(UserReportService.class);
@@ -106,7 +105,6 @@ public class ReportListAdapter  extends ArrayAdapter<UserReport> {
         btnIgnore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
 

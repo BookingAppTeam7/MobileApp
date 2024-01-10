@@ -118,6 +118,7 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
             }
 
             List<ReviewGetDTO> reviewGetDTOS=new ArrayList<>();
+            binding.owner.setText(getIntent().getStringExtra("ownerId"));
 
             Call call = reviewService.findByAccommodationId(getIntent().getLongExtra("accommodationId",0L));
             call.enqueue(new Callback<List<ReviewGetDTO>>() {
@@ -152,6 +153,15 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
 //            binding.listReviewView.setAdapter(listAdapter);
 //            binding.listReviewView.setClickable(false);
         }
+
+        binding.btnOwnersReviews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DetailedActivity.this, UserRatingsRequestsActivity.class);
+                intent.putExtra("username",getIntent().getStringExtra("ownerId"));
+                startActivity(intent);
+            }
+        });
 
         binding.googleMap.setOnClickListener(new View.OnClickListener() {
             @Override

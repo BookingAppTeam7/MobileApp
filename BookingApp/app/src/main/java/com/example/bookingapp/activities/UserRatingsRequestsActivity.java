@@ -17,8 +17,10 @@ import com.example.bookingapp.databinding.ActivityUsersReviewBinding;
 import com.example.bookingapp.model.DTOs.ReviewGetDTO;
 import com.example.bookingapp.model.DTOs.UserGetDTO;
 import com.example.bookingapp.model.Review;
+import com.example.bookingapp.model.TokenManager;
 import com.example.bookingapp.model.User;
 import com.example.bookingapp.model.enums.ReviewStatusEnum;
+import com.example.bookingapp.model.enums.RoleEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.ReviewService;
 import com.example.bookingapp.services.UserService;
@@ -60,11 +62,25 @@ public class UserRatingsRequestsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<ReviewGetDTO>> call, Response<List<ReviewGetDTO>> response) {
                 if (response.isSuccessful()) {
-
-                    for(ReviewGetDTO r:response.body()){
-                        if(r.getStatus()== ReviewStatusEnum.PENDING) {
+//                    if(TokenManager.getLoggedInUser().role== RoleEnum.ADMIN) {
+//                        for (ReviewGetDTO r : response.body()) {
+//                            if (r.getStatus() == ReviewStatusEnum.PENDING) {
+//                                reviewsToShow.add(r);
+//                            }
+//                        }
+//                    }
+                    if(TokenManager.getLoggedInUser().role!=RoleEnum.ADMIN){
+                        for (ReviewGetDTO r : response.body()) {
+                            if (r.getStatus() == ReviewStatusEnum.APPROVED) {
+                                reviewsToShow.add(r);
+                            }
+                        }
+                    }
+                    else{
+                        for (ReviewGetDTO r : response.body()) {
                             reviewsToShow.add(r);
                         }
+
                     }
 
                     listAdapter = new ReviewListAdapter(UserRatingsRequestsActivity.this, reviewsToShow);
