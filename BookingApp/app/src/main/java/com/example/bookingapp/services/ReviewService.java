@@ -1,5 +1,6 @@
 package com.example.bookingapp.services;
 
+import com.example.bookingapp.model.DTOs.ReviewGetDTO;
 import com.example.bookingapp.model.DTOs.ReviewPostDTO;
 import com.example.bookingapp.model.DTOs.UserGetDTO;
 import com.example.bookingapp.model.DTOs.UserPostDTO;
@@ -7,6 +8,8 @@ import com.example.bookingapp.model.DTOs.UserPutDTO;
 import com.example.bookingapp.model.JwtAuthenticationRequest;
 import com.example.bookingapp.model.Review;
 import com.example.bookingapp.model.User;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -29,5 +32,18 @@ public interface ReviewService {
     @DELETE("reviews/{id}")
     Call<Void>delete(@Path("id") Long  id);
 
+    @GET("reviews/accommodation/pending/{accommodationId}")
+    Call<List<Review>> findPendingByAccommodationId(@Path("accommodationId") Long accommodationId);
 
+    @GET("reviews/mobile/owner/{ownerId}")
+    Call<List<ReviewGetDTO>> findByOwnerId(@Path("ownerId") String ownerId);
+
+    @GET("reviews/mobile/accommodation/{accommodationId}")
+    Call<List<ReviewGetDTO>> findByAccommodationId(@Path("accommodationId") Long accommodationId);
+
+    @PUT("reviews/{id}/update-status/approve")
+    Call<Void> approve(@Path("id") Long reviewId);
+
+    @PUT("reviews/{id}/update-status/reject")
+    Call<Void> reject(@Path("id") Long reviewId);
 }

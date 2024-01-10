@@ -138,7 +138,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                             intent.putExtra("location",accommodationsToShow.get(position).getLocation().address+", "+accommodationsToShow.get(position).getLocation().city);
                             intent.putExtra("locationX",accommodationsToShow.get(position).getLocation().x);
                             intent.putExtra("locationY",accommodationsToShow.get(position).getLocation().y);
-                           intent.putExtra("reviewsList",new ArrayList<>(accommodationsToShow.get(position).getReviews()));
+                           //intent.putExtra("reviewsList",new ArrayList<>(accommodationsToShow.get(position).getReviews()));
                             intent.putExtra("assets",new ArrayList<>(accommodationsToShow.get(position).getAssets()));
                             intent.putExtra("priceList",new ArrayList<>(accommodationsToShow.get(position).getPrices()));
                             intent.putExtra("minGuests",accommodationsToShow.get(position).getMinGuests());
@@ -218,6 +218,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         MenuItem rateOwnerItem=binding.navigationView.getMenu().findItem(R.id.menu_rate_owner);
 
         MenuItem myReservationsMenuItem=binding.navigationView.getMenu().findItem(R.id.menu_my_reservations);
+        MenuItem allUsersMenuItem=binding.navigationView.getMenu().findItem(R.id.allUsers);
 
         if(loggedInRole==null){//znaci da je neulogovan
             logInMenuItem.setVisible(true);
@@ -230,6 +231,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             addAccommodationMenuItem.setVisible(false);
             accommodationsRequestMenuItem.setVisible(false);
             myReservationsMenuItem.setVisible(false);
+            allUsersMenuItem.setVisible(false);
         }else{
             if(loggedInRole.equals("GUEST")){//za goste
                 logInMenuItem.setVisible(false);
@@ -245,6 +247,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 rateOwnerItem.setVisible(true);
 
                 myReservationsMenuItem.setVisible(true);
+                allUsersMenuItem.setVisible(false);
 
             }
             if(loggedInRole.equals("OWNER")){
@@ -258,6 +261,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 addAccommodationMenuItem.setVisible(true);
                 accommodationsRequestMenuItem.setVisible(false);
                 myReservationsMenuItem.setVisible(false);
+                allUsersMenuItem.setVisible(false);
             }
             if(loggedInRole.equals("ADMIN")){
                 logInMenuItem.setVisible(false);
@@ -270,6 +274,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 addAccommodationMenuItem.setVisible(false);
                 accommodationsRequestMenuItem.setVisible(true);
                 myReservationsMenuItem.setVisible(false);
+                allUsersMenuItem.setVisible(true);
 
             }
         }
@@ -358,6 +363,11 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 }
                 else if(item.getItemId()==myReservationsMenuItem.getItemId()){
                     Intent intent = new Intent(HomeScreenActivity.this, GuestsReservationsActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+                else if(item.getItemId()==allUsersMenuItem.getItemId()){
+                    Intent intent = new Intent(HomeScreenActivity.this, UsersReviewActivity.class);
                     startActivity(intent);
                     return true;
                 }
