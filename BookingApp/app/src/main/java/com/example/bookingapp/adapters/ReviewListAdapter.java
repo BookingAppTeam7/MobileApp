@@ -91,6 +91,8 @@ public class ReviewListAdapter extends ArrayAdapter<ReviewGetDTO> {
         Button rejectButton=convertView.findViewById(R.id.btnReject);
         buttonApprove.setVisibility(View.INVISIBLE);
         rejectButton.setVisibility(View.INVISIBLE);
+        Button deleteButton=convertView.findViewById(R.id.btnDelete);
+        deleteButton.setVisibility(View.INVISIBLE);
 
 
         if(TokenManager.getLoggedInUser().getRole()== RoleEnum.ADMIN){
@@ -102,6 +104,9 @@ public class ReviewListAdapter extends ArrayAdapter<ReviewGetDTO> {
         }
         else{
             status.setText(" ");
+        }
+        if(TokenManager.getLoggedInUser().username.equals(review.getUserId())){
+            deleteButton.setVisibility(View.VISIBLE);
         }
 
         buttonApprove.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +125,36 @@ public class ReviewListAdapter extends ArrayAdapter<ReviewGetDTO> {
                         if (response.isSuccessful()) {
                             status.setText("Status of request : APPROVED");
                             Toast.makeText(getContext(), "Reservation wit id : "+review.id+"  APPROVED!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Error...", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(getContext(), "Greška u komunikaciji sa serverom", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+        });
+
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+
+                ReviewService reviewService = retrofit.create(ReviewService.class);
+
+                Call<Void> call = reviewService.delete(review.id);
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(getContext(), "DELETED!", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getContext(), "Error...", Toast.LENGTH_SHORT).show();
                         }
