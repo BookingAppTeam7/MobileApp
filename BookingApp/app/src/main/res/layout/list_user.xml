@@ -38,8 +38,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:id="@+id/listReviewType"
-            android:text="Review type:"
+            android:id="@+id/listRole"
+            android:text="Role:"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:layout_marginTop="50dp"
@@ -49,85 +49,67 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:id="@+id/listGrade"
-            android:text="Grade:"
+            android:id="@+id/listStatus"
+            android:text="Role:"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:layout_marginTop="80dp"
             android:layout_marginStart="30dp"
             android:layout_toEndOf="@id/listImage"
             android:fontFamily="serif"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:id="@+id/listComment"
-            android:text="Comment:"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:layout_marginTop="110dp"
-            android:layout_marginStart="30dp"
-            android:layout_toEndOf="@id/listImage"
-            android:fontFamily="serif"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:id="@+id/listTime"
-            android:text="Time:"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:layout_marginTop="140dp"
-            android:layout_marginStart="30dp"
-            android:layout_toEndOf="@id/listImage"
-            android:fontFamily="serif"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:id="@+id/listStatus"
-            android:text="Status:"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:layout_marginTop="170dp"
-            android:layout_marginStart="30dp"
-            android:layout_toEndOf="@id/listImage"
-            android:fontFamily="serif"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:id="@+id/listReported"
-            android:text="Reported:"
-            android:textColor="@color/colorRed"
+            android:id="@+id/listFirstLastName"
+            android:text="Name:"
+            android:textColor="@color/black"
             android:textSize="15sp"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="130dp"
+            android:layout_marginStart="30dp"
+            android:layout_toEndOf="@id/listImage"
+            android:fontFamily="serif"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/listContact"
+            android:text="Contact:"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:layout_marginTop="160dp"
+            android:layout_marginStart="30dp"
+            android:layout_toEndOf="@id/listImage"
+            android:fontFamily="serif"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/listAddress"
+            android:text="Address:"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:layout_marginTop="190dp"
             android:layout_marginStart="30dp"
             android:layout_toEndOf="@id/listImage"
             android:fontFamily="serif"/>
         <LinearLayout
+
             android:layout_width="305dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="230dp"
+            android:layout_marginTop="220dp"
             android:layout_marginBottom="20dp"
             android:orientation="horizontal"
 
             android:textSize="15sp">
+
             <Button
-                android:id="@+id/btnApprove"
-                android:layout_width="160dp"
+                android:id="@+id/btnReviews"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="120dp"
                 android:backgroundTint="@color/colorAccent1"
                 android:onClick="onCancelClick"
-                android:text="Approve"
-                android:clickable="true"
-                android:focusable="true"/>
-            <Button
-                android:id="@+id/btnReject"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:backgroundTint="@color/colorRed"
-                android:onClick="onCancelClick"
-                android:text="Reject"
+                android:text="Rating requests"
                 android:clickable="true"
                 android:focusable="true"/>
         </LinearLayout>
