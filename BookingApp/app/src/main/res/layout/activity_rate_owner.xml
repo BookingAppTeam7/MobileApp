@@ -69,7 +69,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/OwnerUserNameHint"
-            android:padding="12dp"/>
+            android:padding="12dp"
+            android:editable="false"
+            android:focusedSearchResultHighlightColor="@color/colorPrimary1"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <RadioGroup
@@ -152,6 +154,7 @@
             android:layout_width="match_parent"
             android:layout_height="103dp"
             android:hint="Comment:"
+            android:focusedSearchResultHighlightColor="@color/colorPrimary1"
             android:padding="12dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
