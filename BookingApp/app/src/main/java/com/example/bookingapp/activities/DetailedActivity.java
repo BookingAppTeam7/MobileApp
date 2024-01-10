@@ -15,15 +15,20 @@ import com.example.bookingapp.databinding.ActivityDetailedBinding;
 import com.example.bookingapp.fragments.accommodations.AvailabilityBottomSheetDialogFragment;
 import com.example.bookingapp.fragments.accommodations.ReservationBottomSheetFragment;
 import com.example.bookingapp.interfaces.BottomSheetListener;
+import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.PriceCard;
 import com.example.bookingapp.model.Reservation;
 import com.example.bookingapp.model.Review;
+import com.example.bookingapp.model.TimeSlot;
+import com.example.bookingapp.model.enums.PriceTypeEnum;
 import com.example.bookingapp.model.enums.TypeEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
+import com.example.bookingapp.services.AccommodationService;
 import com.example.bookingapp.services.ReservationService;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,16 +46,21 @@ import retrofit2.Retrofit;
 public class DetailedActivity extends AppCompatActivity implements BottomSheetListener {
     public Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
     public ReservationService reservationService=retrofit.create(ReservationService.class);
+    public AccommodationService accommodationService=retrofit.create(AccommodationService.class);
     ActivityDetailedBinding binding;
     private String location;
     private double locationX;
     private double locationY;
     private double price;
+    public String reservationConfirmation;
     private List<PriceCard> priceList;
     ReviewListAdapter listAdapter;
     String loggedInUsername;
     String loggedInRole;
     public Long accommodationId;
+
+    public double reservationPrice;
+    public PriceTypeEnum reservationPriceType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +85,8 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
             int maxGuests=intent.getIntExtra("maxGuests",0);
             String type=intent.getStringExtra("type");
             String cancel=intent.getStringExtra("cancelDeadline");
+            reservationConfirmation=intent.getStringExtra("reservationConfirmation");
+            Log.e("RESERVATION CONFIRMATION",reservationConfirmation);
             binding.detailName.setText(name);
             binding.detailDescription.setText(description);
             binding.detailImage.setImageResource(image);
@@ -150,7 +162,7 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
                     .append("\n")
                     .append("Price:")
                     .append(p.price+"$ ")
-                    .append(p.type);
+                    .append(p.type+"\n");
         }
 
         return result.toString();
@@ -195,23 +207,98 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
         String formattedArrivalDate = dateFormat.format(arrival);
         String formattedCheckoutDate = dateFormat.format(checkout);
 
-        // Manually create a JSON object with the desired format
-        String requestBody = String.format(
-                "{\"accommodationId\": %d, \"userId\": \"%s\", \"timeSlot\": {\"id\": %d, \"startDate\": \"%s\", \"endDate\": \"%s\"}, \"numberOfGuests\": %d}",
-                accommodationId, loggedInUsername, 99L, formattedArrivalDate, formattedCheckoutDate, guests);
+        Call<Accommodation> call1 = accommodationService.findById(accommodationId);
 
-        // Make the API call with the manually created JSON object
-        RequestBody body = RequestBody.create(MediaType.parse("application/json"), requestBody);
-        Call<Reservation> call = reservationService.createReservation(body);
-
-        call.enqueue(new Callback<Reservation>() {
+        call1.enqueue(new Callback<Accommodation>() {
             @Override
-            public void onResponse(Call<Reservation> call, Response<Reservation> response) {
+            public void onResponse(Call<Accommodation> call1, Response<Accommodation> response) {
                 if (response.isSuccessful()) {
-                    Log.e("USPESNO NAPRAVIO REZERVACIJU","POGLEDAJ BAZU");
-                    Toast.makeText(DetailedActivity.this,"Successfully created reservation!",Toast.LENGTH_SHORT).show();
+                    Accommodation accommodation = response.body();
+                    for(PriceCard pc: accommodation.prices){
+                        if(isWithinTimeSlot(arrival,checkout,pc.timeSlot)){
+                            Log.e("JESTE U TIME SLOTU","JESTEEEEEE");
+                            reservationPrice=pc.price;
+                            reservationPriceType=pc.type;
+                        }
+                    }
+
+                    Log.e("PRICEEEEEEEEE",String.valueOf(reservationPrice));//NE VALJA - 0.0
+                    Log.e("PRICETYPEEEEEEE",String.valueOf(reservationPriceType));//NE VALJA - null
+                    // Manually create a JSON object with the desired format
+                    String requestBody = String.format(
+                            "{\"accommodationId\": %d, \"userId\": \"%s\", \"timeSlot\": {\"id\": %d, \"startDate\": \"%s\", \"endDate\": \"%s\"}, \"numberOfGuests\": %d, \"price\":\"%s\", \"priceType\":\"%s\"}",
+                            accommodationId, loggedInUsername, 99L, formattedArrivalDate, formattedCheckoutDate, guests, String.valueOf(reservationPrice), String.valueOf(reservationPriceType));
+                    Log.e("RESERVATION POST", requestBody);
+
+                    // Make the API call with the manually created JSON object
+                    RequestBody body = RequestBody.create(MediaType.parse("application/json"), requestBody);
+                    Call<Reservation> createReservationCall = reservationService.createReservation(body);
+
+                    createReservationCall.enqueue(new Callback<Reservation>() {
+                        @Override
+                        public void onResponse(Call<Reservation> call, Response<Reservation> response) {
+                            if (response.isSuccessful()) {
+                                Log.e("USPESNO NAPRAVIO REZERVACIJU", "POGLEDAJ BAZU");
+                                Toast.makeText(DetailedActivity.this, "Successfully created reservation!", Toast.LENGTH_SHORT).show();
+                                if (reservationConfirmation.equals("AUTOMATIC")) {
+                                    Long reservationId = response.body().getId();
+                                    Log.e("RESERVATION ID", reservationId.toString());
+                                    // Confirm the reservation
+                                    confirmReservation(reservationId);
+                                }
+                            } else {
+                                Log.e("Reservation Error", "Error: " + response.message());
+                                String errorMessage = "Unknown error";
+                                try {
+                                    JSONObject errorBody = new JSONObject(response.errorBody().string());
+                                    if (errorBody.has("error")) {
+                                        errorMessage = errorBody.getString("error");
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+                                // Show a Toast with the error message
+                                Toast.makeText(DetailedActivity.this, "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Reservation> call, Throwable t) {
+                            // Handle failure
+                            Log.e("Reservation Failure", "Error: " + t.getMessage());
+                        }
+                    });
                 } else {
-                    Log.e("Reservation Error", "Error: " + response.message());
+                    Log.e("Error", "Response Code: " + response.code());
+                    try {
+                        Log.e("Error Body", response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<Accommodation> call1, Throwable t) {
+                Log.e("Failure", t.getMessage());
+                t.printStackTrace();
+            }
+        });
+
+
+    }
+    private void confirmReservation(Long reservationId) {
+        Call<Void> confirmCall = reservationService.confirmReservation(reservationId);
+
+        confirmCall.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(DetailedActivity.this,"Reservation confirmed!",Toast.LENGTH_SHORT).show();
+                    Log.e("Reservation Confirmed", "Reservation confirmed successfully");
+                    // Additional handling if needed
+                } else {
+                    Log.e("Confirmation Error", "Error: " + response.message());
                     String errorMessage = "Unknown error";
                     try {
                         JSONObject errorBody = new JSONObject(response.errorBody().string());
@@ -223,15 +310,22 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
                     }
 
                     // Show a Toast with the error message
-                    Toast.makeText(DetailedActivity.this, "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailedActivity.this, "Error confirming reservation: " + errorMessage, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<Reservation> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 // Handle failure
-                Log.e("Reservation Failure", "Error: " + t.getMessage());
+                Log.e("Confirmation Failure", "Error: " + t.getMessage());
             }
         });
+    }
+    boolean isWithinTimeSlot(Date arrival, Date checkout, TimeSlot timeSlot){
+        Log.e("ARRIVALFFF",arrival.toString());
+        Log.e("CHECKOUTFFF",checkout.toString());
+        Log.e("TIMESLOTARRIVALFFF",timeSlot.getStartDate().toString());
+        Log.e("TIMESLOTCHECKOUTGFFFFF",timeSlot.getEndDate().toString());
+        return !arrival.before(timeSlot.getStartDate()) && !checkout.after(timeSlot.getEndDate());
     }
 }

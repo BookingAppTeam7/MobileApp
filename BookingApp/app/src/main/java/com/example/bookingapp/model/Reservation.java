@@ -1,5 +1,6 @@
 package com.example.bookingapp.model;
 
+import com.example.bookingapp.model.enums.PriceTypeEnum;
 import com.example.bookingapp.model.enums.ReservationStatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -15,15 +16,35 @@ public class Reservation {
     public ReservationStatusEnum status;
 
     public Long numberOfGuests;
+    public double price;
+    public PriceTypeEnum priceType;
     public Reservation(){}
 
-    public Reservation(Long id, TimeSlot timeSlot,ReservationStatusEnum status, Accommodation accommodation, Long numberOfGuests, User user) {
+    public Reservation(Long id, TimeSlot timeSlot,ReservationStatusEnum status, Accommodation accommodation, Long numberOfGuests, User user, double price, PriceTypeEnum priceType) {
         this.id = id;
         this.timeSlot=timeSlot;
         this.status=status;
         this.accommodation=accommodation;
         this.numberOfGuests=numberOfGuests;
         this.user=user;
+        this.price=price;
+        this.priceType=priceType;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public PriceTypeEnum getPriceType() {
+        return priceType;
+    }
+
+    public void setPriceType(PriceTypeEnum priceType) {
+        this.priceType = priceType;
     }
 
     public User getUser() {
