@@ -21,6 +21,9 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
+            android:name=".activities.ReportUserActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.UserRatingsRequestsActivity"
             android:exported="false" />
         <activity
