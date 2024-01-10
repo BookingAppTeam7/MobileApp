@@ -1,5 +1,6 @@
 package com.example.bookingapp.services;
 
+import com.example.bookingapp.model.DTOs.ReviewPostAccommodationDTO;
 import com.example.bookingapp.model.DTOs.ReviewPostDTO;
 import com.example.bookingapp.model.DTOs.UserGetDTO;
 import com.example.bookingapp.model.DTOs.UserPostDTO;
@@ -25,6 +26,9 @@ public interface ReviewService {
     })
     @POST("reviews/reviewsMobileApp")
     Call<Review> create(@Body ReviewPostDTO newReview);
+
+    @POST("reviews/accommodations/reviewsMobileApp")
+    Call<Review> createAccommodationReview(@Body ReviewPostAccommodationDTO newReview);
 
     @DELETE("reviews/{id}")
     Call<Void>delete(@Path("id") Long  id);

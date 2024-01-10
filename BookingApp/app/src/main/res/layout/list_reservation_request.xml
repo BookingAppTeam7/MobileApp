@@ -145,6 +145,31 @@
             android:text="Cancel Reservation"
             android:clickable="true"
             android:focusable="true"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="305dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="280dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal"
+
+            android:textSize="15sp">
+            <Button
+                android:id="@+id/btnRateOwner"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorAccent1"
+                android:onClick="onCancelClick"
+                android:text="Rate Owner"
+                android:clickable="true"
+                android:focusable="true"/>
+
+
+
         </LinearLayout>
 
 

@@ -54,6 +54,9 @@ public class RateOwnerActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Dodajte nazad dugme
         toolbar.setNavigationOnClickListener(v -> onBackPressed()); // Postavljanje akcije za nazad dugme
+        ///OVDE DODAJ
+        Intent intent=getIntent();
+        binding.ownerUserName.setText(intent.getStringExtra("ownerId"));
 
         binding.buttonRateOwner.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +108,7 @@ public class RateOwnerActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<Review> call, Throwable t) {
-                        Toast.makeText(RateOwnerActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                 //       Toast.makeText(RateOwnerActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
 
                     }
                 });
