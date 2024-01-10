@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 
 import com.example.bookingapp.R;
 import com.example.bookingapp.activities.UserRatingsRequestsActivity;
+import com.example.bookingapp.activities.UserReportsActivity;
 import com.example.bookingapp.activities.UsersReviewActivity;
 import com.example.bookingapp.model.DTOs.UserGetDTO;
 import com.example.bookingapp.model.Reservation;
@@ -91,6 +92,7 @@ public class UserListAdapter extends ArrayAdapter<UserGetDTO> {
             btnReviews.setVisibility(View.INVISIBLE);
         }
 
+        Button btnReports=convertView.findViewById(R.id.btnReports);
 
         View finalConvertView = convertView;
         btnReviews.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +104,21 @@ public class UserListAdapter extends ArrayAdapter<UserGetDTO> {
                 intent.putExtra("username", user.getUsername()); // Assuming getUsername() is the correct method
 
                 // Start the activity
+                context.startActivity(intent);
+
+            }
+
+        });
+
+        View finalConvertView1 = convertView;
+        btnReports.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Context context = finalConvertView1.getContext();
+
+                Intent intent = new Intent(context, UserReportsActivity.class);
+                intent.putExtra("username", user.getUsername());
+
                 context.startActivity(intent);
 
             }
