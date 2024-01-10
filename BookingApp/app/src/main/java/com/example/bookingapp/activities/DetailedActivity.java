@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -16,15 +17,18 @@ import com.example.bookingapp.fragments.accommodations.AvailabilityBottomSheetDi
 import com.example.bookingapp.fragments.accommodations.ReservationBottomSheetFragment;
 import com.example.bookingapp.interfaces.BottomSheetListener;
 import com.example.bookingapp.model.Accommodation;
+import com.example.bookingapp.model.DTOs.ReviewGetDTO;
 import com.example.bookingapp.model.PriceCard;
 import com.example.bookingapp.model.Reservation;
 import com.example.bookingapp.model.Review;
 import com.example.bookingapp.model.TimeSlot;
 import com.example.bookingapp.model.enums.PriceTypeEnum;
+import com.example.bookingapp.model.enums.ReviewStatusEnum;
 import com.example.bookingapp.model.enums.TypeEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.AccommodationService;
 import com.example.bookingapp.services.ReservationService;
+import com.example.bookingapp.services.ReviewService;
 
 import org.json.JSONObject;
 
@@ -47,6 +51,7 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
     public Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
     public ReservationService reservationService=retrofit.create(ReservationService.class);
     public AccommodationService accommodationService=retrofit.create(AccommodationService.class);
+    public ReviewService reviewService=retrofit.create(ReviewService.class);
     ActivityDetailedBinding binding;
     private String location;
     private double locationX;
@@ -92,7 +97,7 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
             binding.detailImage.setImageResource(image);
             binding.minMaxGuests.setText("Guests: "+String.valueOf(minGuests)+" - "+String.valueOf(maxGuests)+"    Type:"+type);
             binding.cancelDeadline.setText("Cancel deadline (in days):"+cancel);
-            List<Review> reviewsList = (ArrayList<Review>) getIntent().getSerializableExtra("reviewsList");
+            //List<Review> reviewsList = (ArrayList<Review>) getIntent().getSerializableExtra("reviewsList");
             List<String> assetsList=(ArrayList<String>) getIntent().getSerializableExtra("assets");
             String allAssets=" ";
             for(String s:assetsList){
@@ -112,10 +117,40 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
                 reservation.setVisibility(View.INVISIBLE);
             }
 
+            List<ReviewGetDTO> reviewGetDTOS=new ArrayList<>();
 
-            listAdapter = new ReviewListAdapter(DetailedActivity.this, reviewsList);
-            binding.listReviewView.setAdapter(listAdapter);
-            binding.listReviewView.setClickable(false);
+            Call call = reviewService.findByAccommodationId(getIntent().getLongExtra("accommodationId",0L));
+            call.enqueue(new Callback<List<ReviewGetDTO>>() {
+                @Override
+                public void onResponse(Call<List<ReviewGetDTO>> call, Response<List<ReviewGetDTO>> response) {
+                    if (response.isSuccessful()) {
+
+                        for(ReviewGetDTO r:response.body()){
+                            if(r.getStatus()== ReviewStatusEnum.APPROVED) {
+                                reviewGetDTOS.add(r);
+                            }
+                        }
+
+                        listAdapter = new ReviewListAdapter(DetailedActivity.this, reviewGetDTOS);
+                        binding.listReviewView.setAdapter(listAdapter);
+                        binding.listReviewView.setClickable(false);
+                    } else {
+                        // Handle error
+                        Log.e("GRESKA",String.valueOf(response.code()));
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<ReviewGetDTO>> call, Throwable t) {
+                    Log.e("Error : ",t.getMessage());
+                    t.printStackTrace();
+                }
+            });
+
+
+//            listAdapter = new ReviewListAdapter(DetailedActivity.this, reviewGetDTOS);
+//            binding.listReviewView.setAdapter(listAdapter);
+//            binding.listReviewView.setClickable(false);
         }
 
         binding.googleMap.setOnClickListener(new View.OnClickListener() {

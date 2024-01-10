@@ -8,6 +8,8 @@ import com.example.bookingapp.model.DTOs.UserPutDTO;
 import com.example.bookingapp.model.JwtAuthenticationRequest;
 import com.example.bookingapp.model.User;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -47,5 +49,8 @@ public interface UserService {
 
     @GET("/logOut")
     Call<Void>logout();
+
+    @GET("users")
+    Call<List<UserGetDTO>> findAll();
 
 }
