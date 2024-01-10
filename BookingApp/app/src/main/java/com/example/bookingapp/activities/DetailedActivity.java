@@ -227,7 +227,7 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
                     // Manually create a JSON object with the desired format
                     String requestBody = String.format(
                             "{\"accommodationId\": %d, \"userId\": \"%s\", \"timeSlot\": {\"id\": %d, \"startDate\": \"%s\", \"endDate\": \"%s\"}, \"numberOfGuests\": %d, \"price\":\"%s\", \"priceType\":\"%s\"}",
-                            accommodationId, loggedInUsername, 99L, formattedArrivalDate, formattedCheckoutDate, guests, String.valueOf(reservationPrice), String.valueOf(reservationPriceType));
+                            accommodationId, loggedInUsername, 999L, formattedArrivalDate, formattedCheckoutDate, guests, String.valueOf(reservationPrice), String.valueOf(reservationPriceType));
                     Log.e("RESERVATION POST", requestBody);
 
                     // Make the API call with the manually created JSON object
