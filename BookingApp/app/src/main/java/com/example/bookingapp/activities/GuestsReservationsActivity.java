@@ -63,6 +63,7 @@ public class GuestsReservationsActivity extends AppCompatActivity implements Bot
             @Override
             public void onResponse(Call<List<Reservation>> call, Response<List<Reservation>> response) {
                 if (response.isSuccessful()) {
+                    reservationsToShow.clear();
 
                     for(Reservation r:response.body()){
                             reservationsToShow.add(r);
@@ -81,6 +82,7 @@ public class GuestsReservationsActivity extends AppCompatActivity implements Bot
 
                         }
                     });
+                    listAdapter.notifyDataSetChanged();
                 } else {
                     // Handle error
                     Log.e("GRESKA",String.valueOf(response.code()));

@@ -104,17 +104,24 @@ public class ReservationsListAdapter extends ArrayAdapter<Reservation> {
         Button btnCancel=convertView.findViewById(R.id.btnCancel);
         btnCancel.setVisibility(View.INVISIBLE);
 
+        Button btnDelete=convertView.findViewById(R.id.btnDeleteReservation);
+        btnDelete.setVisibility(View.INVISIBLE);
+
+
         Button btnRateAccommodation=convertView.findViewById(R.id.btnRateAccommodation);
         btnRateAccommodation.setVisibility(View.INVISIBLE);
         Button btnRateOwner=convertView.findViewById(R.id.btnRateOwner);
-        btnRateAccommodation.setVisibility(View.INVISIBLE);
+        //btnRateAccommodation.setVisibility(View.INVISIBLE);
         btnRateOwner.setVisibility(View.INVISIBLE);
+
+
         RoleEnum role= TokenManager.getLoggedInUser().role;
         if(!role.equals(RoleEnum.OWNER)){
             btnApprove.setVisibility(View.INVISIBLE);
             btnCancel.setVisibility(View.VISIBLE);
             btnRateAccommodation.setVisibility(View.VISIBLE);
             btnRateOwner.setVisibility(View.VISIBLE);
+            btnDelete.setVisibility(View.VISIBLE);
         }
 
         btnApprove.setOnClickListener(new View.OnClickListener() {
@@ -150,7 +157,39 @@ public class ReservationsListAdapter extends ArrayAdapter<Reservation> {
             }
 
         });
+        View finalConvertView3 = convertView;
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
 
+                if(request.status!=ReservationStatusEnum.PENDING){
+                    Toast.makeText(getContext(), "Can't delete if status isn't PENDING!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                ReservationService reservationService = retrofit.create(ReservationService.class);
+
+                Call<Void> call = reservationService.deleteReservation(request.id);
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(getContext(), "Reservation DELETED!", Toast.LENGTH_SHORT).show();
+                            finalConvertView3.setVisibility(View.INVISIBLE);
+                            notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(getContext(), "Error...", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(getContext(), "Greška u komunikaciji sa serverom", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+        });
 
         btnReject.setOnClickListener(new View.OnClickListener() {
             @Override
