@@ -10,6 +10,7 @@ import java.util.List;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -46,4 +47,6 @@ public interface ReservationService {
             @Query("endDate") String endDate,
             @Query("status") ReservationStatusEnum status
     );
+    @DELETE("reservations/{id}")
+    Call<Void> deleteReservation(@Path("id") Long id);
 }
