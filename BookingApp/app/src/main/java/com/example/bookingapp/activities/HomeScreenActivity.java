@@ -383,7 +383,9 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                     startActivity(intent);
                     return true;
                 }else if(item.getItemId()==ownerReviewsMenuItem.getItemId()){
-                    Intent intent = new Intent(HomeScreenActivity.this, ReportUserActivity.class);
+
+                    Intent intent = new Intent(HomeScreenActivity.this, UserRatingsRequestsActivity.class);
+                    intent.putExtra("username",TokenManager.getLoggedInUser().username);
                     startActivity(intent);
                     return true;
                 }

@@ -92,7 +92,7 @@
 
 
     <Button
-        android:id="@+id/buttonRateOwner"
+        android:id="@+id/buttonReportUser"
         android:layout_width="205dp"
         android:layout_height="57dp"
         android:layout_marginTop="84dp"

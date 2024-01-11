@@ -57,7 +57,7 @@
         android:icon="@drawable/ic_report_user"/>
     <item
         android:id="@+id/menu_owner_reviews"
-        android:title="Report user"
+        android:title="Owner reviews"
         android:icon="@drawable/ic_owner_reviews"/>
 
 

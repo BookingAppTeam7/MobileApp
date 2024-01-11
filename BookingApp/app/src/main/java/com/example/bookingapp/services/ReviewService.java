@@ -5,6 +5,7 @@ import com.example.bookingapp.model.DTOs.ReviewPostAccommodationDTO;
 import com.example.bookingapp.model.DTOs.ReviewGetDTO;
 
 import com.example.bookingapp.model.DTOs.ReviewPostDTO;
+import com.example.bookingapp.model.DTOs.ReviewPutDTO;
 import com.example.bookingapp.model.DTOs.UserGetDTO;
 import com.example.bookingapp.model.DTOs.UserPostDTO;
 import com.example.bookingapp.model.DTOs.UserPutDTO;
@@ -49,6 +50,9 @@ public interface ReviewService {
 
     @PUT("reviews/{id}/update-status/approve")
     Call<Void> approve(@Path("id") Long reviewId);
+
+    @PUT("reviews/mobileApps/{id}")
+    Call<Void> update(@Body ReviewPutDTO reviewPutDTO, @Path("id") Long reviewId);
 
     @PUT("reviews/{id}/update-status/reject")
     Call<Void> reject(@Path("id") Long reviewId);
