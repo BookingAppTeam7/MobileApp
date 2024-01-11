@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.RateOwnerActivity">
+    tools:context=".activities.ReportUserActivity">
 
 
 
@@ -57,93 +57,24 @@
         android:id="@+id/firstNameInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="150dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
+
         app:layout_constraintWidth_percent="0.75">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ownerUserName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/OwnerUserNameHint"
-            android:padding="12dp"
-            android:editable="false"
-            android:focusedSearchResultHighlightColor="@color/colorPrimary1"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <RadioGroup
-        android:id="@+id/radioGroupRole"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="12dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.566"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/firstNameInput"
-        app:layout_constraintWidth_percent="0.5">
-
-        <RadioButton
-            android:id="@+id/radioButton1"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:text="1"
-            app:buttonTint="@color/colorButton"
-            android:fontFamily="serif"/>
-
-        <RadioButton
-            android:id="@+id/radioButton2"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="2"
-            app:buttonTint="@color/colorButton"
-            android:fontFamily="serif"
-
-            />
-        <RadioButton
-            android:id="@+id/radioButton3"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="3"
-            app:buttonTint="@color/colorButton"
-            android:fontFamily="serif"
-
-            />
-        <RadioButton
-            android:id="@+id/radioButton4"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="4"
-            app:buttonTint="@color/colorButton"
-            android:fontFamily="serif"
-
-            />
-        <RadioButton
-            android:id="@+id/radioButton5"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="5"
-            app:buttonTint="@color/colorButton"
-            android:fontFamily="serif"
-
-            />
-
-    </RadioGroup>
 
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/CommentInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/radioGroupRole"
+        android:layout_marginTop="90dp"
+        app:layout_constraintTop_toBottomOf="@id/firstNameInput"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintWidth_percent="0.75"
@@ -152,9 +83,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/CommentInput"
             android:layout_width="match_parent"
-            android:layout_height="103dp"
-            android:hint="Comment:"
+            android:layout_height="130dp"
+            android:layout_marginLeft="30dp"
             android:focusedSearchResultHighlightColor="@color/colorPrimary1"
+            android:hint="Why are you reporting this user?"
             android:padding="12dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -163,10 +95,10 @@
         android:id="@+id/buttonRateOwner"
         android:layout_width="205dp"
         android:layout_height="57dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="84dp"
         android:backgroundTint="@color/colorButton"
         android:fontFamily="serif"
-        android:text="@string/rateOwnerButton"
+        android:text="Report user"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/CommentInputLayout"
@@ -174,14 +106,14 @@
 
     <TextView
         android:id="@+id/textView5"
-        android:layout_width="186dp"
+        android:layout_width="201dp"
         android:layout_height="48dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="300dp"
-        android:text="RATE OWNER"
         android:layout_marginLeft="20px"
-        android:textSize="30dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="80dp"
+        android:text="REPORT USER"
         android:textColor="@color/colorAccent1"
+        android:textSize="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -192,11 +124,24 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="168dp"
-        android:text="Grade:"
+        android:layout_marginTop="288dp"
+        android:text="Reason:"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.108"
+        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/userUserName"
+        android:layout_width="298dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="136dp"
+        android:focusedSearchResultHighlightColor="@color/colorPrimary1"
+        android:hint="Users username:"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 

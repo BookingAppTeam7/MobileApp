@@ -73,6 +73,7 @@ public class GuestsReservationsActivity extends AppCompatActivity {
 
                             Reservation selectedReservation = (Reservation) parent.getItemAtPosition(position);
 
+
                         }
                     });
                 } else {

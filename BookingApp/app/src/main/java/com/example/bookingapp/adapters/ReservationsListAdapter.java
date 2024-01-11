@@ -1,5 +1,7 @@
 package com.example.bookingapp.adapters;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -14,6 +16,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.bookingapp.R;
+import com.example.bookingapp.activities.AccountScreenActivity;
+import com.example.bookingapp.activities.RateAccommodationActivity;
+import com.example.bookingapp.activities.RateOwnerActivity;
+import com.example.bookingapp.activities.RegisterScreenActivity;
 import com.example.bookingapp.model.Reservation;
 import com.example.bookingapp.model.TokenManager;
 import com.example.bookingapp.model.enums.ReservationStatusEnum;
@@ -100,12 +106,15 @@ public class ReservationsListAdapter extends ArrayAdapter<Reservation> {
 
         Button btnRateAccommodation=convertView.findViewById(R.id.btnRateAccommodation);
         btnRateAccommodation.setVisibility(View.INVISIBLE);
+        Button btnRateOwner=convertView.findViewById(R.id.btnRateOwner);
+        btnRateAccommodation.setVisibility(View.INVISIBLE);
 
         RoleEnum role= TokenManager.getLoggedInUser().role;
         if(!role.equals(RoleEnum.OWNER)){
             btnApprove.setVisibility(View.INVISIBLE);
             btnCancel.setVisibility(View.VISIBLE);
             btnRateAccommodation.setVisibility(View.VISIBLE);
+            btnRateOwner.setVisibility(View.VISIBLE);
         }
 
         btnApprove.setOnClickListener(new View.OnClickListener() {
@@ -228,10 +237,35 @@ public class ReservationsListAdapter extends ArrayAdapter<Reservation> {
             }
 
         });
-
+        View finalConvertView = convertView;
+        View finalConvertView1 = finalConvertView;
         btnRateAccommodation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final Context context = finalConvertView1.getContext();
+
+                Intent intent = new Intent(context, RateAccommodationActivity.class);
+                intent.putExtra("accommodationId",request.accommodation.id); // Assuming getUsername() is the correct method
+                intent.putExtra("ownerIdA",request.accommodation.ownerId);
+                intent.putExtra("reservationId",request.id);
+                // Start the activity
+                context.startActivity(intent);
+
+            }
+
+        });
+      finalConvertView = convertView;
+        View finalConvertView2 = finalConvertView;
+        btnRateOwner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Context context = finalConvertView2.getContext();
+
+                Intent intent = new Intent(context, RateOwnerActivity.class);
+                intent.putExtra("ownerId",request.accommodation.ownerId); // Assuming getUsername() is the correct method
+
+                // Start the activity
+                context.startActivity(intent);
 
             }
 

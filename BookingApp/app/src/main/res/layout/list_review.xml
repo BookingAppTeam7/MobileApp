@@ -102,8 +102,9 @@
             android:layout_marginStart="30dp"
             android:layout_toEndOf="@id/listImage"
             android:fontFamily="serif"/>
+
         <LinearLayout
-            android:layout_width="305dp"
+            android:layout_width="357dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="230dp"
@@ -111,25 +112,43 @@
             android:orientation="horizontal"
 
             android:textSize="15sp">
+
             <Button
                 android:id="@+id/btnApprove"
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent1"
-                android:onClick="onCancelClick"
-                android:text="Approve"
                 android:clickable="true"
-                android:focusable="true"/>
+                android:focusable="true"
+                android:onClick="onCancelClick"
+                android:text="Approve" />
+
             <Button
                 android:id="@+id/btnReject"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:backgroundTint="@color/colorRed"
+                android:clickable="true"
+                android:focusable="true"
                 android:onClick="onCancelClick"
                 android:text="Reject"
-                android:clickable="true"
-                android:focusable="true"/>
+
+                />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="130dp"
+            android:layout_marginTop="290dp"
+            android:backgroundTint="@color/colorRed"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="onCancelClick"
+            android:text="Delete"
+
+            />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
