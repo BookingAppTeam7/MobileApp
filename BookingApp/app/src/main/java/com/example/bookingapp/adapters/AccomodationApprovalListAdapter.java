@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import com.example.bookingapp.R;
 import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.AccommodationRequest;
+import com.example.bookingapp.model.enums.AccommodationRequestStatus;
 
 import java.util.ArrayList;
 
@@ -57,9 +58,17 @@ public class AccomodationApprovalListAdapter extends ArrayAdapter<AccommodationR
 
         TextView requestId = convertView.findViewById(R.id.listRequestId);
         TextView requestStatus = convertView.findViewById(R.id.listStatus);
+        TextView accommodationId=convertView.findViewById(R.id.listAccommodationId);
 
-        requestId.setText(String.valueOf(request.getId()));
-        requestStatus.setText(String.valueOf(request.getRequestStatus()));
+        requestId.setText("Request Id :"+String.valueOf(request.getId()));
+        if(request.getRequestStatus()== AccommodationRequestStatus.PENDING_CREATED){
+            requestStatus.setText("Status : CREATED");
+        }
+        else{
+            requestStatus.setText("Status : EDITED");
+        }
+
+        accommodationId.setText("Accommodation Id : "+request.getUnapprovedAccommodationId());
 //        imageButtonApprove.setImageResource(R.drawable.ic_check_blue);
 //        imageButtonReject.setImageResource(R.drawable.ic_reject_blue);
 

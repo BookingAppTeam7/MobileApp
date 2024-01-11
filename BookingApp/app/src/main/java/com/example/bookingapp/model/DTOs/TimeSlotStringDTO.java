@@ -1,6 +1,8 @@
 package com.example.bookingapp.model.DTOs;
 
-public class TimeSlotStringDTO {
+import java.io.Serializable;
+
+public class TimeSlotStringDTO implements Serializable {
 
     String startDate;
     String endDate;

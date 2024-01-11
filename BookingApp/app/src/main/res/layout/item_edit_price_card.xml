@@ -118,6 +118,7 @@
         android:layout_width="155dp"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:backgroundTint="@color/colorButton"
         android:fontFamily="serif"
         android:text="Update"

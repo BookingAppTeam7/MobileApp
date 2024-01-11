@@ -2,7 +2,9 @@ package com.example.bookingapp.model.DTOs;
 
 import com.example.bookingapp.model.enums.PriceTypeEnum;
 
-public class PriceCardStringDTO {
+import java.io.Serializable;
+
+public class PriceCardStringDTO implements Serializable {
     public TimeSlotStringDTO timeSlot;
     public double price;
     public PriceTypeEnum type;
