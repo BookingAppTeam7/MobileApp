@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 
 import com.example.bookingapp.R;
+import com.example.bookingapp.adapters.PricesListAdapter;
 import com.example.bookingapp.databinding.ActivityCreateAccommodationBinding;
 import com.example.bookingapp.fragments.accommodations.AvailabilityFragment;
 import com.example.bookingapp.fragments.accommodations.FilterBottomSheetDialogFragment;
@@ -81,11 +82,16 @@ public class CreateAccommodationActivity extends AppCompatActivity {
 
     Accommodation createdAccommodation;
 
+    public  PricesListAdapter listAdapter;
+    public List<PriceCardStringDTO> pricesToShow=new ArrayList<>();
+
     public String ownerId;
+
+     public ActivityCreateAccommodationBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityCreateAccommodationBinding binding = ActivityCreateAccommodationBinding.inflate(getLayoutInflater());
+        binding = ActivityCreateAccommodationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         Toolbar toolbar = binding.toolbar;
@@ -101,7 +107,7 @@ public class CreateAccommodationActivity extends AppCompatActivity {
         Button buttonAddTimeSlot = binding.buttonAddTimeSlot;
         Button buttonCreate = binding.buttonCreate;
         Button buttonAddPriceCard=binding.buttonAddPriceCard;
-        ImageButton buttonShowPrices=binding.showPricesButton;
+       // ImageButton buttonShowPrices=binding.showPricesButton;
 
         TextView selectedDate=binding.selectedDate;
 
@@ -132,18 +138,18 @@ public class CreateAccommodationActivity extends AppCompatActivity {
             }
         });
 
-        buttonShowPrices.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PriceCardFragment priceCardFragment = new PriceCardFragment(CreateAccommodationActivity.this.prices);
-
-                getSupportFragmentManager().beginTransaction()
-                        .replace(android.R.id.content, priceCardFragment)
-                        .addToBackStack(null)
-                        .commit();
-
-            }
-        });
+//        buttonShowPrices.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                PriceCardFragment priceCardFragment = new PriceCardFragment(CreateAccommodationActivity.this.prices);
+//
+//                getSupportFragmentManager().beginTransaction()
+//                        .replace(android.R.id.content, priceCardFragment)
+//                        .addToBackStack(null)
+//                        .commit();
+//
+//            }
+//        });
     }
 
 
@@ -167,6 +173,10 @@ public class CreateAccommodationActivity extends AppCompatActivity {
         TimeSlotStringDTO newTimeSlot=new TimeSlotStringDTO(this.startDateObject,this.endDateObject);
         PriceCardStringDTO newPriceCard=new PriceCardStringDTO(newTimeSlot,price,priceType);
         this.prices.add(newPriceCard);
+        this.pricesToShow.add(newPriceCard);
+
+        listAdapter=new PricesListAdapter(CreateAccommodationActivity.this,pricesToShow);
+        binding.listview.setAdapter(listAdapter);
         //treba setovati accommodation_id
     }
 

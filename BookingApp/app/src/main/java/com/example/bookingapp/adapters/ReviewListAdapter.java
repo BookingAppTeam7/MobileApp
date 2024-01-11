@@ -17,6 +17,7 @@ import com.example.bookingapp.R;
 import com.example.bookingapp.model.DTOs.ReviewGetDTO;
 import com.example.bookingapp.model.Review;
 import com.example.bookingapp.model.TokenManager;
+import com.example.bookingapp.model.enums.ReviewStatusEnum;
 import com.example.bookingapp.model.enums.RoleEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.ReservationService;
@@ -96,11 +97,18 @@ public class ReviewListAdapter extends ArrayAdapter<ReviewGetDTO> {
 
 
         if(TokenManager.getLoggedInUser().getRole()== RoleEnum.ADMIN){
-            buttonApprove.setVisibility(View.VISIBLE);
-            status.setText("Status : "+review.getStatus());
-            if(review.getReported()) {
-                rejectButton.setVisibility(View.VISIBLE);
+            if(review.getStatus()== ReviewStatusEnum.APPROVED || review.getStatus()== ReviewStatusEnum.REJECTED){
+                buttonApprove.setVisibility(View.INVISIBLE);
+                rejectButton.setVisibility(View.INVISIBLE);
             }
+            else {
+                buttonApprove.setVisibility(View.VISIBLE);
+                if(review.getReported()) {
+                    rejectButton.setVisibility(View.VISIBLE);
+                }
+            }
+            status.setText("Status : "+review.getStatus());
+
         }
         else{
             status.setText(" ");

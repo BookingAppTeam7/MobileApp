@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:id="@+id/listUsername"
+            android:id="@+id/listUsernameReportedUser"
             android:text="Username"
             android:textColor="@color/black"
             android:textSize="15sp"
@@ -38,8 +38,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:id="@+id/listRole"
-            android:text="Role:"
+            android:id="@+id/listUserThatReports"
+            android:text="Reported by :"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:layout_marginTop="50dp"
@@ -49,8 +49,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:id="@+id/listStatus"
-            android:text="Role:"
+            android:id="@+id/listReason"
+            android:text="Reason:"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:layout_marginTop="80dp"
@@ -58,72 +58,34 @@
             android:layout_toEndOf="@id/listImage"
             android:fontFamily="serif"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:id="@+id/listFirstLastName"
-            android:text="Name:"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:layout_marginTop="130dp"
-            android:layout_marginStart="30dp"
-            android:layout_toEndOf="@id/listImage"
-            android:fontFamily="serif"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:id="@+id/listContact"
-            android:text="Contact:"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:layout_marginTop="160dp"
-            android:layout_marginStart="30dp"
-            android:layout_toEndOf="@id/listImage"
-            android:fontFamily="serif"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:id="@+id/listAddress"
-            android:text="Address:"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:layout_marginTop="190dp"
-            android:layout_marginStart="30dp"
-            android:layout_toEndOf="@id/listImage"
-            android:fontFamily="serif"/>
         <LinearLayout
-
             android:layout_width="305dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="220dp"
+            android:layout_marginTop="150dp"
             android:layout_marginBottom="20dp"
             android:orientation="horizontal"
 
             android:textSize="15sp">
-
             <Button
-                android:id="@+id/btnReports"
-                android:layout_width="100dp"
+                android:id="@+id/btnIgnore"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorRed"
-                android:onClick="onCancelClick"
-                android:text="Reports"
-                android:clickable="true"
-                android:focusable="true"/>
-
-            <Button
-                android:id="@+id/btnReviews"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
                 android:backgroundTint="@color/colorAccent1"
                 android:onClick="onCancelClick"
-                android:text="Rating requests"
+                android:text="Ignore"
                 android:clickable="true"
                 android:focusable="true"/>
-
-
+            <Button
+                android:id="@+id/btnDeactivate"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:backgroundTint="@color/colorRed"
+                android:onClick="onCancelClick"
+                android:text="Deactivate user"
+                android:clickable="true"
+                android:focusable="true"/>
         </LinearLayout>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

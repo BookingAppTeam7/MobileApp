@@ -146,6 +146,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                             intent.putExtra("type",accommodationsToShow.get(position).getType().toString());
                             intent.putExtra("cancelDeadline",String.valueOf(accommodationsToShow.get(position).getCancellationDeadline()));
                             intent.putExtra("reservationConfirmation",String.valueOf(accommodationsToShow.get(position).getReservationConfirmation()));
+                            intent.putExtra("ownerId",accommodationsToShow.get(position).getOwnerId());
                             startActivity(intent);
                         }
                     });
