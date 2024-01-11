@@ -289,60 +289,7 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
 
             }
 
-
-
-
-
-
-
-//    private double calculateOwnersAverageGrade(Long accommodationId) {
-//        // double averageGradeOwner = 0.0;
-//        Call<Accommodation> call1 = accommodationService.findById(accommodationId);
-//        call1.enqueue(new Callback<Accommodation>(){
-//           averageGradeOwner = 0.0;
-//            @Override
-//            public void onResponse(Call<Accommodation> call, Response<Accommodation> response) {
-//                Accommodation accommodation = response.body();
-//                String ownerId=accommodation.ownerId;
-//                Call<List<ReviewGetDTO>> call2=reviewService.findByOwnerId(ownerId);
-//                call2.enqueue(new Callback<List<ReviewGetDTO>>() {
-//                    @Override
-//                    public void onResponse(Call<List<ReviewGetDTO>> call, Response<List<ReviewGetDTO>> response) {
-//                        double averageGrade=0.0;
-//                        int numOfReviews=0;
-//                        int sum=0;
-//                        List<ReviewGetDTO> allReviews=response.body();
-//
-//                        for(ReviewGetDTO review:allReviews){
-//                            if(review.status.equals(ReviewStatusEnum.APPROVED)){
-//                                sum+=review.grade;
-//                                numOfReviews+=1;
-//                            }
-//                        }
-//                        if(numOfReviews==0){
-//                            averageGradeOwner=0.0;
-//                        }
-//                         averageGrade=sum/numOfReviews;
-//                         averageGradeOwner=averageGrade;
-//
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<List<ReviewGetDTO>> call, Throwable t) {
-//                        averageGradeOwner=0.0;
-//                    }
-//                });
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Accommodation> call, Throwable t) {
-//
-//            }
-//        });
-//        return averageGradeOwner;
-//
-//    }
+            
 
     public String DatesToListOfStrings(List<PriceCard> priceList){
         StringBuilder result = new StringBuilder();
