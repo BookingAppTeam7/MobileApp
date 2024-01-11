@@ -26,6 +26,7 @@ import com.example.bookingapp.model.PriceCard;
 import com.example.bookingapp.model.TimeSlot;
 import com.example.bookingapp.model.TokenManager;
 import com.example.bookingapp.model.User;
+import com.example.bookingapp.model.enums.ReservationStatusEnum;
 import com.example.bookingapp.model.enums.RoleEnum;
 import com.example.bookingapp.model.enums.TypeEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
@@ -464,6 +465,11 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
 
     @Override
     public void onReservationButtonClicked(int guests, String arrivalDate, String checkoutDate) {
+
+    }
+
+    @Override
+    public void onFilterReservationButtonClicked(String accName, String arrivalDate, String checkoutDate, ReservationStatusEnum status) {
 
     }
 

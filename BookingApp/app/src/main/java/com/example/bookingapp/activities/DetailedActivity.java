@@ -23,6 +23,7 @@ import com.example.bookingapp.model.Reservation;
 import com.example.bookingapp.model.Review;
 import com.example.bookingapp.model.TimeSlot;
 import com.example.bookingapp.model.enums.PriceTypeEnum;
+import com.example.bookingapp.model.enums.ReservationStatusEnum;
 import com.example.bookingapp.model.enums.ReviewStatusEnum;
 import com.example.bookingapp.model.enums.TypeEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
@@ -432,6 +433,12 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
 
 
     }
+
+    @Override
+    public void onFilterReservationButtonClicked(String accName, String arrivalDate, String checkoutDate, ReservationStatusEnum status) {
+
+    }
+
     private void confirmReservation(Long reservationId) {
         Call<Void> confirmCall = reservationService.confirmReservation(reservationId);
 

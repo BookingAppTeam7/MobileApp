@@ -23,6 +23,7 @@ import com.example.bookingapp.fragments.accommodations.FilterBottomSheetDialogFr
 import com.example.bookingapp.interfaces.BottomSheetListener;
 import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.AccommodationDetails;
+import com.example.bookingapp.model.enums.ReservationStatusEnum;
 import com.example.bookingapp.model.enums.TypeEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.AccommodationService;
@@ -361,6 +362,11 @@ public class SearchedAccommodationsActivity extends AppCompatActivity implements
 
     @Override
     public void onReservationButtonClicked(int guests, String arrivalDate, String checkoutDate) {
+
+    }
+
+    @Override
+    public void onFilterReservationButtonClicked(String accName, String arrivalDate, String checkoutDate, ReservationStatusEnum status) {
 
     }
 
