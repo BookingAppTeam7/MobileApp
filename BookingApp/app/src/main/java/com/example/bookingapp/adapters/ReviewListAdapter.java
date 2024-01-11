@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 
 import com.example.bookingapp.R;
 import com.example.bookingapp.model.DTOs.ReviewGetDTO;
+import com.example.bookingapp.model.DTOs.ReviewPutDTO;
 import com.example.bookingapp.model.Review;
 import com.example.bookingapp.model.TokenManager;
 import com.example.bookingapp.model.enums.ReviewStatusEnum;
@@ -94,6 +95,8 @@ public class ReviewListAdapter extends ArrayAdapter<ReviewGetDTO> {
         rejectButton.setVisibility(View.INVISIBLE);
         Button deleteButton=convertView.findViewById(R.id.btnDelete);
         deleteButton.setVisibility(View.INVISIBLE);
+        Button buttonReport=convertView.findViewById(R.id.btnReport);
+        buttonReport.setVisibility(View.INVISIBLE);
 
 
         if(TokenManager.getLoggedInUser().getRole()== RoleEnum.ADMIN){
@@ -115,6 +118,9 @@ public class ReviewListAdapter extends ArrayAdapter<ReviewGetDTO> {
         }
         if(TokenManager.getLoggedInUser().username.equals(review.getUserId())){
             deleteButton.setVisibility(View.VISIBLE);
+        }
+        if(TokenManager.getLoggedInUser().role.equals(RoleEnum.OWNER)){
+            buttonReport.setVisibility(View.VISIBLE);
         }
 
         buttonApprove.setOnClickListener(new View.OnClickListener() {
@@ -193,6 +199,38 @@ public class ReviewListAdapter extends ArrayAdapter<ReviewGetDTO> {
                         if (response.isSuccessful()) {
                             status.setText("Status of request : REJECTED");
                             Toast.makeText(getContext(), "Reservation wit id : "+review.id+"  REJECTED!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Error...", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(getContext(), "Greška u komunikaciji sa serverom", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+        });
+
+        buttonReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+
+                ReviewService reviewService = retrofit.create(ReviewService.class);
+                ReviewPutDTO updatedReview=new ReviewPutDTO(TokenManager.getLoggedInUser().username,
+                        review.type,review.comment,review.grade,
+                        false,true,review.accommodationId,review.ownerId,review.status);
+
+                Call<Void> call = reviewService.update(updatedReview,review.id);
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            status.setText("Status of request : REJECTED");
+                            Toast.makeText(getContext(), "Review with id : "+review.id+"  REPORTED!", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getContext(), "Error...", Toast.LENGTH_SHORT).show();
                         }

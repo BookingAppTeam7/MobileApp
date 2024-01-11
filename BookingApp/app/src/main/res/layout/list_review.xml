@@ -150,5 +150,19 @@
             android:text="Delete"
 
             />
+
+        <Button
+            android:id="@+id/btnReport"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="110dp"
+            android:layout_marginTop="350dp"
+            android:backgroundTint="@color/colorRed"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="onCancelClick"
+            android:text="Report review"
+
+            />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
