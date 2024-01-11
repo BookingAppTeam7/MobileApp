@@ -114,6 +114,22 @@
         android:layout_marginStart="10dp"
         android:textSize="16sp"
         android:fontFamily="serif"/>
+    <TextView
+        android:id="@+id/averageGradeOwner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Owners average grade:"
+        android:layout_marginStart="10dp"
+        android:textSize="16sp"
+        android:fontFamily="serif"/>
+    <TextView
+        android:id="@+id/averageGradeAccommodation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Accommodations average grade:"
+        android:layout_marginStart="10dp"
+        android:textSize="16sp"
+        android:fontFamily="serif"/>
 
     <TextView
         android:id="@+id/reviews"

@@ -66,6 +66,8 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
 
     public double reservationPrice;
     public PriceTypeEnum reservationPriceType;
+    public double averageGradeOwner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,8 +99,11 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
             binding.detailImage.setImageResource(image);
             binding.minMaxGuests.setText("Guests: "+String.valueOf(minGuests)+" - "+String.valueOf(maxGuests)+"    Type:"+type);
             binding.cancelDeadline.setText("Cancel deadline (in days):"+cancel);
+           // binding.averageGradeOwner.setText("Owners average grade: " + String.valueOf(calculateOwnersAverageGrade(accommodationId)));
             //List<Review> reviewsList = (ArrayList<Review>) getIntent().getSerializableExtra("reviewsList");
             List<String> assetsList=(ArrayList<String>) getIntent().getSerializableExtra("assets");
+            setTextRateOwner(accommodationId);
+            setTextRateAccommodation(accommodationId);
             String allAssets=" ";
             for(String s:assetsList){
                 allAssets+=s;
@@ -191,6 +196,154 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
             }
         });
     }
+
+    private void setTextRateOwner(Long accommodationId) {
+        Call<Accommodation> call1 = accommodationService.findById(accommodationId);
+
+        call1.enqueue(new Callback<Accommodation>(){
+           double  averageGradeOwner = 0.0;
+            @Override
+            public void onResponse(Call<Accommodation> call, Response<Accommodation> response) {
+                Accommodation accommodation = response.body();
+                String ownerId=accommodation.ownerId;
+                Call<List<ReviewGetDTO>> call2=reviewService.findByOwnerId(ownerId);
+                call2.enqueue(new Callback<List<ReviewGetDTO>>() {
+                    @Override
+                    public void onResponse(Call<List<ReviewGetDTO>> call, Response<List<ReviewGetDTO>> response) {
+                        double averageGrade=0.0;
+                        int numOfReviews=0;
+                        int sum=0;
+                        List<ReviewGetDTO> allReviews=response.body();
+
+                        for(ReviewGetDTO review:allReviews){
+                            if(review.status.equals(ReviewStatusEnum.APPROVED)){
+                                sum+=review.grade;
+                                numOfReviews+=1;
+                            }
+                        }
+                        if(numOfReviews==0){
+                            averageGrade=0.0;
+                        }else {
+                            averageGrade=sum/numOfReviews;
+                        }
+
+
+                        averageGradeOwner=averageGrade;
+                        binding.averageGradeOwner.setText("Owners average grade: " + String.valueOf(averageGradeOwner));
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<ReviewGetDTO>> call, Throwable t) {
+                        averageGradeOwner=0.0;
+                        binding.averageGradeOwner.setText("Owners average grade: " + String.valueOf(averageGradeOwner));
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailure(Call<Accommodation> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    private void setTextRateAccommodation(Long accommodationId) {
+
+
+
+                Call<List<ReviewGetDTO>> call2=reviewService.findByAccommodationId(accommodationId);
+                call2.enqueue(new Callback<List<ReviewGetDTO>>() {
+                    @Override
+                    public void onResponse(Call<List<ReviewGetDTO>> call, Response<List<ReviewGetDTO>> response) {
+                        double averageGradeAccommodation=0.0;
+                        int numOfReviews=0;
+                        int sum=0;
+                        List<ReviewGetDTO> allReviews=response.body();
+
+                        for(ReviewGetDTO review:allReviews){
+                            if(review.status.equals(ReviewStatusEnum.APPROVED)){
+                                sum+=review.grade;
+                                numOfReviews+=1;
+                            }
+                        }
+                        if(numOfReviews==0){
+                            averageGradeAccommodation=0.0;
+                        }else {
+                            averageGradeAccommodation=sum/numOfReviews;
+
+                        }
+
+                        binding.averageGradeAccommodation.setText("Accommodation average grade: " + String.valueOf(averageGradeAccommodation));
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<ReviewGetDTO>> call, Throwable t) {
+                        averageGradeOwner=0.0;
+                        binding.averageGradeAccommodation.setText("Accommodation average grade: " + String.valueOf(binding.averageGradeAccommodation));
+                    }
+                });
+
+            }
+
+
+
+
+
+
+
+//    private double calculateOwnersAverageGrade(Long accommodationId) {
+//        // double averageGradeOwner = 0.0;
+//        Call<Accommodation> call1 = accommodationService.findById(accommodationId);
+//        call1.enqueue(new Callback<Accommodation>(){
+//           averageGradeOwner = 0.0;
+//            @Override
+//            public void onResponse(Call<Accommodation> call, Response<Accommodation> response) {
+//                Accommodation accommodation = response.body();
+//                String ownerId=accommodation.ownerId;
+//                Call<List<ReviewGetDTO>> call2=reviewService.findByOwnerId(ownerId);
+//                call2.enqueue(new Callback<List<ReviewGetDTO>>() {
+//                    @Override
+//                    public void onResponse(Call<List<ReviewGetDTO>> call, Response<List<ReviewGetDTO>> response) {
+//                        double averageGrade=0.0;
+//                        int numOfReviews=0;
+//                        int sum=0;
+//                        List<ReviewGetDTO> allReviews=response.body();
+//
+//                        for(ReviewGetDTO review:allReviews){
+//                            if(review.status.equals(ReviewStatusEnum.APPROVED)){
+//                                sum+=review.grade;
+//                                numOfReviews+=1;
+//                            }
+//                        }
+//                        if(numOfReviews==0){
+//                            averageGradeOwner=0.0;
+//                        }
+//                         averageGrade=sum/numOfReviews;
+//                         averageGradeOwner=averageGrade;
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<List<ReviewGetDTO>> call, Throwable t) {
+//                        averageGradeOwner=0.0;
+//                    }
+//                });
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Accommodation> call, Throwable t) {
+//
+//            }
+//        });
+//        return averageGradeOwner;
+//
+//    }
+
     public String DatesToListOfStrings(List<PriceCard> priceList){
         StringBuilder result = new StringBuilder();
 
