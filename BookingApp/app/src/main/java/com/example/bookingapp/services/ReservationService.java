@@ -3,6 +3,7 @@ package com.example.bookingapp.services;
 import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.DTOs.ReservationPostDTO;
 import com.example.bookingapp.model.Reservation;
+import com.example.bookingapp.model.enums.ReservationStatusEnum;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ReservationService {
     @Headers({
@@ -37,4 +39,11 @@ public interface ReservationService {
 
     @GET("reservations/user/{id}")
     Call<List<Reservation>> findByGuestId(@Path("id") String id);
+    @GET("reservations/searchFilter")
+    Call<List<Reservation>> searchFilter(
+            @Query("accName") String accName,
+            @Query("startDate") String startDate,
+            @Query("endDate") String endDate,
+            @Query("status") ReservationStatusEnum status
+    );
 }

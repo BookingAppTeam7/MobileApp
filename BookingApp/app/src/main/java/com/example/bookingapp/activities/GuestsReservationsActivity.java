@@ -13,8 +13,13 @@ import com.example.bookingapp.R;
 import com.example.bookingapp.adapters.ReservationsListAdapter;
 import com.example.bookingapp.databinding.ActivityAccommodationsReservationsBinding;
 import com.example.bookingapp.databinding.ActivityGuestsReservationsBinding;
+import com.example.bookingapp.fragments.accommodations.FilterReservationBottomSheetFragment;
+import com.example.bookingapp.fragments.accommodations.ReservationBottomSheetFragment;
+import com.example.bookingapp.interfaces.BottomSheetListener;
 import com.example.bookingapp.model.Reservation;
 import com.example.bookingapp.model.TokenManager;
+import com.example.bookingapp.model.enums.ReservationStatusEnum;
+import com.example.bookingapp.model.enums.TypeEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.AccommodationService;
 import com.example.bookingapp.services.ReservationService;
@@ -27,7 +32,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class GuestsReservationsActivity extends AppCompatActivity {
+public class GuestsReservationsActivity extends AppCompatActivity implements BottomSheetListener {
 
     public Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
 
@@ -89,6 +94,56 @@ public class GuestsReservationsActivity extends AppCompatActivity {
             }
         });
 
+        binding.btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FilterReservationBottomSheetFragment bottomSheetFragment = new FilterReservationBottomSheetFragment();
+                bottomSheetFragment.show(getSupportFragmentManager(),bottomSheetFragment.getTag());
+            }
+        });
+    }
 
+    @Override
+    public void onSearchButtonClicked(String place, int guests, String arrivalDate, String checkoutDate) {
+
+    }
+
+    @Override
+    public void onFilterButtonClicked(TypeEnum selectedType, String joined, String minTotalPrice, String maxTotalPrice) {
+
+    }
+
+    @Override
+    public void onReservationButtonClicked(int guests, String arrivalDate, String checkoutDate) {
+
+    }
+
+    @Override
+    public void onFilterReservationButtonClicked(String accName, String arrivalDate, String checkoutDate, ReservationStatusEnum status) {
+        String fullArrivalDate=arrivalDate+" 00:00:00";
+        String fullCheckoutDate=checkoutDate+" 00:00:00";
+
+        Call<List<Reservation>> call = reservationService.searchFilter(accName, fullArrivalDate, fullCheckoutDate, status);
+        call.enqueue(new Callback<List<Reservation>>() {
+            @Override
+            public void onResponse(Call<List<Reservation>> call, Response<List<Reservation>> response) {
+                if (response.isSuccessful()) {
+                    List<Reservation> reservations = response.body();
+                    for(Reservation r:reservations){
+                        Log.e("REZERVACIJA",r.toString());
+                    }
+                    reservationsToShow.clear();
+                    reservationsToShow.addAll(reservations);
+                    listAdapter.notifyDataSetChanged();
+                } else {
+                    Log.e("NEKA GRESKA ","USAO U ELSE");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Reservation>> call, Throwable t) {
+                Log.e("FAILURE","FAILURE");
+            }
+        });
     }
 }
