@@ -88,11 +88,12 @@ public class AccomodationApprovalActivity extends AppCompatActivity {
                                         intent.putExtra("minGuests", accommodation.getMinGuests());
                                         intent.putExtra("maxGuests", accommodation.getMaxGuests());
                                         intent.putExtra("cancellationDeadline",String.valueOf(accommodation.getCancellationDeadline()));
-                                        intent.putExtra("typeOfAccommodation", accommodation.getType());
+                                        intent.putExtra("typeOfAccommodation", accommodation.getType().toString());
                                         intent.putExtra("reservationConfirmation", String.valueOf(accommodation.getReservationConfirmation()));
                                         intent.putExtra("pricesId",pricesId);
                                         intent.putExtra("requestId",request.id);
-
+                                        intent.putExtra("originalAccommodationId",request.originalAccommodationId);
+                                        intent.putExtra("unapprovedAccommodationId",request.unapprovedAccommodationId);
                                         //intent.putExtra("priceList",new ArrayList<>(accommodation.getPrices()));
                                         startActivity(intent);
                                     }

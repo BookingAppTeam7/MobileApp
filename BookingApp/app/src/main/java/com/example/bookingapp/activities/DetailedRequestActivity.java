@@ -24,6 +24,7 @@ import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.AccommodationRequestService;
 import com.example.bookingapp.services.AccommodationService;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +72,8 @@ public class DetailedRequestActivity extends AppCompatActivity {
         String type=intent.getStringExtra("typeOfAccommodation");
         String reservationConfirmation=intent.getStringExtra("reservationConfirmation");
 
+        Long originalAccommodationId=intent.getLongExtra("originalAccommodation",0L);
+        Long unapprovedAccommodationId=intent.getLongExtra("unapprovedAccommodation",0L);
         Long pricesId=intent.getLongExtra("pricesId",0L);
         DetailedRequestActivity.this.requestId=intent.getLongExtra("requestId",0L);
 
@@ -108,12 +111,17 @@ public class DetailedRequestActivity extends AppCompatActivity {
         showPricesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PriceCardRequestFragment priceCardFragment = new PriceCardRequestFragment(DetailedRequestActivity.this.prices);
 
-                getSupportFragmentManager().beginTransaction()
-                        .replace(android.R.id.content, priceCardFragment)
-                        .addToBackStack(null)
-                        .commit();
+                Intent intent=new Intent(DetailedRequestActivity.this,EditPriceCardsActivity.class);
+                intent.putExtra("accommodationId",unapprovedAccommodationId);
+                intent.putExtra("prices", (Serializable) DetailedRequestActivity.this.prices);
+                startActivity(intent);
+//                PriceCardRequestFragment priceCardFragment = new PriceCardRequestFragment(DetailedRequestActivity.this.prices);
+//
+//                getSupportFragmentManager().beginTransaction()
+//                        .replace(android.R.id.content, priceCardFragment)
+//                        .addToBackStack(null)
+//                        .commit();
 
             }
         });

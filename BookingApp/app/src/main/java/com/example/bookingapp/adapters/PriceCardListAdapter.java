@@ -22,7 +22,9 @@ import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.DTOs.PriceCardStringDTO;
 import com.example.bookingapp.model.DTOs.TimeSlotStringDTO;
 import com.example.bookingapp.model.PriceCard;
+import com.example.bookingapp.model.TokenManager;
 import com.example.bookingapp.model.enums.PriceTypeEnum;
+import com.example.bookingapp.model.enums.RoleEnum;
 import com.example.bookingapp.model.enums.TypeEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.AccommodationService;
@@ -80,6 +82,9 @@ public class PriceCardListAdapter extends ArrayAdapter<PriceCard> {
         TextInputEditText editTextStartDate = convertView.findViewById(R.id.editTextStartDate);
         TextInputEditText editTextEndDate = convertView.findViewById(R.id.editTextEndDate);
         Button buttonSaveChanges = convertView.findViewById(R.id.buttonCreate);
+        if(TokenManager.getLoggedInUser().role!= RoleEnum.OWNER){
+            buttonSaveChanges.setVisibility(View.INVISIBLE);
+        }
 
         RadioButton radioButtonUnit = convertView.findViewById(R.id.radioButtonUnit);
         RadioButton radioButtonGuest = convertView.findViewById(R.id.radioButtonGuest);
