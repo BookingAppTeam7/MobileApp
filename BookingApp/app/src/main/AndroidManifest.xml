@@ -24,7 +24,7 @@
             android:name=".activities.UserReportsActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.ReportsUserActivity"
+            android:name=".activities.ReportUserActivity"
             android:exported="false" />
         <activity
             android:name=".activities.UserRatingsRequestsActivity"
