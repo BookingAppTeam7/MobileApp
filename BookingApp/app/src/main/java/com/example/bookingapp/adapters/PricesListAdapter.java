@@ -64,7 +64,7 @@ public class PricesListAdapter extends ArrayAdapter<PriceCardStringDTO> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         PriceCardStringDTO priceCard = getItem(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_edit_price_card,
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_price_card,
                     parent, false);
         }
 

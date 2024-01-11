@@ -290,17 +290,31 @@
     </LinearLayout>-->
 
     <Button
-        android:id="@+id/buttonCreate"
+        android:id="@+id/showPricesButton"
         android:layout_width="195dp"
         android:layout_height="50dp"
         android:layout_marginTop="70dp"
+        android:backgroundTint="@color/colorAccent2"
+        android:fontFamily="serif"
+        android:text="Show created prices"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonsLayout"
+        app:layout_constraintWidth_percent="0.5" />
+
+    <Button
+        android:id="@+id/buttonCreate"
+        android:layout_width="195dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
         android:backgroundTint="@color/colorButton"
         android:fontFamily="serif"
         android:text="@string/createAccommodationButtonText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/listview"
+        app:layout_constraintTop_toBottomOf="@id/showPricesButton"
         app:layout_constraintWidth_percent="0.5" />
 
 
@@ -614,19 +628,19 @@
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/listview"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="12dp"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="10.0sp"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/priceCard"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="0dp"
-        tools:listitem="@layout/list_price_card" />
+<!--    <ListView-->
+<!--        android:id="@+id/listview"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginTop="12dp"-->
+<!--        android:divider="@android:color/transparent"-->
+<!--        android:dividerHeight="10.0sp"-->
+<!--        android:scrollbars="vertical"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/priceCard"-->
+<!--        app:layout_constraintVertical_bias="1.0"-->
+<!--        tools:layout_editor_absoluteX="0dp"-->
+<!--        tools:listitem="@layout/list_price_card" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
