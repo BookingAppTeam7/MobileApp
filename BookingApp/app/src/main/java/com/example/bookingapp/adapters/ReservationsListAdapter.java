@@ -108,7 +108,7 @@ public class ReservationsListAdapter extends ArrayAdapter<Reservation> {
         btnRateAccommodation.setVisibility(View.INVISIBLE);
         Button btnRateOwner=convertView.findViewById(R.id.btnRateOwner);
         btnRateAccommodation.setVisibility(View.INVISIBLE);
-
+        btnRateOwner.setVisibility(View.INVISIBLE);
         RoleEnum role= TokenManager.getLoggedInUser().role;
         if(!role.equals(RoleEnum.OWNER)){
             btnApprove.setVisibility(View.INVISIBLE);
