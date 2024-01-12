@@ -60,7 +60,10 @@
         android:title="Owner reviews"
         android:icon="@drawable/ic_owner_reviews"/>
 
-
+    <item
+        android:id="@+id/favouriteAccommodations"
+        android:title="Favourite accommodations"
+        android:icon="@drawable/user_icon"/>
 
 
 </menu>

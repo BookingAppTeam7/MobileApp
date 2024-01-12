@@ -148,6 +148,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                             intent.putExtra("cancelDeadline",String.valueOf(accommodationsToShow.get(position).getCancellationDeadline()));
                             intent.putExtra("reservationConfirmation",String.valueOf(accommodationsToShow.get(position).getReservationConfirmation()));
                             intent.putExtra("ownerId",accommodationsToShow.get(position).getOwnerId());
+                            if(loggedInUsername!=null)
+                                intent.putExtra("favouriteAccommodations",TokenManager.getLoggedInUser().favouriteAccommodations);
                             startActivity(intent);
                         }
                     });
@@ -226,6 +228,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         MenuItem reportUserMenuItem=binding.navigationView.getMenu().findItem(R.id.menu_report_user);
         MenuItem ownerReviewsMenuItem=binding.navigationView.getMenu().findItem(R.id.menu_owner_reviews);
 
+        MenuItem favouriteAccommodationsMenuItem=binding.navigationView.getMenu().findItem(R.id.favouriteAccommodations);
+
         if(loggedInRole==null){//znaci da je neulogovan
             logInMenuItem.setVisible(true);
             registerMenuItem.setVisible(true);
@@ -240,6 +244,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             allUsersMenuItem.setVisible(false);
             reportUserMenuItem.setVisible(false);
             ownerReviewsMenuItem.setVisible(false);
+            favouriteAccommodationsMenuItem.setVisible(false);
         }else{
             if(loggedInRole.equals("GUEST")){//za goste
                 logInMenuItem.setVisible(false);
@@ -255,7 +260,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 myReservationsMenuItem.setVisible(true);
                 allUsersMenuItem.setVisible(false);
                 ownerReviewsMenuItem.setVisible(false);
-
+                favouriteAccommodationsMenuItem.setVisible(true);
             }
             if(loggedInRole.equals("OWNER")){
                 logInMenuItem.setVisible(false);
@@ -271,6 +276,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 allUsersMenuItem.setVisible(false);
                 reportUserMenuItem.setVisible(true);
                 ownerReviewsMenuItem.setVisible(true);
+                favouriteAccommodationsMenuItem.setVisible(false);
             }
             if(loggedInRole.equals("ADMIN")){
                 logInMenuItem.setVisible(false);
@@ -286,7 +292,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 allUsersMenuItem.setVisible(true);
                 reportUserMenuItem.setVisible(false);
                 ownerReviewsMenuItem.setVisible(false);
-
+                favouriteAccommodationsMenuItem.setVisible(false);
             }
         }
 
@@ -305,6 +311,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                     MenuItem reportUserMenuItem=binding.navigationView.getMenu().findItem(R.id.menu_report_user);
                     MenuItem ownerReviewsMenuItem=binding.navigationView.getMenu().findItem(R.id.menu_owner_reviews);
 
+                MenuItem favouriteAccommodationsMenuItem=binding.navigationView.getMenu().findItem(R.id.favouriteAccommodations);
 //                if (roleString.equals("OWNER")) {
 //                    // Prikazi navigaciju za vlasnika
 //                    logInMenuItem.setVisible(false);
@@ -387,6 +394,14 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
 
                     Intent intent = new Intent(HomeScreenActivity.this, UserRatingsRequestsActivity.class);
                     intent.putExtra("username",TokenManager.getLoggedInUser().username);
+                    startActivity(intent);
+                    return true;
+                }else if(item.getItemId()==favouriteAccommodationsMenuItem.getItemId()){
+                    Log.e("KLIKNUO NA FAVOURITE","KLIKNUO");
+                    Intent intent=new Intent(HomeScreenActivity.this, FavouriteAccommodationsActivity.class);
+                    intent.putExtra("username",TokenManager.getLoggedInUser().username);
+                    intent.putExtra("role","GUEST");
+                    intent.putExtra("favouriteAccommodations",TokenManager.getLoggedInUser().favouriteAccommodations);
                     startActivity(intent);
                     return true;
                 }

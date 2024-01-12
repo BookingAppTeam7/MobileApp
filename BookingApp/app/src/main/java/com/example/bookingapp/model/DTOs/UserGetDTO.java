@@ -28,6 +28,15 @@ public class UserGetDTO {
     public Boolean ownerRepliedToRequestNotification;
 
     public String jwt;
+    public String favouriteAccommodations;
+
+    public String getFavouriteAccommodations() {
+        return favouriteAccommodations;
+    }
+
+    public void setFavouriteAccommodations(String favouriteAccommodations) {
+        this.favouriteAccommodations = favouriteAccommodations;
+    }
 
     public String getFirstName() {
         return firstName;

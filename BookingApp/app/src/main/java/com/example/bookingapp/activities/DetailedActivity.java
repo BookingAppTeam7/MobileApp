@@ -30,6 +30,7 @@ import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.AccommodationService;
 import com.example.bookingapp.services.ReservationService;
 import com.example.bookingapp.services.ReviewService;
+import com.example.bookingapp.services.UserService;
 
 import org.json.JSONObject;
 
@@ -52,6 +53,7 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
     public Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
     public ReservationService reservationService=retrofit.create(ReservationService.class);
     public AccommodationService accommodationService=retrofit.create(AccommodationService.class);
+    public UserService userService=retrofit.create(UserService.class);
     public ReviewService reviewService=retrofit.create(ReviewService.class);
     ActivityDetailedBinding binding;
     private String location;
@@ -68,6 +70,7 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
     public double reservationPrice;
     public PriceTypeEnum reservationPriceType;
     public double averageGradeOwner;
+    public String favouriteAccommodations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +79,7 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
         setContentView(binding.getRoot());
 
         Button reservation=binding.reservation;
-
+        favouriteAccommodations="";
         Intent intent=this.getIntent();
         if(intent!=null){
             loggedInUsername=intent.getStringExtra("username");
@@ -94,6 +97,7 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
             String type=intent.getStringExtra("type");
             String cancel=intent.getStringExtra("cancelDeadline");
             reservationConfirmation=intent.getStringExtra("reservationConfirmation");
+            favouriteAccommodations=intent.getStringExtra("favouriteAccommodations");
             Log.e("RESERVATION CONFIRMATION",reservationConfirmation);
             binding.detailName.setText(name);
             binding.detailDescription.setText(description);
@@ -102,6 +106,7 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
             binding.cancelDeadline.setText("Cancel deadline (in days):"+cancel);
            // binding.averageGradeOwner.setText("Owners average grade: " + String.valueOf(calculateOwnersAverageGrade(accommodationId)));
             //List<Review> reviewsList = (ArrayList<Review>) getIntent().getSerializableExtra("reviewsList");
+
             List<String> assetsList=(ArrayList<String>) getIntent().getSerializableExtra("assets");
             setTextRateOwner(accommodationId);
             setTextRateAccommodation(accommodationId);
@@ -122,6 +127,22 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
             }else{
                 reservation.setVisibility(View.INVISIBLE);
             }
+            Button addToFavourites=binding.addToFavourites;
+            Button removeFromFavourites=binding.removeFromFavourites;
+            addToFavourites.setVisibility(View.INVISIBLE);
+            removeFromFavourites.setVisibility(View.INVISIBLE);
+            if(loggedInUsername!=null){
+                if(loggedInRole.equals("GUEST")){
+                    if(isInGuestFavourite(accommodationId,favouriteAccommodations)){
+                        addToFavourites.setVisibility(View.INVISIBLE);
+                        removeFromFavourites.setVisibility(View.VISIBLE);
+                    }else{
+                        addToFavourites.setVisibility(View.VISIBLE);
+                        removeFromFavourites.setVisibility(View.INVISIBLE);
+                    }
+                }
+            }
+
 
             List<ReviewGetDTO> reviewGetDTOS=new ArrayList<>();
             binding.owner.setText(getIntent().getStringExtra("ownerId"));
@@ -194,6 +215,53 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
                 ReservationBottomSheetFragment reservationBottomSheetFragment=
                         ReservationBottomSheetFragment.newInstance();
                 reservationBottomSheetFragment.show(getSupportFragmentManager(),reservationBottomSheetFragment.getTag());
+            }
+        });
+        binding.addToFavourites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Call<Void> addToFavouritesCall = userService.addToFavourites(loggedInUsername, accommodationId);
+                addToFavouritesCall.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(DetailedActivity.this, "Added to favourites!", Toast.LENGTH_SHORT).show();
+                            binding.addToFavourites.setVisibility(View.INVISIBLE);
+                            binding.removeFromFavourites.setVisibility(View.VISIBLE);
+                        } else {
+                            Toast.makeText(DetailedActivity.this, "Bad request", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(DetailedActivity.this, "Error in back-end", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+        binding.removeFromFavourites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Call<Void> addToFavouritesCall = userService.removeFromFavourites(loggedInUsername, accommodationId);
+                addToFavouritesCall.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(DetailedActivity.this, "Removed from favourites!", Toast.LENGTH_SHORT).show();
+                            binding.addToFavourites.setVisibility(View.VISIBLE);
+                            binding.removeFromFavourites.setVisibility(View.INVISIBLE);
+                        } else {
+                            Toast.makeText(DetailedActivity.this, "Bad request", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(DetailedActivity.this, "Error in back-end", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
@@ -479,5 +547,17 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
         Log.e("TIMESLOTARRIVALFFF",timeSlot.getStartDate().toString());
         Log.e("TIMESLOTCHECKOUTGFFFFF",timeSlot.getEndDate().toString());
         return !arrival.before(timeSlot.getStartDate()) && !checkout.after(timeSlot.getEndDate());
+    }
+    public boolean isInGuestFavourite(Long id,String favouriteAccommodations){
+        String idStr = id.toString();
+        String[] array = favouriteAccommodations.split(",");
+
+        for (String str : array) {
+            if (str.trim().equals(idStr)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

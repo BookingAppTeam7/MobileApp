@@ -86,7 +86,7 @@ public class OwnerNotificationSettingsActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             // Uspešna prijava
                             user=response.body();
-                            UserPutDTO newUser=new UserPutDTO(user.firstName,user.lastName,user.password,user.address,user.phoneNumber,user.status,reservationRequestNotification,reservationCancellationNotification,ownerRatingNotification,accommodationRatingNotification,ownerRepliedToRequestNotification, user.token, false);
+                            UserPutDTO newUser=new UserPutDTO(user.firstName,user.lastName,user.password,user.address,user.phoneNumber,user.status,reservationRequestNotification,reservationCancellationNotification,ownerRatingNotification,accommodationRatingNotification,ownerRepliedToRequestNotification, user.token, false,user.favouriteAccommodations);
 
                             Call<User> call1 = userService.updateUser(newUser,user.username);
                             call1.enqueue(new Callback<User>() {

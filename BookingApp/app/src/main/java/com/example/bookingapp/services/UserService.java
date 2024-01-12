@@ -53,4 +53,16 @@ public interface UserService {
     @GET("users")
     Call<List<UserGetDTO>> findAll();
 
+    @PUT("users/addFavourite/{username}/{id}")
+    Call<Void> addToFavourites(
+            @Path("username") String username,
+            @Path("id") Long id
+    );
+
+    @PUT("users/removeFavourite/{username}/{id}")
+    Call<Void> removeFromFavourites(
+            @Path("username") String username,
+            @Path("id") Long id
+    );
+
 }

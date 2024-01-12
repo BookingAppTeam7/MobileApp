@@ -35,8 +35,9 @@ public class User {
     public String token;
 
     private String jwt;
+    public String favouriteAccommodations;
 
-    public User(String firstName, String lastName, String username, String password, RoleEnum role, String address, String phoneNumber, StatusEnum status, Boolean deleted, Boolean reservationRequestNotification, Boolean reservationCancellationNotification, Boolean ownerRatingNotification, Boolean accommodationRatingNotification, Boolean ownerRepliedToRequestNotification, String token, String jwt) {
+    public User(String firstName, String lastName, String username, String password, RoleEnum role, String address, String phoneNumber, StatusEnum status, Boolean deleted, Boolean reservationRequestNotification, Boolean reservationCancellationNotification, Boolean ownerRatingNotification, Boolean accommodationRatingNotification, Boolean ownerRepliedToRequestNotification, String token, String jwt, String favouriteAccommodations) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -53,6 +54,15 @@ public class User {
         this.ownerRepliedToRequestNotification = ownerRepliedToRequestNotification;
         this.token = token;
         this.jwt = jwt;
+        this.favouriteAccommodations=favouriteAccommodations;
+    }
+
+    public String getFavouriteAccommodations() {
+        return favouriteAccommodations;
+    }
+
+    public void setFavouriteAccommodations(String favouriteAccommodations) {
+        this.favouriteAccommodations = favouriteAccommodations;
     }
 
     public String getFirstName() {
