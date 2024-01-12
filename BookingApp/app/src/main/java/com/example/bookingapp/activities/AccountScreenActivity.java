@@ -140,7 +140,7 @@ public class AccountScreenActivity extends AppCompatActivity {
                 String confirmationPassword=editPasswordConfirmation.getText().toString();
                 UserPutDTO userPut=new UserPutDTO(firstName,lastName,
                         password,address,phoneNumber,user.status,user.reservationRequestNotification,user.reservationCancellationNotification,user.ownerRatingNotification,user.accommodationRatingNotification,
-                        user.ownerRatingNotification,user.getToken(),user.getDeleted());
+                        user.ownerRatingNotification,user.getToken(),user.getDeleted(),user.getFavouriteAccommodations());
                 Call<User> call = userService.updateUser(userPut, TokenManager.getLoggedInUser().username);
                 call.enqueue(new Callback<User>() {
                     @Override

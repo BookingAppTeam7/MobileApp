@@ -26,11 +26,12 @@ public class UserPutDTO {
     public Boolean ownerRepliedToRequestNotification;
     public Boolean deleted;
     public String token;
+    public String favouriteAccommodations;
 
     public UserPutDTO(String firstName, String lastName, String password, String address, String phoneNumber, StatusEnum status, Boolean reservationRequestNotification,
                       Boolean reservationCancellationNotification, Boolean ownerRatingNotification,
                       Boolean accommodationRatingNotification, Boolean ownerRepliedToRequestNotification,
-                      String token, Boolean deleted) {
+                      String token, Boolean deleted, String favouriteAccommodations) {
         this.firstName = firstName;
         this.lastName = lastName;
         //  this.username = username;
@@ -46,6 +47,23 @@ public class UserPutDTO {
         this.ownerRepliedToRequestNotification = ownerRepliedToRequestNotification;
         this.token=token;
         this.deleted=deleted;
+        this.favouriteAccommodations=favouriteAccommodations;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getFavouriteAccommodations() {
+        return favouriteAccommodations;
+    }
+
+    public void setFavouriteAccommodations(String favouriteAccommodations) {
+        this.favouriteAccommodations = favouriteAccommodations;
     }
 
     public Boolean getReservationRequestNotification() {

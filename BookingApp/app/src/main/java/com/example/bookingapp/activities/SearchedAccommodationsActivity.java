@@ -23,6 +23,7 @@ import com.example.bookingapp.fragments.accommodations.FilterBottomSheetDialogFr
 import com.example.bookingapp.interfaces.BottomSheetListener;
 import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.AccommodationDetails;
+import com.example.bookingapp.model.TokenManager;
 import com.example.bookingapp.model.enums.ReservationStatusEnum;
 import com.example.bookingapp.model.enums.TypeEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
@@ -123,9 +124,9 @@ public class SearchedAccommodationsActivity extends AppCompatActivity implements
                                 Accommodation accommodation = response.body();
                                 Intent intent = new Intent(SearchedAccommodationsActivity.this, DetailedActivity.class);
                                 if(loggedInUsername!=null)
-                                intent.putExtra("username",loggedInUsername);
+                                    intent.putExtra("username",loggedInUsername);
                                 if(loggedInRole!=null)
-                                intent.putExtra("role",loggedInRole);
+                                    intent.putExtra("role",loggedInRole);
                                 intent.putExtra("accommodationId",accommodation.getId());
                                 intent.putExtra("name", accommodation.getName());
                                 intent.putExtra("description", accommodation.getDescription());
@@ -140,6 +141,8 @@ public class SearchedAccommodationsActivity extends AppCompatActivity implements
                                 intent.putExtra("maxGuests",accommodation.getMaxGuests());
                                 intent.putExtra("type",accommodation.getType().toString());
                                 intent.putExtra("cancelDeadline",String.valueOf(accommodation.getCancellationDeadline()));
+                                if(loggedInUsername!=null)
+                                    intent.putExtra("favouriteAccommodations", TokenManager.getLoggedInUser().favouriteAccommodations);
                                 startActivity(intent);
                             } else {
                                 Log.e("Error", "Response Code: " + response.code());

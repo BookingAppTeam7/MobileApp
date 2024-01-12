@@ -53,7 +53,7 @@ public class GuestNotificationSettingsActivity extends AppCompatActivity {
 
 
 
-                UserPutDTO newUser=new UserPutDTO(GuestNotificationSettingsActivity.this.user.firstName,user.lastName,user.password,user.address,user.phoneNumber,user.status,reservationRequestNotification,reservationCancellationNotification,ownerRatingNotification,accommodationRatingNotification,ownerRepliedToRequestNotification, user.token, false);
+                UserPutDTO newUser=new UserPutDTO(GuestNotificationSettingsActivity.this.user.firstName,user.lastName,user.password,user.address,user.phoneNumber,user.status,reservationRequestNotification,reservationCancellationNotification,ownerRatingNotification,accommodationRatingNotification,ownerRepliedToRequestNotification, user.token, false,user.favouriteAccommodations);
 
                 Call<User> call = userService.updateUser(newUser,user.username);
                 call.enqueue(new Callback<User>() {
