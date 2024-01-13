@@ -99,7 +99,7 @@ public class ReviewListAdapter extends ArrayAdapter<ReviewGetDTO> {
         buttonReport.setVisibility(View.INVISIBLE);
 
 
-        if(TokenManager.getLoggedInUser().getRole()== RoleEnum.ADMIN){
+        if( TokenManager.getLoggedInUser()!=null && TokenManager.getLoggedInUser().getRole()== RoleEnum.ADMIN){
             if(review.getStatus()== ReviewStatusEnum.APPROVED || review.getStatus()== ReviewStatusEnum.REJECTED){
                 buttonApprove.setVisibility(View.INVISIBLE);
                 rejectButton.setVisibility(View.INVISIBLE);
@@ -116,10 +116,10 @@ public class ReviewListAdapter extends ArrayAdapter<ReviewGetDTO> {
         else{
             status.setText(" ");
         }
-        if(TokenManager.getLoggedInUser().username.equals(review.getUserId())){
+        if(TokenManager.getLoggedInUser()!=null && TokenManager.getLoggedInUser().username.equals(review.getUserId()) && TokenManager.getLoggedInUser().role.equals(RoleEnum.ADMIN)){
             deleteButton.setVisibility(View.VISIBLE);
         }
-        if(TokenManager.getLoggedInUser().role.equals(RoleEnum.OWNER)){
+        if(TokenManager.getLoggedInUser()!=null && TokenManager.getLoggedInUser().role.equals(RoleEnum.OWNER)){
             buttonReport.setVisibility(View.VISIBLE);
         }
 
@@ -222,14 +222,14 @@ public class ReviewListAdapter extends ArrayAdapter<ReviewGetDTO> {
                 ReviewService reviewService = retrofit.create(ReviewService.class);
                 ReviewPutDTO updatedReview=new ReviewPutDTO(TokenManager.getLoggedInUser().username,
                         review.type,review.comment,review.grade,
-                        false,true,review.accommodationId,review.ownerId,review.status);
+                        false,true,review.accommodationId,review.ownerId,ReviewStatusEnum.PENDING);
 
                 Call<Void> call = reviewService.update(updatedReview,review.id);
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
-                            status.setText("Status of request : REJECTED");
+                           // status.setText("Status of request : REJECTED");
                             Toast.makeText(getContext(), "Review with id : "+review.id+"  REPORTED!", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getContext(), "Error...", Toast.LENGTH_SHORT).show();
