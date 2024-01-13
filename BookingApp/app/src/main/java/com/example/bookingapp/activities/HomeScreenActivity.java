@@ -230,6 +230,9 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
 
         MenuItem favouriteAccommodationsMenuItem=binding.navigationView.getMenu().findItem(R.id.favouriteAccommodations);
 
+        MenuItem report1=binding.navigationView.getMenu().findItem(R.id.report1);
+        MenuItem report2=binding.navigationView.getMenu().findItem(R.id.report2);
+
         if(loggedInRole==null){//znaci da je neulogovan
             logInMenuItem.setVisible(true);
             registerMenuItem.setVisible(true);
@@ -245,6 +248,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             reportUserMenuItem.setVisible(false);
             ownerReviewsMenuItem.setVisible(false);
             favouriteAccommodationsMenuItem.setVisible(false);
+            report1.setVisible(false);
+            report2.setVisible(false);
         }else{
             if(loggedInRole.equals("GUEST")){//za goste
                 logInMenuItem.setVisible(false);
@@ -261,6 +266,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 allUsersMenuItem.setVisible(false);
                 ownerReviewsMenuItem.setVisible(false);
                 favouriteAccommodationsMenuItem.setVisible(true);
+                report1.setVisible(false);
+                report2.setVisible(false);
             }
             if(loggedInRole.equals("OWNER")){
                 logInMenuItem.setVisible(false);
@@ -277,6 +284,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 reportUserMenuItem.setVisible(true);
                 ownerReviewsMenuItem.setVisible(true);
                 favouriteAccommodationsMenuItem.setVisible(false);
+                report1.setVisible(true);
+                report2.setVisible(true);
             }
             if(loggedInRole.equals("ADMIN")){
                 logInMenuItem.setVisible(false);
@@ -293,6 +302,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 reportUserMenuItem.setVisible(false);
                 ownerReviewsMenuItem.setVisible(false);
                 favouriteAccommodationsMenuItem.setVisible(false);
+                report1.setVisible(false);
+                report2.setVisible(false);
             }
         }
 
@@ -397,11 +408,20 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                     startActivity(intent);
                     return true;
                 }else if(item.getItemId()==favouriteAccommodationsMenuItem.getItemId()){
-                    Log.e("KLIKNUO NA FAVOURITE","KLIKNUO");
                     Intent intent=new Intent(HomeScreenActivity.this, FavouriteAccommodationsActivity.class);
                     intent.putExtra("username",TokenManager.getLoggedInUser().username);
                     intent.putExtra("role","GUEST");
                     intent.putExtra("favouriteAccommodations",TokenManager.getLoggedInUser().favouriteAccommodations);
+                    startActivity(intent);
+                    return true;
+                }else if(item.getItemId()==report1.getItemId()){
+                    Intent intent=new Intent(HomeScreenActivity.this, Report1Activity.class);
+                    intent.putExtra("username",TokenManager.getLoggedInUser().username);
+                    startActivity(intent);
+                    return true;
+                }else if(item.getItemId()==report2.getItemId()){
+                    Intent intent=new Intent(HomeScreenActivity.this, Report2Activity.class);
+                    intent.putExtra("username",TokenManager.getLoggedInUser().username);
                     startActivity(intent);
                     return true;
                 }

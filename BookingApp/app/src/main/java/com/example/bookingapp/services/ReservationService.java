@@ -49,4 +49,7 @@ public interface ReservationService {
     );
     @DELETE("reservations/{id}")
     Call<Void> deleteReservation(@Path("id") Long id);
+
+    @GET("reservations")
+    Call<List<Reservation>> findAll();
 }
