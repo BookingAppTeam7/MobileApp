@@ -3,8 +3,13 @@ package com.example.bookingapp.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,12 +21,10 @@ import android.widget.AdapterView;
 import com.example.bookingapp.R;
 import com.example.bookingapp.adapters.AccommodationListAdapter;
 import com.example.bookingapp.databinding.ActivityHomeScreenBinding;
-import com.example.bookingapp.fragments.accommodations.FilterBottomSheetDialogFragment;
 import com.example.bookingapp.fragments.accommodations.SearchBottomSheetFragment;
 import com.example.bookingapp.interfaces.BottomSheetListener;
 import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.AccommodationDetails;
-import com.example.bookingapp.model.DTOs.UserGetDTO;
 import com.example.bookingapp.model.PriceCard;
 import com.example.bookingapp.model.TimeSlot;
 import com.example.bookingapp.model.TokenManager;
@@ -37,18 +40,14 @@ import com.google.android.material.navigation.NavigationView;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.Jwt;
 import retrofit2.http.Header;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,10 +56,10 @@ import retrofit2.Retrofit;
 
 
 import android.view.MenuItem;
-import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-public class HomeScreenActivity extends AppCompatActivity implements BottomSheetListener {
+public class HomeScreenActivity extends AppCompatActivity implements BottomSheetListener,SensorEventListener  {
     public Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
     public AccommodationService accommodationService=retrofit.create(AccommodationService.class);
     private Animation slideInAnimation;
@@ -76,6 +75,16 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
     String loggedInUsername;
     String loggedInRole;
     RoleEnum role=RoleEnum.UNAUTHENTICATED;
+
+    private boolean ascendingOrder = false;
+
+    private SensorManager sensorManager;
+    private static final int SHAKE_THRESHOLD = 800;
+    private long lastUpdate;
+    private float last_x;
+    private float last_y;
+    private float last_z;
+
 
 
     @Override
@@ -556,6 +565,102 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         });
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        sensorManager.registerListener((SensorEventListener) this,
+                sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);
+
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            long curTime = System.currentTimeMillis();
+            // only allow one update every 100ms.
+            if ((curTime - lastUpdate) > 200) {
+                long diffTime = (curTime - lastUpdate);
+                lastUpdate = curTime;
+
+                float[] values = sensorEvent.values;
+                float x = values[0];
+                float y = values[1];
+                float z = values[2];
+
+                float speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+
+                if (speed > SHAKE_THRESHOLD) {
+                    // Sort in descending order based on the earliest start date
+                    ArrayList<Accommodation> newList = new ArrayList<>();
+                    ascendingOrder = !ascendingOrder;
+                    sortList(newList, Comparator.reverseOrder(),ascendingOrder);
+
+                    // Clear the existing list and add the sorted items
+                    accommodationsToShow.clear();
+                    accommodationsToShow.addAll(newList);
+
+                    // Notify the adapter after updating the list
+                    listAdapter.notifyDataSetChanged();
+
+
+                    Log.d("REZ", "shake detected w/ speed: " + speed);
+                }
+
+                last_x = x;
+                last_y = y;
+                last_z = z;
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        if(sensor.getType() == Sensor.TYPE_ACCELEROMETER){
+            Log.i("REZ_ACCELEROMETER", String.valueOf(accuracy));
+        }
+    }
+
+    public void sortList(ArrayList<Accommodation> newList, Comparator<? super Date> keyComparator, boolean ascending) {
+        newList.addAll(accommodationsToShow.stream()
+                .sorted((a1, a2) -> {
+                    Date startDate1 = getEarliestStartDate(a1.getPrices());
+                    Date startDate2 = getEarliestStartDate(a2.getPrices());
+                    // Sort in descending order based on start date
+                    if (startDate1 == null && startDate2 == null) {
+                        return 0; // Both are considered equal
+                    } else if (startDate1 == null) {
+                        return 1; // Null is considered greater than non-null
+                    } else if (startDate2 == null) {
+                        return -1; // Non-null is considered greater than null
+                    }
+
+                    return ascending ? startDate1.compareTo(startDate2) : startDate2.compareTo(startDate1);
+
+//                    return keyComparator.compare(startDate2, startDate1);
+                })
+                .collect(Collectors.toList()));
+    }
+
+//    public void sortList(ArrayList<Accommodation> newList, Comparator<? super Date> keyComparator) {
+//        newList.addAll(accommodationsToShow.stream()
+//                .sorted(Comparator.comparing(a -> getEarliestStartDate(a.getPrices()), Comparator.nullsLast(keyComparator)))
+//                .collect(Collectors.toList()));
+//    }
+
+
+    private Date getEarliestStartDate(List<PriceCard> priceCards) {
+        // Assuming PriceCard has a method getTimeSlot() returning TimeSlot
+        return priceCards.stream()
+                .map(PriceCard::getTimeSlot)
+                .map(TimeSlot::getStartDate)
+                .min(Comparator.naturalOrder())
+                .orElse(null);  // Handle the case when the list is empty
+    }
+
+
 
 
 
