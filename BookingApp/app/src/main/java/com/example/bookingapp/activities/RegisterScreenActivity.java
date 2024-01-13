@@ -142,7 +142,7 @@ public class RegisterScreenActivity extends AppCompatActivity {
                     }
                 });
 
-                Intent intent=new Intent(RegisterScreenActivity.this, AccountScreenActivity.class);
+                Intent intent=new Intent(RegisterScreenActivity.this, HomeScreenActivity.class);
                 startActivity(intent);
             }
         });
