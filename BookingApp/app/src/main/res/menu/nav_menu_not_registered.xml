@@ -65,5 +65,13 @@
         android:title="Favourite accommodations"
         android:icon="@drawable/user_icon"/>
 
+    <item
+        android:id="@+id/report1"
+        android:title="Report 1"
+        android:icon="@drawable/hamburger"/>
+    <item
+        android:id="@+id/report2"
+        android:title="Report 2"
+        android:icon="@drawable/hamburger"/>
 
 </menu>
