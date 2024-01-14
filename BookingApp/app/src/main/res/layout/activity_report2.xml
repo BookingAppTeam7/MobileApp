@@ -70,12 +70,25 @@
         app:layout_constraintTop_toBottomOf="@id/yearInput"
         app:layout_constraintWidth_percent="0.5"
         android:fontFamily="serif"/>
+    <Button
+        android:id="@+id/btnPDF2"
+        android:layout_width="150dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="@color/colorRed"
+        android:text="Download PDF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnReport2"
+        app:layout_constraintWidth_percent="0.5"
+        android:fontFamily="serif"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/linearLayout2"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/btnReport2"
+        app:layout_constraintTop_toBottomOf="@id/btnPDF2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 

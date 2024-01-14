@@ -41,7 +41,13 @@
             android:layout_gravity="center"
             android:text="@string/search"
             android:backgroundTint="@color/colorButton"/>
-
+    <Button
+        android:id="@+id/btnPDF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Download PDF"
+        android:backgroundTint="@color/colorRed"/>
 
 
 </LinearLayout>
