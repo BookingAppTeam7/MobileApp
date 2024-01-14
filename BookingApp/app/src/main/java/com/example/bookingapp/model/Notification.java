@@ -13,13 +13,15 @@ public class Notification implements Parcelable {
     public String type;
     public String content;
     public String dateTime;
+    public boolean read;
 
-    public Notification(Long id, String userId, String type, String content, String dateTime) {
+    public Notification(Long id, String userId, String type, String content, String dateTime, boolean read) {
         this.id = id;
         this.userId = userId;
         this.type = type;
         this.content = content;
         this.dateTime = dateTime;
+        this.read=read;
     }
 
     public static final Creator<Notification> CREATOR = new Creator<Notification>() {
@@ -33,6 +35,14 @@ public class Notification implements Parcelable {
             return new Notification[size];
         }
     };
+
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
+    }
 
     public Long getId() {
         return id;
@@ -90,6 +100,7 @@ public class Notification implements Parcelable {
         content=in.readString();
         dateTime=in.readString();
     }
+
     @Override
     public String toString() {
         return "Notification{" +
@@ -98,6 +109,7 @@ public class Notification implements Parcelable {
                 ", type='" + type + '\'' +
                 ", content='" + content + '\'' +
                 ", dateTime='" + dateTime + '\'' +
+                ", read=" + read +
                 '}';
     }
 }
