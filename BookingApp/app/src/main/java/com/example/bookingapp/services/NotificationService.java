@@ -31,7 +31,8 @@ public interface NotificationService {
     @GET("notifications/user/{id}")
     Call<List<Notification>> getNotificationsByUserId(@Path("id") String userId);
 
-
+    @PUT("notifications/read/{id}")
+    Call<Void> readNotification(@Path("id") Long id);
     @DELETE("notifications/{id}")
     Call<Void> deleteNotification(@Path("id") Long id);
 }

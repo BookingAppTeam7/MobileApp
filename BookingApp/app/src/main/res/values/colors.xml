@@ -11,7 +11,7 @@
     <color name="colorButton">#414141</color>
     <color name="colorLabels">#414141</color>
     <color name="colorToolbar">#414141</color>
-
+    <color name="gray">#808080</color>
 
 
 </resources>

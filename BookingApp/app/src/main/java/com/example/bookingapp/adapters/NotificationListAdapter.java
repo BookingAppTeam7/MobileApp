@@ -51,6 +51,12 @@ public class NotificationListAdapter extends ArrayAdapter<Notification> {
         notificationDate.setText("Date: "+notification.dateTime);
 
 
+        if (notification.read) {
+            convertView.setBackgroundColor(getContext().getResources().getColor(R.color.gray));
+        } else {
+            convertView.setBackgroundColor(getContext().getResources().getColor(android.R.color.white));
+        }
+
         return convertView;
     }
 
