@@ -1,9 +1,16 @@
 package com.example.bookingapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -23,6 +30,10 @@ import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.AccommodationService;
 import com.example.bookingapp.services.ReservationService;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -48,6 +59,7 @@ public class Report2Activity extends AppCompatActivity {
     private TableLayout tableLayout;
     public List<Accommodation> ownerAccommodations=new ArrayList<>();
     public List<String> months=new ArrayList<>();
+    final static int REQUEST_CODE=1232;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         months.clear();
@@ -68,6 +80,13 @@ public class Report2Activity extends AppCompatActivity {
         setContentView(binding.getRoot());
         Intent intent=getIntent();
         ownerUsername=intent.getStringExtra("username");
+        askPermissions();
+        binding.btnPDF2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createPDF();
+            }
+        });
 
         tableLayout = new TableLayout(this);
         tableLayout.setLayoutParams(new TableLayout.LayoutParams(
@@ -161,6 +180,74 @@ public class Report2Activity extends AppCompatActivity {
                 });
             }
         });
+    }
+    private void askPermissions(){
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_CODE);
+    }
+    private void createPDF(){
+        PdfDocument document=new PdfDocument();
+        PdfDocument.PageInfo pageInfo=new PdfDocument.PageInfo.Builder(1080,1920,1).create();
+        PdfDocument.Page page= document.startPage(pageInfo);
+
+        Canvas canvas=page.getCanvas();
+        Paint paint=new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(24); // Set a suitable text size
+
+        float x = 50; // Adjust the starting x-coordinate as needed
+        float y = 50; // Adjust the starting y-coordinate as needed
+
+        // Iterate through table rows
+        for (int i = 0; i < tableLayout.getChildCount(); i++) {
+            View child = tableLayout.getChildAt(i);
+
+            if (child instanceof TableRow) {
+                TableRow row = (TableRow) child;
+
+                // Iterate through cells in the row
+                for (int j = 0; j < row.getChildCount(); j++) {
+                    View cell = row.getChildAt(j);
+
+                    if (cell instanceof TextView) {
+                        String cellText = ((TextView) cell).getText().toString();
+
+                        // Draw cell text on the PDF
+                        canvas.drawText(cellText, x, y, paint);
+
+                        // Adjust x-coordinate for the next cell
+                        x += 200; // Adjust the value based on your layout
+
+                        // Draw cell borders (optional)
+                        //paint.setStyle(Paint.Style.STROKE);
+                        //canvas.drawRect(x - 50, y - 20, x + 150, y + 20, paint);
+                        //paint.setStyle(Paint.Style.FILL);
+
+                        x += 200;
+                    }
+                }
+
+                y += 40;
+                x = 50;
+            }
+        }
+        document.finishPage(page);
+
+        File downloadsDir= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        String fileName="report2.pdf";
+        File file=new File(downloadsDir,fileName);
+
+        try {
+            FileOutputStream fos=new FileOutputStream(file);
+            document.writeTo(fos);
+            document.close();
+            fos.close();
+            Toast.makeText(this,"PDF created successfully!",Toast.LENGTH_SHORT).show();
+        } catch (FileNotFoundException e) {
+            Log.e("errorMsg","ERROR WHILE WRITING "+e.toString());
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     private boolean isInAccommodations(Long id, List<Accommodation> accommodations){
         for(Accommodation a:accommodations){
