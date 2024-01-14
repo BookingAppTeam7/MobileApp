@@ -73,5 +73,9 @@
         android:id="@+id/report2"
         android:title="Report 2"
         android:icon="@drawable/hamburger"/>
+    <item
+        android:id="@+id/notifications"
+        android:title="Notifications"
+        android:icon="@drawable/ic_notifications"/>
 
 </menu>
