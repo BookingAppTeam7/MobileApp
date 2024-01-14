@@ -3,11 +3,17 @@ package com.example.bookingapp.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.bookingapp.databinding.ActivityLogInScreenBinding;
@@ -21,8 +27,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LogInScreenActivity extends AppCompatActivity {
+public class LogInScreenActivity extends AppCompatActivity implements SensorEventListener {
     private static final String KEY_JWT_TOKEN = "jwtToken";
+
+    private SensorManager sensorManager;
+    private Sensor lightSensor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +47,17 @@ public class LogInScreenActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Dodajte nazad dugme
         toolbar.setNavigationOnClickListener(v -> onBackPressed()); // Postavljanje akcije za nazad dugme
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        if (sensorManager != null) {
+            lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+            if (lightSensor != null) {
+                // Registracija za osluškivanje promena vrednosti senzora
+                sensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
+            } else {
+                Toast.makeText(this, "Light sensor not available", Toast.LENGTH_SHORT).show();
+            }
+        }
 
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +132,83 @@ public class LogInScreenActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+//        if (event.sensor.getType() == Sensor.TYPE_LIGHT) {
+//            float lightValue = event.values[0];
+//
+//            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+//            layoutParams.screenBrightness = lightValue / SensorManager.LIGHT_SUNLIGHT_MAX;
+//
+//            // Ovde postavljamo promene vrednosti u okviru ekrana
+//            getWindow().setAttributes(layoutParams);
+//            getWindow().getDecorView().requestLayout();
+//        }
+        if (event.sensor.getType() == Sensor.TYPE_LIGHT) {
+            float lightValue = event.values[0];
+            Log.d("LightSensor", "Light value: " + lightValue);
+            float brightnessIncrement = 0.1f; // Možete prilagoditi vrednost
+            float newBrightness = lightValue / SensorManager.LIGHT_SUNLIGHT_MAX + brightnessIncrement;
+
+            // Ako je novi nivo svetlosti van opsega [0.0, 1.0], postavite ga na granice
+            newBrightness = Math.max(0.0f, Math.min(1.0f, newBrightness));
+
+            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+            layoutParams.screenBrightness = newBrightness;
+
+            // Postavljanje promenjenih vrednosti u okviru ekrana
+            getWindow().setAttributes(layoutParams);
+            updateColorsBasedOnBrightness(newBrightness);
+        }
+    }
+
+    private void updateColorsBasedOnBrightness(float brightness) {
+        // Prilagodite ove boje prema vašim potrebama
+        int whiteColor = getResources().getColor(android.R.color.white);
+        int blackColor = getResources().getColor(android.R.color.black);
+
+        ActivityLogInScreenBinding binding = ActivityLogInScreenBinding.inflate(getLayoutInflater());
+
+        // Postavljanje boje dugmadi
+        if (brightness < 0.5f) {
+            binding.loginButton.setBackgroundColor(whiteColor);
+            binding.registerButton.setBackgroundColor(whiteColor);
+        } else {
+            binding.loginButton.setBackgroundColor(blackColor);
+            binding.registerButton.setBackgroundColor(blackColor);
+        }
+
+        // Postavljanje boje input polja
+        if (brightness < 0.5f) {
+            binding.editTextUsername.setBackgroundColor(blackColor);
+            binding.editTextPassword.setBackgroundColor(blackColor);
+        } else {
+            binding.editTextUsername.setBackgroundColor(whiteColor);
+            binding.editTextPassword.setBackgroundColor(whiteColor);
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // kad je aktivnost u pozadini , zaustavimo senzor
+        sensorManager.unregisterListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (lightSensor != null) {
+            sensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+    }
+
+
 
 
 
@@ -122,14 +219,6 @@ public class LogInScreenActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-    }
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
     @Override
     protected void onStop() {

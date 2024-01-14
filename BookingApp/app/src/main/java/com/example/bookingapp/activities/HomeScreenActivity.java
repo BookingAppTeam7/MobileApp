@@ -56,6 +56,7 @@ import retrofit2.Retrofit;
 
 
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -67,7 +68,6 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
     private boolean isDrawerOpen = false;
     ActivityHomeScreenBinding binding;
     AccommodationListAdapter listAdapter;
-   // ArrayList<Accommodation> accommodationArrayList = new ArrayList<Accommodation>();//initial
     List<Accommodation> accommodationArrayListCalled = new ArrayList<Accommodation>();//initial with service
     ArrayList<Accommodation> accommodationsToShow=new ArrayList<>();
     List<AccommodationDetails> searchedAccommodationArrayList = new ArrayList<>();
@@ -75,7 +75,6 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
     String loggedInUsername;
     String loggedInRole;
     RoleEnum role=RoleEnum.UNAUTHENTICATED;
-
     private boolean ascendingOrder = false;
 
     private SensorManager sensorManager;
@@ -85,7 +84,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
     private float last_y;
     private float last_z;
 
-
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,17 +101,11 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             if(loggedInRole!=null)
                 Log.e("ROLE",loggedInRole);
         }
-        //String roleString = getRoleFromToken();
-        //Toast.makeText(HomeScreenActivity.this, "Role:  "+roleString, Toast.LENGTH_SHORT).show();
-
-
         DrawerLayout drawerLayout = binding.drawerLayout;
         NavigationView navigationView = binding.navigationView;
 
-        //int[] imageList = {R.drawable.accommodation1, R.drawable.accommodation2, R.drawable.accommodation1, R.drawable.accommodation2};
+        this.listView = binding.listview;
 
-        //
-        Log.e("PRE","AAAAAAAAAAAAAAAAAAAAAA");
         Call call = accommodationService.findAllApproved();
         call.enqueue(new Callback<List<Accommodation>>() {
             @Override
@@ -122,11 +115,9 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                     for(Accommodation a:accommodationArrayListCalled)
                         System.out.println(a);
 
-
-                    Log.e("DUZINA",String.valueOf(accommodationArrayListCalled.size()));
                     for(Accommodation a:accommodationArrayListCalled){
                         accommodationsToShow.add(a);
-                        Log.e("SMESTAJ",a.toString());
+                        //Log.e("SMESTAJ",a.toString());
                     }
 
                     listAdapter = new AccommodationListAdapter(HomeScreenActivity.this, accommodationsToShow);
@@ -141,29 +132,26 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                                 intent.putExtra("username",loggedInUsername);
                             if(loggedInRole!=null)
                                 intent.putExtra("role",loggedInRole);
-                            intent.putExtra("accommodationId",accommodationsToShow.get(position).getId());
-                            intent.putExtra("name", accommodationsToShow.get(position).getName());
-                            intent.putExtra("description", accommodationsToShow.get(position).getDescription());
-                            intent.putExtra("image", "putanja");
-                            intent.putExtra("location",accommodationsToShow.get(position).getLocation().address+", "+accommodationsToShow.get(position).getLocation().city);
-                            intent.putExtra("locationX",accommodationsToShow.get(position).getLocation().x);
-                            intent.putExtra("locationY",accommodationsToShow.get(position).getLocation().y);
-                           //intent.putExtra("reviewsList",new ArrayList<>(accommodationsToShow.get(position).getReviews()));
-                            intent.putExtra("assets",new ArrayList<>(accommodationsToShow.get(position).getAssets()));
-                            intent.putExtra("priceList",new ArrayList<>(accommodationsToShow.get(position).getPrices()));
-                            intent.putExtra("minGuests",accommodationsToShow.get(position).getMinGuests());
-                            intent.putExtra("maxGuests",accommodationsToShow.get(position).getMaxGuests());
-                            intent.putExtra("type",accommodationsToShow.get(position).getType().toString());
-                            intent.putExtra("cancelDeadline",String.valueOf(accommodationsToShow.get(position).getCancellationDeadline()));
-                            intent.putExtra("reservationConfirmation",String.valueOf(accommodationsToShow.get(position).getReservationConfirmation()));
-                            intent.putExtra("ownerId",accommodationsToShow.get(position).getOwnerId());
-                            if(loggedInUsername!=null)
-                                intent.putExtra("favouriteAccommodations",TokenManager.getLoggedInUser().favouriteAccommodations);
-                            startActivity(intent);
+                                intent.putExtra("accommodationId",accommodationsToShow.get(position).getId());
+                                intent.putExtra("name", accommodationsToShow.get(position).getName());
+                                intent.putExtra("description", accommodationsToShow.get(position).getDescription());
+                                intent.putExtra("image", "putanja");
+                                intent.putExtra("location",accommodationsToShow.get(position).getLocation().address+", "+accommodationsToShow.get(position).getLocation().city);
+                                intent.putExtra("locationX",accommodationsToShow.get(position).getLocation().x);
+                                intent.putExtra("locationY",accommodationsToShow.get(position).getLocation().y);
+                                intent.putExtra("assets",new ArrayList<>(accommodationsToShow.get(position).getAssets()));
+                                intent.putExtra("priceList",new ArrayList<>(accommodationsToShow.get(position).getPrices()));
+                                intent.putExtra("minGuests",accommodationsToShow.get(position).getMinGuests());
+                                intent.putExtra("maxGuests",accommodationsToShow.get(position).getMaxGuests());
+                                intent.putExtra("type",accommodationsToShow.get(position).getType().toString());
+                                intent.putExtra("cancelDeadline",String.valueOf(accommodationsToShow.get(position).getCancellationDeadline()));
+                                intent.putExtra("reservationConfirmation",String.valueOf(accommodationsToShow.get(position).getReservationConfirmation()));
+                                intent.putExtra("ownerId",accommodationsToShow.get(position).getOwnerId());
+                                if(loggedInUsername!=null)
+                                    intent.putExtra("favouriteAccommodations",TokenManager.getLoggedInUser().favouriteAccommodations);
+                                startActivity(intent);
                         }
                     });
-
-
                 } else {
                     // Handle error
                     Log.e("GRESKA",String.valueOf(response.code()));
@@ -198,13 +186,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                     binding.navigationView.setAnimation(slideInAnimation);
                     binding.navigationView.setVisibility(View.VISIBLE);
                 }
-
-
             }
         });
-
-        // Postavljanje animacija na NavigationView pri zatvaranju
-        // Postavljanje animacija na NavigationView pri zatvaranju
         binding.drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerStateChanged(int newState) {
@@ -227,9 +210,6 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         MenuItem logOut=binding.navigationView.getMenu().findItem(R.id.menu_logout);
         MenuItem addAccommodationMenuItem=binding.navigationView.getMenu().findItem(R.id.createAccommodation);
         MenuItem accommodationsRequestMenuItem=binding.navigationView.getMenu().findItem(R.id.accommodationRequests);
-
-
-
         MenuItem myReservationsMenuItem=binding.navigationView.getMenu().findItem(R.id.menu_my_reservations);
         MenuItem allUsersMenuItem=binding.navigationView.getMenu().findItem(R.id.allUsers);
 
@@ -316,7 +296,6 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             }
         }
 
-        ///////////////////////////////////
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
@@ -327,34 +306,9 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 MenuItem myAccountItem = binding.navigationView.getMenu().findItem(R.id.menu_account);
                 MenuItem addAccommodationMenuItem=binding.navigationView.getMenu().findItem(R.id.createAccommodation);
                 MenuItem accommodationsRequestMenuItem=binding.navigationView.getMenu().findItem(R.id.accommodationRequests);
-
-                    MenuItem reportUserMenuItem=binding.navigationView.getMenu().findItem(R.id.menu_report_user);
-                    MenuItem ownerReviewsMenuItem=binding.navigationView.getMenu().findItem(R.id.menu_owner_reviews);
-
+                MenuItem reportUserMenuItem=binding.navigationView.getMenu().findItem(R.id.menu_report_user);
+                MenuItem ownerReviewsMenuItem=binding.navigationView.getMenu().findItem(R.id.menu_owner_reviews);
                 MenuItem favouriteAccommodationsMenuItem=binding.navigationView.getMenu().findItem(R.id.favouriteAccommodations);
-//                if (roleString.equals("OWNER")) {
-//                    // Prikazi navigaciju za vlasnika
-//                    logInMenuItem.setVisible(false);
-//                    registerMenuItem.setVisible(false);
-//                    accomodationMenuItem.setVisible(true); // Prikazi opciju za vlasnika
-//                    aboutUsMenuItem.setVisible(true);
-//                } else
-//                if(roleString.equals("GUEST")){
-//                    // Prikazi navigaciju za gosta
-//                    logInMenuItem.setVisible(false);
-//                    registerMenuItem.setVisible(false);
-//                    accomodationMenuItem.setVisible(false); // Sakrij opciju za vlasnika
-//                    aboutUsMenuItem.setVisible(true);
-//                }
-//                else{
-//                    logInMenuItem.setVisible(true);
-//                    registerMenuItem.setVisible(true);
-//                    accomodationMenuItem.setVisible(false); // Sakrij opciju za vlasnika
-//                    aboutUsMenuItem.setVisible(true);
-//                }
-
-
-
                 MenuItem notificationSettings=binding.navigationView.getMenu().findItem(R.id.menu_notification_settings);
                 MenuItem logOut=binding.navigationView.getMenu().findItem(R.id.menu_logout);
 
@@ -373,9 +327,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 }
                 else if(item.getItemId()==myAccountItem.getItemId()){
                     TokenManager tokenManager = new TokenManager();
-                   // String jwtToken = tokenManager.getLoggedInUser().getJwt();
                     String jwtToken = TokenManager.getJwtToken();
-
                     performMyAccountAction("Bearer "+jwtToken);
                     return true;
                 }else if(item.getItemId()==notificationSettings.getItemId()){
@@ -435,7 +387,6 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                     return true;
                 }
 
-                // Zatvori navigacijski izbornik
                 binding.drawerLayout.closeDrawer(binding.navigationView);
 
                 return true;
@@ -452,7 +403,6 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
     @Override
     public void onSearchButtonClicked(String place, int guests, String arrivalDate, String checkoutDate) {
         for(Accommodation a:accommodationArrayListCalled)
-            Log.e("DRUGI POZIV",a.toString());
         Log.e("ARRIVAL",arrivalDate);
         Log.e("CHECKOUT",checkoutDate);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -476,8 +426,6 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             public void onResponse(Call<List<AccommodationDetails>> call, Response<List<AccommodationDetails>> response) {
                 if (response.isSuccessful()) {
                     List<AccommodationDetails> accommodations = response.body();
-                    //for(AccommodationDetails ad:accommodations)
-                        Log.e("USPEH222!!!",accommodations.toString());
                     Intent intent = new Intent(HomeScreenActivity.this, SearchedAccommodationsActivity.class);
                     intent.putExtra("username",loggedInUsername);
                     intent.putExtra("role",loggedInRole);
@@ -526,9 +474,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             startActivity(intent);
         }
         public void performAboutUsAction(){
-
         }
-
         public void performAccomodationAction(){
             Intent intent=new Intent(HomeScreenActivity.this, OwnersAccommodationActivity.class);
             startActivity(intent);
@@ -549,13 +495,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         }else{
             return;
         }
-
     }
-
-
-
-
-    // Kod za dohvaćanje JWT tokena
+    // Kod za dobavljanje JWT tokena
     private String getRoleFromToken() {
         SharedPreferences preferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
         return preferences.getString("role", "");
@@ -599,42 +540,149 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            float x = sensorEvent.values[0];
+
+            // Check if the phone is tilted forward or backward
+            if (Math.abs(x) > 3) {  // You might need to adjust this threshold
+                // Scroll the ListView programmatically
+                int firstVisibleItem = listView.getFirstVisiblePosition();
+                int lastVisibleItem = listView.getLastVisiblePosition();
+
+                if (x > 0) {
+                    // Tilted forward, scroll up if the list is not at the top
+                    if (firstVisibleItem > 0) {
+                        listView.smoothScrollToPosition(firstVisibleItem - 1);
+                    }
+                } else {
+                    // Tilted backward, scroll down if the list is not at the bottom
+                    if (lastVisibleItem < listAdapter.getCount() - 1) {
+                        listView.smoothScrollToPosition(lastVisibleItem + 1);
+                    }
+                }
+            }
+
             long curTime = System.currentTimeMillis();
-            // only allow one update every 100ms.
             if ((curTime - lastUpdate) > 200) {
                 long diffTime = (curTime - lastUpdate);
                 lastUpdate = curTime;
 
                 float[] values = sensorEvent.values;
-                float x = values[0];
                 float y = values[1];
                 float z = values[2];
 
-                float speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+                float speed = Math.abs(y + z - last_y - last_z) / diffTime * 10000;
 
                 if (speed > SHAKE_THRESHOLD) {
-                    // Sort in descending order based on the earliest start date
                     ArrayList<Accommodation> newList = new ArrayList<>();
                     ascendingOrder = !ascendingOrder;
-                    sortList(newList, Comparator.reverseOrder(),ascendingOrder);
+                    sortList(newList, Comparator.reverseOrder(), ascendingOrder);
 
-                    // Clear the existing list and add the sorted items
                     accommodationsToShow.clear();
                     accommodationsToShow.addAll(newList);
 
-                    // Notify the adapter after updating the list
                     listAdapter.notifyDataSetChanged();
-
 
                     Log.d("REZ", "shake detected w/ speed: " + speed);
                 }
 
-                last_x = x;
                 last_y = y;
                 last_z = z;
             }
         }
     }
+
+
+//    @Override
+//    public void onSensorChanged(SensorEvent sensorEvent) {
+//
+//        if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+//            float x = sensorEvent.values[0];
+//
+//            // Check if the phone is tilted forward or backward
+//            if (Math.abs(x) > 3) {  // You might need to adjust this threshold
+//                // Scroll the ListView programmatically
+//                int firstVisibleItem = listView.getFirstVisiblePosition();
+//                int lastVisibleItem = listView.getLastVisiblePosition();
+//
+//                if (x > 0) {
+//                    // Tilted forward, scroll up if the list is not at the top
+//                    if (firstVisibleItem > 0) {
+//                        listView.smoothScrollToPosition(firstVisibleItem - 1);
+//                    }
+//                } else {
+//                    // Tilted backward, scroll down if the list is not at the bottom
+//                    if (lastVisibleItem < listAdapter.getCount() - 1) {
+//                        listView.smoothScrollToPosition(lastVisibleItem + 1);
+//                    }
+//                }
+//            }
+//
+//            long curTime = System.currentTimeMillis();
+//            if ((curTime - lastUpdate) > 200) {
+//                long diffTime = (curTime - lastUpdate);
+//                lastUpdate = curTime;
+//
+//                float speed = Math.abs(x - last_x) / diffTime * 10000;
+//
+//                if (speed > SHAKE_THRESHOLD) {
+//                    // Scroll the ListView programmatically
+//                    int firstVisibleItem = listView.getFirstVisiblePosition();
+//                    int lastVisibleItem = listView.getLastVisiblePosition();
+//
+//                    if (ascendingOrder) {
+//                        // Scroll up if the list is not at the top
+//                        if (firstVisibleItem > 0) {
+//                            listView.smoothScrollToPosition(firstVisibleItem - 1);
+//                        }
+//                    } else {
+//                        // Scroll down if the list is not at the bottom
+//                        if (lastVisibleItem < listAdapter.getCount() - 1) {
+//                            listView.smoothScrollToPosition(lastVisibleItem + 1);
+//                        }
+//                    }
+//
+//                    Log.d("REZ", "shake detected w/ speed: " + speed);
+//                }
+//
+//                last_x = x;
+//            }
+//        }
+//
+//
+//        if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+//            long curTime = System.currentTimeMillis();
+//            if ((curTime - lastUpdate) > 200) {
+//                long diffTime = (curTime - lastUpdate);
+//                lastUpdate = curTime;
+//
+//                float[] values = sensorEvent.values;
+//                float x = values[0];
+//                float y = values[1];
+//                float z = values[2];
+//
+//                float speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+//
+//                if (speed > SHAKE_THRESHOLD) {
+//                    ArrayList<Accommodation> newList = new ArrayList<>();
+//                    ascendingOrder = !ascendingOrder;
+//                    sortList(newList, Comparator.reverseOrder(), ascendingOrder);
+//
+//                    accommodationsToShow.clear();
+//                    accommodationsToShow.addAll(newList);
+//
+//                    listAdapter.notifyDataSetChanged();
+//
+//
+//                    Log.d("REZ", "shake detected w/ speed: " + speed);
+//                }
+//
+//                last_x = x;
+//                last_y = y;
+//                last_z = z;
+//            }
+//        }
+//    }
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -656,28 +704,17 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                     } else if (startDate2 == null) {
                         return -1; // Non-null is considered greater than null
                     }
-
                     return ascending ? startDate1.compareTo(startDate2) : startDate2.compareTo(startDate1);
 
-//                    return keyComparator.compare(startDate2, startDate1);
                 })
                 .collect(Collectors.toList()));
     }
-
-//    public void sortList(ArrayList<Accommodation> newList, Comparator<? super Date> keyComparator) {
-//        newList.addAll(accommodationsToShow.stream()
-//                .sorted(Comparator.comparing(a -> getEarliestStartDate(a.getPrices()), Comparator.nullsLast(keyComparator)))
-//                .collect(Collectors.toList()));
-//    }
-
-
     private Date getEarliestStartDate(List<PriceCard> priceCards) {
-        // Assuming PriceCard has a method getTimeSlot() returning TimeSlot
         return priceCards.stream()
                 .map(PriceCard::getTimeSlot)
                 .map(TimeSlot::getStartDate)
                 .min(Comparator.naturalOrder())
-                .orElse(null);  // Handle the case when the list is empty
+                .orElse(null);  //lista je prazna
     }
 
 
