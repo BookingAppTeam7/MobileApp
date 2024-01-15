@@ -69,19 +69,21 @@ public class UserRatingsRequestsActivity extends AppCompatActivity {
 //                            }
 //                        }
 //                    }
-                    if(TokenManager.getLoggedInUser().role!=RoleEnum.ADMIN){
-                        for (ReviewGetDTO r : response.body()) {
-                            if (r.getStatus() == ReviewStatusEnum.APPROVED) {
+                    if(TokenManager.getLoggedInUser()!=null){
+                        if(TokenManager.getLoggedInUser().role!=RoleEnum.ADMIN){
+                            for (ReviewGetDTO r : response.body()) {
+                                if (r.getStatus() == ReviewStatusEnum.APPROVED) {
+                                    reviewsToShow.add(r);
+                                }
+                            }
+                        }
+                        else{
+                            for (ReviewGetDTO r : response.body()) {
                                 reviewsToShow.add(r);
                             }
                         }
                     }
-                    else{
-                        for (ReviewGetDTO r : response.body()) {
-                            reviewsToShow.add(r);
-                        }
 
-                    }
 
                     listAdapter = new ReviewListAdapter(UserRatingsRequestsActivity.this, reviewsToShow);
                     binding.listview.setAdapter(listAdapter);

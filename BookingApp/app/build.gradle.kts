@@ -81,4 +81,5 @@ dependencies {
     implementation ("io.jsonwebtoken:jjwt-jackson:0.11.2")
 
     implementation ("androidx.core:core:1.6.0")
+    implementation ("com.squareup.picasso:picasso:2.71828")
 }
