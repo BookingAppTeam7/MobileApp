@@ -1,16 +1,26 @@
 package com.example.bookingapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -20,11 +30,13 @@ import android.widget.AdapterView;
 
 import com.example.bookingapp.R;
 import com.example.bookingapp.adapters.AccommodationListAdapter;
+import com.example.bookingapp.adapters.NotificationListAdapter;
 import com.example.bookingapp.databinding.ActivityHomeScreenBinding;
 import com.example.bookingapp.fragments.accommodations.SearchBottomSheetFragment;
 import com.example.bookingapp.interfaces.BottomSheetListener;
 import com.example.bookingapp.model.Accommodation;
 import com.example.bookingapp.model.AccommodationDetails;
+import com.example.bookingapp.model.Notification;
 import com.example.bookingapp.model.PriceCard;
 import com.example.bookingapp.model.TimeSlot;
 import com.example.bookingapp.model.TokenManager;
@@ -34,6 +46,7 @@ import com.example.bookingapp.model.enums.RoleEnum;
 import com.example.bookingapp.model.enums.TypeEnum;
 import com.example.bookingapp.network.RetrofitClientInstance;
 import com.example.bookingapp.services.AccommodationService;
+import com.example.bookingapp.services.NotificationService;
 import com.example.bookingapp.services.UserService;
 import com.google.android.material.navigation.NavigationView;
 
@@ -60,21 +73,26 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-public class HomeScreenActivity extends AppCompatActivity implements BottomSheetListener,SensorEventListener  {
+public class HomeScreenActivity extends AppCompatActivity implements BottomSheetListener, SensorEventListener {
     public Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
-    public AccommodationService accommodationService=retrofit.create(AccommodationService.class);
+    public AccommodationService accommodationService = retrofit.create(AccommodationService.class);
+    public NotificationService notificationService = retrofit.create(NotificationService.class);
     private Animation slideInAnimation;
     private Animation slideOutAnimation;
     private boolean isDrawerOpen = false;
     ActivityHomeScreenBinding binding;
     AccommodationListAdapter listAdapter;
     List<Accommodation> accommodationArrayListCalled = new ArrayList<Accommodation>();//initial with service
-    ArrayList<Accommodation> accommodationsToShow=new ArrayList<>();
+    ArrayList<Accommodation> accommodationsToShow = new ArrayList<>();
     List<AccommodationDetails> searchedAccommodationArrayList = new ArrayList<>();
     Accommodation accommodation;
     String loggedInUsername;
     String loggedInRole;
-    RoleEnum role=RoleEnum.UNAUTHENTICATED;
+    RoleEnum role = RoleEnum.UNAUTHENTICATED;
+    private int numOfNotifications = 0;
+    private boolean firstRun=true;
+    private List<Long> alreadyShownNewNot=new ArrayList<>();
+    private static String CHANNEL_ID = "Zero channel";
     private boolean ascendingOrder = false;
 
     private SensorManager sensorManager;
@@ -92,19 +110,34 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         binding = ActivityHomeScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Intent intent=this.getIntent();
-        if(intent!=null){
-            loggedInUsername=intent.getStringExtra("username");
-            loggedInRole=intent.getStringExtra("role");
-            if(loggedInUsername!=null)
-                Log.e("USERNAME",loggedInUsername);
-            if(loggedInRole!=null)
-                Log.e("ROLE",loggedInRole);
+        Intent intent = this.getIntent();
+        if (intent != null) {
+            loggedInUsername = intent.getStringExtra("username");
+            loggedInRole = intent.getStringExtra("role");
+            if (loggedInUsername != null)
+                Log.e("USERNAME", loggedInUsername);
+            if (loggedInRole != null)
+                Log.e("ROLE", loggedInRole);
         }
         DrawerLayout drawerLayout = binding.drawerLayout;
         NavigationView navigationView = binding.navigationView;
 
         this.listView = binding.listview;
+        createNotificationChannel();
+
+        if (loggedInUsername != null) {
+            Handler handler = new Handler();
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    callNotifications();
+                    handler.postDelayed(this, 2000);
+                }
+            };
+            // Start the initial task
+            handler.postDelayed(runnable, 2000);
+        }
+
 
         Call call = accommodationService.findAllApproved();
         call.enqueue(new Callback<List<Accommodation>>() {
@@ -112,10 +145,10 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             public void onResponse(Call<List<Accommodation>> call, Response<List<Accommodation>> response) {
                 if (response.isSuccessful()) {
                     accommodationArrayListCalled = response.body();
-                    for(Accommodation a:accommodationArrayListCalled)
+                    for (Accommodation a : accommodationArrayListCalled)
                         System.out.println(a);
 
-                    for(Accommodation a:accommodationArrayListCalled){
+                    for (Accommodation a : accommodationArrayListCalled) {
                         accommodationsToShow.add(a);
                         //Log.e("SMESTAJ",a.toString());
                     }
@@ -128,39 +161,39 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             Intent intent = new Intent(HomeScreenActivity.this, DetailedActivity.class);
-                            if(loggedInUsername!=null)
-                                intent.putExtra("username",loggedInUsername);
-                            if(loggedInRole!=null)
-                                intent.putExtra("role",loggedInRole);
-                                intent.putExtra("accommodationId",accommodationsToShow.get(position).getId());
-                                intent.putExtra("name", accommodationsToShow.get(position).getName());
-                                intent.putExtra("description", accommodationsToShow.get(position).getDescription());
-                                intent.putExtra("image", "putanja");
-                                intent.putExtra("location",accommodationsToShow.get(position).getLocation().address+", "+accommodationsToShow.get(position).getLocation().city);
-                                intent.putExtra("locationX",accommodationsToShow.get(position).getLocation().x);
-                                intent.putExtra("locationY",accommodationsToShow.get(position).getLocation().y);
-                                intent.putExtra("assets",new ArrayList<>(accommodationsToShow.get(position).getAssets()));
-                                intent.putExtra("priceList",new ArrayList<>(accommodationsToShow.get(position).getPrices()));
-                                intent.putExtra("minGuests",accommodationsToShow.get(position).getMinGuests());
-                                intent.putExtra("maxGuests",accommodationsToShow.get(position).getMaxGuests());
-                                intent.putExtra("type",accommodationsToShow.get(position).getType().toString());
-                                intent.putExtra("cancelDeadline",String.valueOf(accommodationsToShow.get(position).getCancellationDeadline()));
-                                intent.putExtra("reservationConfirmation",String.valueOf(accommodationsToShow.get(position).getReservationConfirmation()));
-                                intent.putExtra("ownerId",accommodationsToShow.get(position).getOwnerId());
-                                if(loggedInUsername!=null)
-                                    intent.putExtra("favouriteAccommodations",TokenManager.getLoggedInUser().favouriteAccommodations);
-                                startActivity(intent);
+                            if (loggedInUsername != null)
+                                intent.putExtra("username", loggedInUsername);
+                            if (loggedInRole != null)
+                                intent.putExtra("role", loggedInRole);
+                            intent.putExtra("accommodationId", accommodationsToShow.get(position).getId());
+                            intent.putExtra("name", accommodationsToShow.get(position).getName());
+                            intent.putExtra("description", accommodationsToShow.get(position).getDescription());
+                            intent.putExtra("image", "putanja");
+                            intent.putExtra("location", accommodationsToShow.get(position).getLocation().address + ", " + accommodationsToShow.get(position).getLocation().city);
+                            intent.putExtra("locationX", accommodationsToShow.get(position).getLocation().x);
+                            intent.putExtra("locationY", accommodationsToShow.get(position).getLocation().y);
+                            intent.putExtra("assets", new ArrayList<>(accommodationsToShow.get(position).getAssets()));
+                            intent.putExtra("priceList", new ArrayList<>(accommodationsToShow.get(position).getPrices()));
+                            intent.putExtra("minGuests", accommodationsToShow.get(position).getMinGuests());
+                            intent.putExtra("maxGuests", accommodationsToShow.get(position).getMaxGuests());
+                            intent.putExtra("type", accommodationsToShow.get(position).getType().toString());
+                            intent.putExtra("cancelDeadline", String.valueOf(accommodationsToShow.get(position).getCancellationDeadline()));
+                            intent.putExtra("reservationConfirmation", String.valueOf(accommodationsToShow.get(position).getReservationConfirmation()));
+                            intent.putExtra("ownerId", accommodationsToShow.get(position).getOwnerId());
+                            if (loggedInUsername != null)
+                                intent.putExtra("favouriteAccommodations", TokenManager.getLoggedInUser().favouriteAccommodations);
+                            startActivity(intent);
                         }
                     });
                 } else {
                     // Handle error
-                    Log.e("GRESKA",String.valueOf(response.code()));
+                    Log.e("GRESKA", String.valueOf(response.code()));
                 }
             }
 
             @Override
             public void onFailure(Call<List<Accommodation>> call, Throwable t) {
-                Log.e("GREEEESKA",t.getMessage());
+                Log.e("GREEEESKA", t.getMessage());
                 t.printStackTrace();
             }
         });
@@ -206,25 +239,25 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         MenuItem accomodationMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_accommodation_approval);
         MenuItem aboutUsMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_about_us);
         MenuItem myAccountItem = binding.navigationView.getMenu().findItem(R.id.menu_account);
-        MenuItem notificationSettings=binding.navigationView.getMenu().findItem(R.id.menu_notification_settings);
-        MenuItem logOut=binding.navigationView.getMenu().findItem(R.id.menu_logout);
-        MenuItem addAccommodationMenuItem=binding.navigationView.getMenu().findItem(R.id.createAccommodation);
-        MenuItem accommodationsRequestMenuItem=binding.navigationView.getMenu().findItem(R.id.accommodationRequests);
-        MenuItem myReservationsMenuItem=binding.navigationView.getMenu().findItem(R.id.menu_my_reservations);
-        MenuItem allUsersMenuItem=binding.navigationView.getMenu().findItem(R.id.allUsers);
+        MenuItem notificationSettings = binding.navigationView.getMenu().findItem(R.id.menu_notification_settings);
+        MenuItem logOut = binding.navigationView.getMenu().findItem(R.id.menu_logout);
+        MenuItem addAccommodationMenuItem = binding.navigationView.getMenu().findItem(R.id.createAccommodation);
+        MenuItem accommodationsRequestMenuItem = binding.navigationView.getMenu().findItem(R.id.accommodationRequests);
+        MenuItem myReservationsMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_my_reservations);
+        MenuItem allUsersMenuItem = binding.navigationView.getMenu().findItem(R.id.allUsers);
 
 
-        MenuItem reportUserMenuItem=binding.navigationView.getMenu().findItem(R.id.menu_report_user);
-        MenuItem ownerReviewsMenuItem=binding.navigationView.getMenu().findItem(R.id.menu_owner_reviews);
+        MenuItem reportUserMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_report_user);
+        MenuItem ownerReviewsMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_owner_reviews);
 
-        MenuItem favouriteAccommodationsMenuItem=binding.navigationView.getMenu().findItem(R.id.favouriteAccommodations);
+        MenuItem favouriteAccommodationsMenuItem = binding.navigationView.getMenu().findItem(R.id.favouriteAccommodations);
 
-        MenuItem report1=binding.navigationView.getMenu().findItem(R.id.report1);
-        MenuItem report2=binding.navigationView.getMenu().findItem(R.id.report2);
+        MenuItem report1 = binding.navigationView.getMenu().findItem(R.id.report1);
+        MenuItem report2 = binding.navigationView.getMenu().findItem(R.id.report2);
 
-        MenuItem notifications=binding.navigationView.getMenu().findItem(R.id.notifications);
+        MenuItem notifications = binding.navigationView.getMenu().findItem(R.id.notifications);
 
-        if(loggedInRole==null){//znaci da je neulogovan
+        if (loggedInRole == null) {//znaci da je neulogovan
             logInMenuItem.setVisible(true);
             registerMenuItem.setVisible(true);
             accomodationMenuItem.setVisible(false);
@@ -242,8 +275,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             report1.setVisible(false);
             report2.setVisible(false);
             notifications.setVisible(false);
-        }else{
-            if(loggedInRole.equals("GUEST")){//za goste
+        } else {
+            if (loggedInRole.equals("GUEST")) {//za goste
                 logInMenuItem.setVisible(false);
                 registerMenuItem.setVisible(false);
                 accomodationMenuItem.setVisible(false);
@@ -262,7 +295,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 report2.setVisible(false);
                 notifications.setVisible(true);
             }
-            if(loggedInRole.equals("OWNER")){
+            if (loggedInRole.equals("OWNER")) {
                 logInMenuItem.setVisible(false);
                 registerMenuItem.setVisible(false);
                 accomodationMenuItem.setVisible(true);
@@ -281,7 +314,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 report2.setVisible(true);
                 notifications.setVisible(true);
             }
-            if(loggedInRole.equals("ADMIN")){
+            if (loggedInRole.equals("ADMIN")) {
                 logInMenuItem.setVisible(false);
                 registerMenuItem.setVisible(false);
                 accomodationMenuItem.setVisible(false);
@@ -310,13 +343,13 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 MenuItem accomodationMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_accommodation_approval);
                 MenuItem aboutUsMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_about_us);
                 MenuItem myAccountItem = binding.navigationView.getMenu().findItem(R.id.menu_account);
-                MenuItem addAccommodationMenuItem=binding.navigationView.getMenu().findItem(R.id.createAccommodation);
-                MenuItem accommodationsRequestMenuItem=binding.navigationView.getMenu().findItem(R.id.accommodationRequests);
-                MenuItem reportUserMenuItem=binding.navigationView.getMenu().findItem(R.id.menu_report_user);
-                MenuItem ownerReviewsMenuItem=binding.navigationView.getMenu().findItem(R.id.menu_owner_reviews);
-                MenuItem favouriteAccommodationsMenuItem=binding.navigationView.getMenu().findItem(R.id.favouriteAccommodations);
-                MenuItem notificationSettings=binding.navigationView.getMenu().findItem(R.id.menu_notification_settings);
-                MenuItem logOut=binding.navigationView.getMenu().findItem(R.id.menu_logout);
+                MenuItem addAccommodationMenuItem = binding.navigationView.getMenu().findItem(R.id.createAccommodation);
+                MenuItem accommodationsRequestMenuItem = binding.navigationView.getMenu().findItem(R.id.accommodationRequests);
+                MenuItem reportUserMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_report_user);
+                MenuItem ownerReviewsMenuItem = binding.navigationView.getMenu().findItem(R.id.menu_owner_reviews);
+                MenuItem favouriteAccommodationsMenuItem = binding.navigationView.getMenu().findItem(R.id.favouriteAccommodations);
+                MenuItem notificationSettings = binding.navigationView.getMenu().findItem(R.id.menu_notification_settings);
+                MenuItem logOut = binding.navigationView.getMenu().findItem(R.id.menu_logout);
 
                 if (item.getItemId() == logInMenuItem.getItemId()) {
                     performLoginAction();
@@ -330,70 +363,64 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 } else if (item.getItemId() == accomodationMenuItem.getItemId()) {
                     performAccomodationAction();
                     return true;
-                }
-                else if(item.getItemId()==myAccountItem.getItemId()){
+                } else if (item.getItemId() == myAccountItem.getItemId()) {
                     TokenManager tokenManager = new TokenManager();
                     String jwtToken = TokenManager.getJwtToken();
-                    performMyAccountAction("Bearer "+jwtToken);
+                    performMyAccountAction("Bearer " + jwtToken);
                     return true;
-                }else if(item.getItemId()==notificationSettings.getItemId()){
-                    User user=TokenManager.getLoggedInUser();
-                    performNotificationSettingsAction(user.role,user);
-                    return  true;
-                }else if(item.getItemId()==logOut.getItemId()){
+                } else if (item.getItemId() == notificationSettings.getItemId()) {
+                    User user = TokenManager.getLoggedInUser();
+                    performNotificationSettingsAction(user.role, user);
+                    return true;
+                } else if (item.getItemId() == logOut.getItemId()) {
                     performLogOutAction();
                     return true;
-                }
-                else if(item.getItemId()==addAccommodationMenuItem.getItemId()){
+                } else if (item.getItemId() == addAccommodationMenuItem.getItemId()) {
                     Intent intent = new Intent(HomeScreenActivity.this, CreateAccommodationActivity.class);
                     startActivity(intent);
                     return true;
-                }
-
-                else if(item.getItemId()==accommodationsRequestMenuItem.getItemId()) {
+                } else if (item.getItemId() == accommodationsRequestMenuItem.getItemId()) {
                     Intent intent = new Intent(HomeScreenActivity.this, AccomodationApprovalActivity.class);
                     startActivity(intent);
                     return true;
-                }
-                else if(item.getItemId()==myReservationsMenuItem.getItemId()){
+                } else if (item.getItemId() == myReservationsMenuItem.getItemId()) {
                     Intent intent = new Intent(HomeScreenActivity.this, GuestsReservationsActivity.class);
                     startActivity(intent);
                     return true;
-                }
-                else if(item.getItemId()==allUsersMenuItem.getItemId()){
+                } else if (item.getItemId() == allUsersMenuItem.getItemId()) {
                     Intent intent = new Intent(HomeScreenActivity.this, UsersReviewActivity.class);
                     startActivity(intent);
                     return true;
-                }else if(item.getItemId()==reportUserMenuItem.getItemId()){
+                } else if (item.getItemId() == reportUserMenuItem.getItemId()) {
                     Intent intent = new Intent(HomeScreenActivity.this, ReportUserActivity.class);
                     startActivity(intent);
                     return true;
-                }else if(item.getItemId()==ownerReviewsMenuItem.getItemId()){
+                } else if (item.getItemId() == ownerReviewsMenuItem.getItemId()) {
 
                     Intent intent = new Intent(HomeScreenActivity.this, UserRatingsRequestsActivity.class);
-                    intent.putExtra("username",TokenManager.getLoggedInUser().username);
+                    intent.putExtra("username", TokenManager.getLoggedInUser().username);
                     startActivity(intent);
                     return true;
-                }else if(item.getItemId()==favouriteAccommodationsMenuItem.getItemId()){
-                    Intent intent=new Intent(HomeScreenActivity.this, FavouriteAccommodationsActivity.class);
-                    intent.putExtra("username",TokenManager.getLoggedInUser().username);
-                    intent.putExtra("role","GUEST");
-                    intent.putExtra("favouriteAccommodations",TokenManager.getLoggedInUser().favouriteAccommodations);
+                } else if (item.getItemId() == favouriteAccommodationsMenuItem.getItemId()) {
+                    Intent intent = new Intent(HomeScreenActivity.this, FavouriteAccommodationsActivity.class);
+                    intent.putExtra("username", TokenManager.getLoggedInUser().username);
+                    intent.putExtra("role", "GUEST");
+                    intent.putExtra("favouriteAccommodations", TokenManager.getLoggedInUser().favouriteAccommodations);
                     startActivity(intent);
                     return true;
-                }else if(item.getItemId()==report1.getItemId()){
-                    Intent intent=new Intent(HomeScreenActivity.this, Report1Activity.class);
-                    intent.putExtra("username",TokenManager.getLoggedInUser().username);
+                } else if (item.getItemId() == report1.getItemId()) {
+                    Intent intent = new Intent(HomeScreenActivity.this, Report1Activity.class);
+                    intent.putExtra("username", TokenManager.getLoggedInUser().username);
                     startActivity(intent);
                     return true;
-                }else if(item.getItemId()==report2.getItemId()){
-                    Intent intent=new Intent(HomeScreenActivity.this, Report2Activity.class);
-                    intent.putExtra("username",TokenManager.getLoggedInUser().username);
+                } else if (item.getItemId() == report2.getItemId()) {
+                    Intent intent = new Intent(HomeScreenActivity.this, Report2Activity.class);
+                    intent.putExtra("username", TokenManager.getLoggedInUser().username);
                     startActivity(intent);
                     return true;
-                }else if(item.getItemId()==notifications.getItemId()){
-                    Intent intent=new Intent(HomeScreenActivity.this, NotificationsActivity.class);
-                    intent.putExtra("username",TokenManager.getLoggedInUser().username);
+                } else if (item.getItemId() == notifications.getItemId()) {
+                    Intent intent = new Intent(HomeScreenActivity.this, NotificationsActivity.class);
+                    intent.putExtra("username", TokenManager.getLoggedInUser().username);
                     startActivity(intent);
                     return true;
                 }
@@ -405,17 +432,18 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         });
 
     }
-        @Override
-        public boolean onCreateOptionsMenu(Menu menu) {
-            getMenuInflater().inflate(R.menu.nav_menu, menu);
-            return true;
-        }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.nav_menu, menu);
+        return true;
+    }
 
     @Override
     public void onSearchButtonClicked(String place, int guests, String arrivalDate, String checkoutDate) {
-        for(Accommodation a:accommodationArrayListCalled)
-        Log.e("ARRIVAL",arrivalDate);
-        Log.e("CHECKOUT",checkoutDate);
+        for (Accommodation a : accommodationArrayListCalled)
+            Log.e("ARRIVAL", arrivalDate);
+        Log.e("CHECKOUT", checkoutDate);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date arrival;
         Date checkout;
@@ -427,8 +455,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             e.printStackTrace();
             return; // Handle the parsing error as needed
         }
-        Log.e("ARRIVAL",arrival.toString());
-        Log.e("CHECKOUT",checkout.toString());
+        Log.e("ARRIVAL", arrival.toString());
+        Log.e("CHECKOUT", checkout.toString());
         Log.e("Formatted Arrival", dateFormat.format(arrival));
         Log.e("Formatted Checkout", dateFormat.format(checkout));
         Call<List<AccommodationDetails>> call = accommodationService.search(place, guests, dateFormat.format(arrival), dateFormat.format(checkout));
@@ -438,8 +466,8 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 if (response.isSuccessful()) {
                     List<AccommodationDetails> accommodations = response.body();
                     Intent intent = new Intent(HomeScreenActivity.this, SearchedAccommodationsActivity.class);
-                    intent.putExtra("username",loggedInUsername);
-                    intent.putExtra("role",loggedInRole);
+                    intent.putExtra("username", loggedInUsername);
+                    intent.putExtra("role", loggedInRole);
                     intent.putExtra("accommodationsList", new ArrayList<>(accommodations));
                     startActivity(intent);
 
@@ -455,7 +483,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
 
             @Override
             public void onFailure(Call<List<AccommodationDetails>> call, Throwable t) {
-                Log.e("FAILURE!",t.getMessage());
+                Log.e("FAILURE!", t.getMessage());
                 t.printStackTrace();
             }
         });
@@ -476,44 +504,48 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
 
     }
 
-    public void performLoginAction(){
-            Intent intent = new Intent(HomeScreenActivity.this, LogInScreenActivity.class);
-            startActivity(intent);
-        }
-        public void performRegistrationAction(){
-            Intent intent = new Intent(HomeScreenActivity.this, RegisterScreenActivity.class);
-            startActivity(intent);
-        }
-        public void performAboutUsAction(){
-        }
-        public void performAccomodationAction(){
-            Intent intent=new Intent(HomeScreenActivity.this, OwnersAccommodationActivity.class);
-            startActivity(intent);
-        }
+    public void performLoginAction() {
+        Intent intent = new Intent(HomeScreenActivity.this, LogInScreenActivity.class);
+        startActivity(intent);
+    }
 
-        public void performMyAccountAction(@Header("Authorization") String authorizationHeader){
-            Intent intent=new Intent(HomeScreenActivity.this,AccountScreenActivity.class);
-            startActivity(intent);
-        }
+    public void performRegistrationAction() {
+        Intent intent = new Intent(HomeScreenActivity.this, RegisterScreenActivity.class);
+        startActivity(intent);
+    }
 
-    public void performNotificationSettingsAction(RoleEnum role,User user){
-        if(role.equals(RoleEnum.OWNER)){
-            Intent intent=new Intent(HomeScreenActivity.this,OwnerNotificationSettingsActivity.class);
+    public void performAboutUsAction() {
+    }
+
+    public void performAccomodationAction() {
+        Intent intent = new Intent(HomeScreenActivity.this, OwnersAccommodationActivity.class);
+        startActivity(intent);
+    }
+
+    public void performMyAccountAction(@Header("Authorization") String authorizationHeader) {
+        Intent intent = new Intent(HomeScreenActivity.this, AccountScreenActivity.class);
+        startActivity(intent);
+    }
+
+    public void performNotificationSettingsAction(RoleEnum role, User user) {
+        if (role.equals(RoleEnum.OWNER)) {
+            Intent intent = new Intent(HomeScreenActivity.this, OwnerNotificationSettingsActivity.class);
             startActivity(intent);
-        }else if(role.equals(RoleEnum.GUEST)){
-            Intent intent=new Intent(HomeScreenActivity.this,GuestNotificationSettingsActivity.class);
+        } else if (role.equals(RoleEnum.GUEST)) {
+            Intent intent = new Intent(HomeScreenActivity.this, GuestNotificationSettingsActivity.class);
             startActivity(intent);
-        }else{
+        } else {
             return;
         }
     }
+
     // Kod za dobavljanje JWT tokena
     private String getRoleFromToken() {
         SharedPreferences preferences = getSharedPreferences("MyPreferences", MODE_PRIVATE);
         return preferences.getString("role", "");
     }
 
-    private void   performLogOutAction(){
+    private void performLogOutAction() {
         UserService userService = RetrofitClientInstance.getRetrofitInstance().create(UserService.class);
         Call<Void> call = userService.logout();
 
@@ -521,14 +553,15 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Log.e("LOGOUT","LOGOOOUT");
-                    loggedInRole=null;
-                  Toast.makeText(HomeScreenActivity.this,"LOG OUT SUCCESSFULL",Toast.LENGTH_LONG);
-                  TokenManager.setLoggedInUser(null);
-                    Intent intent = new Intent(HomeScreenActivity.this,LogInScreenActivity.class);
+                    Log.e("LOGOUT", "LOGOOOUT");
+                    loggedInRole = null;
+                    Toast.makeText(HomeScreenActivity.this, "LOG OUT SUCCESSFULL", Toast.LENGTH_LONG);
+                    TokenManager.setLoggedInUser(null);
+                    Intent intent = new Intent(HomeScreenActivity.this, LogInScreenActivity.class);
                     startActivity(intent);
                 }
             }
+
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 t.printStackTrace();
@@ -697,7 +730,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        if(sensor.getType() == Sensor.TYPE_ACCELEROMETER){
+        if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             Log.i("REZ_ACCELEROMETER", String.valueOf(accuracy));
         }
     }
@@ -720,6 +753,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 })
                 .collect(Collectors.toList()));
     }
+
     private Date getEarliestStartDate(List<PriceCard> priceCards) {
         return priceCards.stream()
                 .map(PriceCard::getTimeSlot)
@@ -728,8 +762,80 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 .orElse(null);  //lista je prazna
     }
 
+    private void callNotifications() {
+        Call<List<Notification>> call3 = notificationService.getNotificationsByUserId(loggedInUsername);
+        call3.enqueue(new Callback<List<Notification>>() {
+            @Override
+            public void onResponse(Call<List<Notification>> call3, Response<List<Notification>> response) {
+                if (response.isSuccessful()) {
+                    List<Notification> notifications = response.body();
+                    if(firstRun){
+                        firstRun=false;
+                        return;
+                    }
+                    if (notifications.size() != numOfNotifications) {
+                        numOfNotifications = notifications.size();
+                        Toast.makeText(HomeScreenActivity.this, "New notification!", Toast.LENGTH_SHORT).show();
+                        for (Notification not : notifications) {
+                            if (!not.read) {
+                                if(!alreadyShownNewNot.contains(not.getId())){
+                                    Toast.makeText(HomeScreenActivity.this, not.getContent(), Toast.LENGTH_SHORT).show();
+                                    showNotification(not.getContent());
+                                    alreadyShownNewNot.add(not.getId());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
+            @Override
+            public void onFailure(Call<List<Notification>> call, Throwable t) {
+                Log.e("GREEEESKA", t.getMessage());
+                t.printStackTrace();
+            }
+        });
+    }
 
+    private void showNotification(String content) {
+        Intent intent = new Intent(this, HomeScreenActivity.class);
 
+        // Create a PendingIntent for the notification
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Create a notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("New Notification")
+                .setContentText(content)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+
+        // Get the notification manager
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+        // Notify with a unique ID
+        int notificationId = (int) System.currentTimeMillis(); // Use a unique ID for each notification
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        notificationManager.notify(notificationId, builder.build());
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Notification channel";
+            String description = "Description";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
 
 }
