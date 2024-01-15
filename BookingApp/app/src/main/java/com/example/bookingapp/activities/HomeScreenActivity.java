@@ -775,11 +775,9 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                     }
                     if (notifications.size() != numOfNotifications) {
                         numOfNotifications = notifications.size();
-                        Toast.makeText(HomeScreenActivity.this, "New notification!", Toast.LENGTH_SHORT).show();
                         for (Notification not : notifications) {
                             if (!not.read) {
                                 if(!alreadyShownNewNot.contains(not.getId())){
-                                    Toast.makeText(HomeScreenActivity.this, not.getContent(), Toast.LENGTH_SHORT).show();
                                     showNotification(not.getContent());
                                     alreadyShownNewNot.add(not.getId());
                                 }
