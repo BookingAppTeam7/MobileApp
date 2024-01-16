@@ -780,8 +780,28 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                         for (Notification not : notifications) {
                             if (!not.read) {
                                 if(!alreadyShownNewNot.contains(not.getId())){
-                                    showNotification(not.getContent());
-                                    alreadyShownNewNot.add(not.getId());
+                                    if(not.getType().equals("RESERVATION_CREATED")){
+                                        if(TokenManager.getLoggedInUser().reservationRequestNotification){
+                                            showNotification(not.getContent());
+                                            alreadyShownNewNot.add(not.getId());
+                                        }
+                                    }else if(not.getType().equals("RESERVATION_CANCELLED")){
+                                        if(TokenManager.getLoggedInUser().reservationCancellationNotification){
+                                            showNotification(not.getContent());
+                                            alreadyShownNewNot.add(not.getId());
+                                        }
+                                    }else if(not.getType().equals("RESERVATION_APPROVED") || not.getType().equals("RESERVATION_REJECTED")){
+                                        if(TokenManager.getLoggedInUser().ownerRepliedToRequestNotification){
+                                            showNotification(not.getContent());
+                                            alreadyShownNewNot.add(not.getId());
+                                        }
+                                    }else if(not.getType().equals("CREATED_REVIEW")){
+                                        if(TokenManager.getLoggedInUser().accommodationRatingNotification || TokenManager.getLoggedInUser().ownerRatingNotification){
+                                            showNotification(not.getContent());
+                                            alreadyShownNewNot.add(not.getId());
+                                        }
+                                    }
+                                    //showNotification(not.getContent());
                                 }
                             }
                         }
