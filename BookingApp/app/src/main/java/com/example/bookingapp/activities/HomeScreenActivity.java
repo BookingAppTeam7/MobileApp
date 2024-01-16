@@ -58,6 +58,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 
@@ -77,6 +78,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
     public Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
     public AccommodationService accommodationService = retrofit.create(AccommodationService.class);
     public NotificationService notificationService = retrofit.create(NotificationService.class);
+    public UserService userService = retrofit.create(UserService.class);
     private Animation slideInAnimation;
     private Animation slideOutAnimation;
     private boolean isDrawerOpen = false;
@@ -88,6 +90,7 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
     Accommodation accommodation;
     String loggedInUsername;
     String loggedInRole;
+    public String token;
     RoleEnum role = RoleEnum.UNAUTHENTICATED;
     private int numOfNotifications = 0;
     private boolean firstRun=true;
@@ -109,7 +112,6 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
         super.onCreate(savedInstanceState);
         binding = ActivityHomeScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         Intent intent = this.getIntent();
         if (intent != null) {
             loggedInUsername = intent.getStringExtra("username");
@@ -118,6 +120,10 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
                 Log.e("USERNAME", loggedInUsername);
             if (loggedInRole != null)
                 Log.e("ROLE", loggedInRole);
+            token=intent.getStringExtra("activate");
+            if(token!=null){
+                activate(token);
+            }
         }
         DrawerLayout drawerLayout = binding.drawerLayout;
         NavigationView navigationView = binding.navigationView;
@@ -816,7 +822,24 @@ public class HomeScreenActivity extends AppCompatActivity implements BottomSheet
             }
         });
     }
-
+    public void activate(String token){
+        Call call5= userService.activate(token);
+        call5.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call call5, Response response) {
+                if(response.isSuccessful()){
+                    Log.e("USPESNO","USPESNO");
+                }else{
+                    Log.e("NEKA DRUGA","DRUGA GRESKA");
+                }
+            }
+            @Override
+            public void onFailure(Call call5, Throwable t) {
+                Log.e("GREEEESKA", t.getMessage());
+                t.printStackTrace();
+            }
+        });
+    }
     private void showNotification(String content) {
         Intent intent = new Intent(this, HomeScreenActivity.class);
 

@@ -50,6 +50,7 @@ public class RegisterScreenActivity extends AppCompatActivity {
 
     public Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
     public UserService userService = retrofit.create(UserService.class);
+    public String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +131,12 @@ public class RegisterScreenActivity extends AppCompatActivity {
                                  public void onResponse(Call<User> call, Response<User> response) {
                                      if (response.isSuccessful()) {
                                          User createdUser = response.body();
+                                         token=createdUser.token;
+                                         Log.e("TOKEN",token);
                                          Toast.makeText(RegisterScreenActivity.this, "Successfully registered!Mail is sent...", Toast.LENGTH_SHORT).show();
+                                         Intent intent=new Intent(RegisterScreenActivity.this, HomeScreenActivity.class);
+                                         intent.putExtra("activate",token);
+                                         startActivity(intent);
                                      } else {
                                          Toast.makeText(RegisterScreenActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                                      }
@@ -141,8 +147,8 @@ public class RegisterScreenActivity extends AppCompatActivity {
 
                     }
                 });
-
                 Intent intent=new Intent(RegisterScreenActivity.this, HomeScreenActivity.class);
+                intent.putExtra("activate",token);
                 startActivity(intent);
             }
         });

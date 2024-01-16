@@ -64,5 +64,6 @@ public interface UserService {
             @Path("username") String username,
             @Path("id") Long id
     );
-
+    @GET("users/activate/{token}")
+    Call<Void> activate(@Path("token") String token);
 }
