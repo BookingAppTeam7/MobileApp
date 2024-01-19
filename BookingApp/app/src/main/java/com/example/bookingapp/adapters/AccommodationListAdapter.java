@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.bookingapp.BuildConfig;
 import com.example.bookingapp.R;
 import com.example.bookingapp.activities.HomeScreenActivity;
 import com.example.bookingapp.model.Accommodation;
@@ -29,6 +30,7 @@ import java.util.List;
 public class AccommodationListAdapter extends ArrayAdapter<Accommodation> {
     private List<Accommodation> aAccommodations;
     private Context context;
+    public ImageView imageView;
     public AccommodationListAdapter(Context context, List<Accommodation> accommodations){
         super(context, R.layout.list_accommodation, accommodations);
         this.context=context;
@@ -61,11 +63,12 @@ public class AccommodationListAdapter extends ArrayAdapter<Accommodation> {
         }
         if(accommodation.images.size()>0){
             String imagesrc=accommodation.images.get(0).split("/")[5];
-            ImageView imageView = convertView.findViewById(R.id.listImage);
-            handleImage(imagesrc,imageView);
+            imageView = convertView.findViewById(R.id.listImage);
+            setImageFromPath(imagesrc);
+            //handleImage(imagesrc,imageView);
 
         }else{//default slika
-            ImageView imageView = convertView.findViewById(R.id.listImage);
+            imageView = convertView.findViewById(R.id.listImage);
             imageView.setImageResource(R.drawable.accommodation1);
         }
 
@@ -98,29 +101,7 @@ public class AccommodationListAdapter extends ArrayAdapter<Accommodation> {
         aAccommodations.addAll(newData);
         notifyDataSetChanged();
     }
-    public void handleImage(String imagesrc, ImageView imageView){
-        if(imagesrc.equals("accommodation1.jpg")){
-            imageView.setImageResource(R.drawable.accommodation1);
-        }else if(imagesrc.equals("accommodation2.jpg")){
-            imageView.setImageResource(R.drawable.accommodation2);
-        }else if(imagesrc.equals("accommodation3.jpg")){
-            imageView.setImageResource(R.drawable.accommodation3);
-        }else if(imagesrc.equals("accommodation4.jpg")){
-            imageView.setImageResource(R.drawable.accommodation4);
-        }else if(imagesrc.equals("accommodation5.jpg")){
-            imageView.setImageResource(R.drawable.accommodation5);
-        }else if(imagesrc.equals("accommodation6.jpg")){
-            imageView.setImageResource(R.drawable.accommodation6);
-        }else if(imagesrc.equals("accommodation8.jpg")){
-            imageView.setImageResource(R.drawable.accommodation8);
-        }else if(imagesrc.equals("accommodation9.jpg")){
-            imageView.setImageResource(R.drawable.accommodation9);
-        }else if(imagesrc.equals("accommodation11.jpg")){
-            imageView.setImageResource(R.drawable.accommodation11);
-        }else if(imagesrc.equals("accommodation13.jpg")){
-            imageView.setImageResource(R.drawable.accommodation13);
-        }else if(imagesrc.equals("accommodation14.jpg")){
-            imageView.setImageResource(R.drawable.accommodation14);
-        }
+    public void setImageFromPath(String imagePath){
+        Picasso.get().load("http://"+ BuildConfig.IP_ADDR+":8084/files/download/"+imagePath).into(imageView);
     }
 }

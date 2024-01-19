@@ -302,6 +302,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/buttonsLayout"
         app:layout_constraintWidth_percent="0.5" />
+    <Button
+        android:id="@+id/addImages"
+        android:layout_width="195dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="120dp"
+        android:backgroundTint="@color/colorAccent2"
+        android:fontFamily="serif"
+        android:text="Upload images"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonsLayout"
+        app:layout_constraintWidth_percent="0.5" />
 
     <Button
         android:id="@+id/buttonCreate"
