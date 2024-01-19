@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.bookingapp.BuildConfig;
 import com.example.bookingapp.R;
 import com.example.bookingapp.adapters.ReviewListAdapter;
 import com.example.bookingapp.databinding.ActivityDetailedBinding;
@@ -35,6 +36,7 @@ import com.example.bookingapp.services.NotificationService;
 import com.example.bookingapp.services.ReservationService;
 import com.example.bookingapp.services.ReviewService;
 import com.example.bookingapp.services.UserService;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
@@ -78,7 +80,7 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
     public double averageGradeOwner;
     public String favouriteAccommodations;
     public String firstImage="";
-
+    public ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,12 +108,11 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
             reservationConfirmation=intent.getStringExtra("reservationConfirmation");
             favouriteAccommodations=intent.getStringExtra("favouriteAccommodations");
             firstImage=intent.getStringExtra("image");
-            ImageView imageView=binding.detailImage;
+            imageView=binding.detailImage;
             if(firstImage!=null){
                 if(!firstImage.isEmpty()){
                     String imagesrc=firstImage.split("/")[5];
-                    Log.e("FDJKDSBJKCWRI",imagesrc);
-                    handleImage(imagesrc,imageView);
+                    setImageFromPath(imagesrc);
                 }
             }else{
                 binding.detailImage.setImageResource(R.drawable.accommodation1);
@@ -580,30 +581,8 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
 
         return false;
     }
-    public void handleImage(String imagesrc, ImageView imageView){
-        if(imagesrc.equals("accommodation1.jpg")){
-            imageView.setImageResource(R.drawable.accommodation1);
-        }else if(imagesrc.equals("accommodation2.jpg")){
-            imageView.setImageResource(R.drawable.accommodation2);
-        }else if(imagesrc.equals("accommodation3.jpg")){
-            imageView.setImageResource(R.drawable.accommodation3);
-        }else if(imagesrc.equals("accommodation4.jpg")){
-            imageView.setImageResource(R.drawable.accommodation4);
-        }else if(imagesrc.equals("accommodation5.jpg")){
-            imageView.setImageResource(R.drawable.accommodation5);
-        }else if(imagesrc.equals("accommodation6.jpg")){
-            imageView.setImageResource(R.drawable.accommodation6);
-        }else if(imagesrc.equals("accommodation8.jpg")){
-            imageView.setImageResource(R.drawable.accommodation8);
-        }else if(imagesrc.equals("accommodation9.jpg")){
-            imageView.setImageResource(R.drawable.accommodation9);
-        }else if(imagesrc.equals("accommodation11.jpg")){
-            imageView.setImageResource(R.drawable.accommodation11);
-        }else if(imagesrc.equals("accommodation13.jpg")){
-            imageView.setImageResource(R.drawable.accommodation13);
-        }else if(imagesrc.equals("accommodation14.jpg")){
-            Log.e("USAOOOOO","AAAAAAAAAAAAAAAAA");
-            imageView.setImageResource(R.drawable.accommodation14);
-        }
+    public void setImageFromPath(String imagePath){
+        Picasso.get().load("http://"+ BuildConfig.IP_ADDR+":8084/files/download/"+imagePath).into(imageView);
     }
+
 }
