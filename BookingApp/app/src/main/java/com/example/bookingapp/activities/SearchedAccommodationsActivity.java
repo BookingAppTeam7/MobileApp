@@ -84,6 +84,12 @@ public class SearchedAccommodationsActivity extends AppCompatActivity implements
                             Log.e("NOVI ACC",ad.toString());
                             accommodationDetailsParsed.add(ad);
                             accommodationDetailsParsedToShow.add(ad);
+
+                            if (accommodationDetailsParsed.size() == accommodationDetails.size()) {
+                                adapter = new SearchedAccommodationListAdapter(SearchedAccommodationsActivity.this, accommodationDetailsParsed);
+                                binding.listview.setAdapter(adapter);
+                                binding.listview.setClickable(true);
+                            }
                         } else {
                             Log.e("Error", "Response Code: " + response.code());
                             try {
@@ -100,13 +106,13 @@ public class SearchedAccommodationsActivity extends AppCompatActivity implements
                     }
                 });
             }
-            for(AccommodationDetails ad:accommodationDetails){
-                accommodationDetailsParsedToShow.add(ad);
-            }
-            Log.e("PRIMLJENO",accommodationDetails.toString());
-            adapter=new SearchedAccommodationListAdapter(SearchedAccommodationsActivity.this,accommodationDetails);
-            binding.listview.setAdapter(adapter);
-            binding.listview.setClickable(true);
+//            for(AccommodationDetails ad:accommodationDetails){
+//                accommodationDetailsParsedToShow.add(ad);
+//            }
+//            Log.e("PRIMLJENO",accommodationDetails.toString());
+//            adapter=new SearchedAccommodationListAdapter(SearchedAccommodationsActivity.this,accommodationDetails);
+//            binding.listview.setAdapter(adapter);
+//            binding.listview.setClickable(true);
             //TODO: promeni filter xml skroz
             //TODO: funkcionalnost na klik filtera
 
@@ -130,7 +136,12 @@ public class SearchedAccommodationsActivity extends AppCompatActivity implements
                                 intent.putExtra("accommodationId",accommodation.getId());
                                 intent.putExtra("name", accommodation.getName());
                                 intent.putExtra("description", accommodation.getDescription());
-                                intent.putExtra("image","putanja");
+                                if(accommodation.images!=null){
+                                    if(accommodation.images.size()>0){
+                                        intent.putExtra("image",accommodation.images.get(0));
+                                    }
+                                }
+
                                 intent.putExtra("location",accommodation.getLocation().address+", "+accommodation.getLocation().city);
                                 intent.putExtra("locationX",accommodation.getLocation().x);
                                 intent.putExtra("locationY",accommodation.getLocation().y);
@@ -349,6 +360,10 @@ public class SearchedAccommodationsActivity extends AppCompatActivity implements
 
                     accommodationDetails.clear();
                     accommodationDetails.addAll(result);
+
+                    adapter = new SearchedAccommodationListAdapter(SearchedAccommodationsActivity.this, accommodationDetails);
+                    binding.listview.setAdapter(adapter);
+                    binding.listview.setClickable(true);
                     adapter.notifyDataSetChanged();
 
                 } else {

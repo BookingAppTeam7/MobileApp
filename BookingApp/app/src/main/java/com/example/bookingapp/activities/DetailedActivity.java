@@ -117,7 +117,10 @@ public class DetailedActivity extends AppCompatActivity implements BottomSheetLi
             }else{
                 binding.detailImage.setImageResource(R.drawable.accommodation1);
             }
-            Log.e("RESERVATION CONFIRMATION",reservationConfirmation);
+            if(reservationConfirmation!=null){
+                Log.e("RESERVATION CONFIRMATION",reservationConfirmation);
+            }
+
             binding.detailName.setText(name);
             binding.detailDescription.setText(description);
             //binding.detailImage.setImageResource(image);
