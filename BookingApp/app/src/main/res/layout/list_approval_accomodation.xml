@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginVertical="10dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginStart="12dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="8dp">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/listImage"
+            android:layout_width="70dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/accommodation1"
+            app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
+
+        <!-- Dodajte ovde ImageButton za ikonice u desnom uglu -->
+        <TextView
+            android:id="@+id/listRequestId"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="25dp"
+            android:layout_toEndOf="@id/listImage"
+            android:fontFamily="serif"
+            android:text="Id : "
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/listStatus"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="50dp"
+            android:layout_toEndOf="@id/listImage"
+            android:fontFamily="serif"
+            android:text="Status : "
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/listAccommodationId"
+            android:layout_width="200dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="75dp"
+            android:layout_toEndOf="@id/listImage"
+            android:fontFamily="serif"
+            android:text="Accommodation Id: "
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <!--        <ImageButton-->
+<!--            android:id="@+id/imageButtonApprove"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="35dp"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_marginEnd="70dp"-->
+<!--            android:backgroundTint="@color/white"-->
+
+<!--            android:src="@drawable/ic_check_blue" />-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/imageButtonReject"-->
+<!--            android:layout_width="30dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_marginEnd="20dp"-->
+<!--            android:src="@drawable/ic_reject_blue"-->
+<!--            android:backgroundTint="@color/white"/>-->
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

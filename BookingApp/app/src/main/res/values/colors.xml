@@ -6,11 +6,12 @@
     <color name="colorAccent">#956545</color>
     <color name="colorPrimary1">#FFFFFF</color>
     <color name="colorPrimaryDark1">#89A88A</color>
-    <color name="colorAccent1">#77c3ec</color>
+    <color name="colorAccent1">#609ba8</color>
     <color name="colorAccent2">#929292</color>
     <color name="colorButton">#414141</color>
     <color name="colorLabels">#414141</color>
-
+    <color name="colorToolbar">#414141</color>
+    <color name="gray">#808080</color>
 
 
 </resources>

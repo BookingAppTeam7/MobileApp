@@ -10,8 +10,72 @@
         android:id="@+id/menu_registration"
         android:title="Register"
         android:icon="@drawable/ic_register"/>
+
+    <item
+        android:id="@+id/menu_account"
+        android:title="My Account"
+        android:icon="@drawable/ic_user"/>
+
+    <item
+        android:id="@+id/menu_accommodation_approval"
+        android:title="My accommodations"
+        android:icon="@drawable/ic_accommodation"/>
+    <item
+        android:id="@+id/menu_notification_settings"
+        android:title="Notification settings"
+        android:icon="@drawable/ic_settings_black"/>
+    <item
+        android:id="@+id/menu_logout"
+        android:title="Logout"
+        android:icon="@drawable/ic_logoutt"/>
+
+    <item
+        android:id="@+id/menu_my_reservations"
+        android:title="My Reservations"
+        android:icon="@drawable/ic_accommodation"/>
+
+    <item
+        android:id="@+id/createAccommodation"
+        android:title="Add Accommodation"
+        android:icon="@drawable/create_accommodation_icon"/>
+    <item
+        android:id="@+id/accommodationRequests"
+        android:title="AccommodationRequests"
+        android:icon="@drawable/requests"/>
+    <item
+        android:id="@+id/allUsers"
+        android:title="All users"
+        android:icon="@drawable/ic_user"/>
+
     <item
         android:id="@+id/menu_about_us"
         android:title="About us"
         android:icon="@drawable/ic_about_us"/>
+    <item
+        android:id="@+id/menu_report_user"
+        android:title="Report user"
+        android:icon="@drawable/ic_report_user"/>
+    <item
+        android:id="@+id/menu_owner_reviews"
+        android:title="Owner reviews"
+        android:icon="@drawable/ic_owner_reviews"/>
+
+    <item
+        android:id="@+id/favouriteAccommodations"
+        android:title="Favourite accommodations"
+        android:icon="@drawable/user_icon"/>
+
+    <item
+        android:id="@+id/report1"
+        android:title="Report 1"
+        android:icon="@drawable/hamburger"/>
+    <item
+        android:id="@+id/report2"
+        android:title="Report 2"
+        android:icon="@drawable/hamburger"/>
+    <item
+        android:id="@+id/notifications"
+        android:title="Notifications"
+        android:icon="@drawable/ic_notifications"/>
+
 </menu>
